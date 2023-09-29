@@ -1,15 +1,15 @@
-<div fxLayout="row" fxLayoutAlign="space-around center" >
+<div fxLayout="row" fxLayoutAlign="space-around center">
   <div fxFlex>
-  <button fxFlex (click)="downloadPart1()" mat-raised-button color="primary">Download Data pt.1</button>
-  <button fxFlex (click)="downloadPart2()" mat-raised-button color="primary">Download Data pt.2</button>
-  <button fxFlex (click)="downloadPart3()" mat-raised-button color="primary">Download Data pt.3</button>
-  <button fxFlex (click)="downloadPart4()" mat-raised-button color="primary">Download Data pt.4</button>
-  <button fxFlex (click)="downloadPart5()" mat-raised-button color="primary">Download Data pt.5</button>
-  <button fxFlex (click)="downloadPart6()" mat-raised-button color="primary">Download Data pt.6</button>
-  <button fxFlex (click)="downloadPart7()" mat-raised-button color="primary">Download Data pt.7</button>
-  <button fxFlex (click)="downloadPart8()" mat-raised-button color="primary">Download Data pt.8</button>
-  <button fxFlex (click)="downloadPart9()" mat-raised-button color="primary">Download Data pt.9</button>
-  <button fxFlex (click)="setTableData()" mat-raised-button color="primary">Set Table Data</button>
+    <button fxFlex (click)="downloadPart1()" mat-raised-button color="primary">Download Data pt.1</button>
+    <button fxFlex (click)="downloadPart2()" mat-raised-button color="primary">Download Data pt.2</button>
+    <button fxFlex (click)="downloadPart3()" mat-raised-button color="primary">Download Data pt.3</button>
+    <button fxFlex (click)="downloadPart4()" mat-raised-button color="primary">Download Data pt.4</button>
+    <button fxFlex (click)="downloadPart5()" mat-raised-button color="primary">Download Data pt.5</button>
+    <button fxFlex (click)="downloadPart6()" mat-raised-button color="primary">Download Data pt.6</button>
+    <button fxFlex (click)="downloadPart7()" mat-raised-button color="primary">Download Data pt.7</button>
+    <button fxFlex (click)="downloadPart8()" mat-raised-button color="primary">Download Data pt.8</button>
+    <button fxFlex (click)="downloadPart9()" mat-raised-button color="primary">Download Data pt.9</button>
+    <button fxFlex (click)="setTableData()" mat-raised-button color="primary">Set Table Data</button>
   </div>
 </div>
 <!-- <form *ngIf="selectTeamForm" [formGroup]="selectTeamForm">
@@ -30,53 +30,208 @@
   </ng-container>
 
   <ng-container matColumnDef="averagePassYardsPerGame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Avg Pass Yards </mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.depthChartPlayers.qb.name}} :  {{returnAvgValue(element.depthChartPlayers.qb.allPassingYards) | number: '1.0-0'}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>QB</b> avg PASS Yards </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span class="left-wrapper-span">{{element.depthChartPlayers.qb.name}}</span>
+      <mat-icon>arrow_forward</mat-icon>
+      <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.qb.allPassingYards /
+        element.depthChartPlayers.qb.games.length) | number: '1.0-0'}}</span>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averagePassYardsPerGameGiven">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Avg Pass Yards Given </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{returnOpponentAvgPassYardsGiven(element.currentOpponentId) | number: '1.0-0'}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>avg PASS Yards <b class="color-crimson"> GIVEN </b> to QB</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span>
+        <ng-container
+          *ngIf="((element.depthChartPlayers.qb.allPassingYards / element.depthChartPlayers.qb.games.length) - returnOpponentAvgPassYardsGiven(element) > 40)">
+          <mat-icon class="color-crimson">flash_auto</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.qb.allPassingYards / element.depthChartPlayers.qb.games.length) > returnOpponentAvgPassYardsGiven(element) && (element.depthChartPlayers.qb.allPassingYards / element.depthChartPlayers.qb.games.length) - returnOpponentAvgPassYardsGiven(element) <= 40">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.qb.allPassingYards / element.depthChartPlayers.qb.games.length) < returnOpponentAvgPassYardsGiven(element)">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.qb.allPassingYards / element.depthChartPlayers.qb.games.length) === returnOpponentAvgPassYardsGiven(element)">
+          <mat-icon>trending_flat</mat-icon>
+        </ng-container>
+      </span>
+      <span class="difference-span">
+        <ng-container *ngIf="((element.depthChartPlayers.qb.allPassingYards / element.depthChartPlayers.qb.games.length) - returnOpponentAvgPassYardsGiven(element) > 0)">
+          <span class="color-green">+</span>
+        </ng-container>
+        <span><i>{{(element.depthChartPlayers.qb.allPassingYards / element.depthChartPlayers.qb.games.length) - returnOpponentAvgPassYardsGiven(element) | number: '1.0-0'}}</i></span>
+      </span>
+      <span class="given-span color-crimson">{{returnOpponentAvgPassYardsGiven(element) | number: '1.0-0'}}</span>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averageWr1YardsPerGame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Avg Wr1 Rec Yards </mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.depthChartPlayers.wr1.name}} :  {{returnAvgValue(element.depthChartPlayers.wr1.allReceivingYards) | number: '1.0-0'}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR1</b> avg REC Yards </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span class="left-wrapper-span">{{element.depthChartPlayers.wr1.name}}</span>
+      <mat-icon>arrow_forward</mat-icon>
+      <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.wr1.allReceivingYards /
+        element.depthChartPlayers.wr1.games.length) | number: '1.0-0'}}</span>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averageWr1YardsPerGameGiven">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Avg Wr1 Rec Yards Given </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{returnOpponentAvgWr1RecYardsGiven(element.currentOpponentId) | number: '1.0-0'}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>avg REC Yards <b class="color-crimson"> GIVEN </b> to WR1</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span>
+        <ng-container
+          *ngIf="((element.depthChartPlayers.wr1.allReceivingYards / element.depthChartPlayers.wr1.games.length) - returnOpponentAvgWr1RecYardsGiven(element) > 40)">
+          <mat-icon class="color-crimson">flash_auto</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.wr1.allReceivingYards / element.depthChartPlayers.wr1.games.length) > returnOpponentAvgWr1RecYardsGiven(element) && (element.depthChartPlayers.wr1.allReceivingYards / element.depthChartPlayers.wr1.games.length) - returnOpponentAvgWr1RecYardsGiven(element) <= 40">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.wr1.allReceivingYards / element.depthChartPlayers.wr1.games.length) < returnOpponentAvgWr1RecYardsGiven(element)">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.wr1.allReceivingYards / element.depthChartPlayers.wr1.games.length) === returnOpponentAvgWr1RecYardsGiven(element)">
+          <mat-icon>trending_flat</mat-icon>
+        </ng-container>
+      </span>
+      <span class="difference-span">
+        <ng-container *ngIf="((element.depthChartPlayers.wr1.allReceivingYards / element.depthChartPlayers.wr1.games.length) - returnOpponentAvgWr1RecYardsGiven(element) > 0)">
+          <span class="color-green">+</span>
+        </ng-container>
+        <span><i>{{(element.depthChartPlayers.wr1.allReceivingYards / element.depthChartPlayers.wr1.games.length) - returnOpponentAvgWr1RecYardsGiven(element) | number: '1.0-0'}}</i></span>
+      </span>
+      <span class="given-span color-crimson">{{returnOpponentAvgWr1RecYardsGiven(element) | number: '1.0-0'}}</span>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averageWr2YardsPerGame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Avg Wr2 Rec Yards </mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.depthChartPlayers.wr2.name}} :  {{returnAvgValue(element.depthChartPlayers.wr2.allReceivingYards) | number: '1.0-0'}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR2</b> avg REC Yards </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span class="left-wrapper-span">{{element.depthChartPlayers.wr2.name}}</span>
+      <mat-icon>arrow_forward</mat-icon>
+      <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.wr2.allReceivingYards /
+        element.depthChartPlayers.wr2.games.length) | number: '1.0-0'}}</span>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averageWr2YardsPerGameGiven">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Avg Wr2 Rec Yards Given </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{returnOpponentAvgWr2RecYardsGiven(element.currentOpponentId) | number: '1.0-0'}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>avg REC Yards <b class="color-crimson"> GIVEN </b> to WR2</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span>
+        <ng-container
+          *ngIf="((element.depthChartPlayers.wr2.allReceivingYards / element.depthChartPlayers.wr2.games.length) - returnOpponentAvgWr2RecYardsGiven(element) > 40)">
+          <mat-icon class="color-crimson">flash_auto</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.wr2.allReceivingYards / element.depthChartPlayers.wr2.games.length) > returnOpponentAvgWr2RecYardsGiven(element) && (element.depthChartPlayers.wr2.allReceivingYards / element.depthChartPlayers.wr2.games.length) - returnOpponentAvgWr2RecYardsGiven(element) <= 40">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.wr2.allReceivingYards / element.depthChartPlayers.wr2.games.length) < returnOpponentAvgWr2RecYardsGiven(element)">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.wr2.allReceivingYards / element.depthChartPlayers.wr2.games.length) === returnOpponentAvgWr2RecYardsGiven(element)">
+          <mat-icon>trending_flat</mat-icon>
+        </ng-container>
+      </span>
+      <span class="difference-span">
+        <ng-container *ngIf="((element.depthChartPlayers.wr2.allReceivingYards / element.depthChartPlayers.wr2.games.length) - returnOpponentAvgWr2RecYardsGiven(element) > 0)">
+          <span class="color-green">+</span>
+        </ng-container>
+        <span><i>{{(element.depthChartPlayers.wr2.allReceivingYards / element.depthChartPlayers.wr2.games.length) - returnOpponentAvgWr2RecYardsGiven(element) | number: '1.0-0'}}</i></span>
+      </span>
+      <span class="given-span color-crimson">{{returnOpponentAvgWr2RecYardsGiven(element) | number: '1.0-0'}}</span>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averageWr3YardsPerGame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Avg Wr3 Rec Yards </mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.depthChartPlayers.wr3.name}} :  {{returnAvgValue(element.depthChartPlayers.wr3.allReceivingYards) | number: '1.0-0'}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR3</b> avg REC Yards </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span class="left-wrapper-span">{{element.depthChartPlayers.wr3.name}}</span>
+      <mat-icon>arrow_forward</mat-icon>
+      <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.wr3.allReceivingYards /
+        element.depthChartPlayers.wr3.games.length) | number: '1.0-0'}}</span>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averageWr3YardsPerGameGiven">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Avg Wr3 Rec Yards Given </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{returnOpponentAvgWr3RecYardsGiven(element.currentOpponentId) | number: '1.0-0'}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>avg REC Yards <b class="color-crimson"> GIVEN </b> to WR3</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span>
+        <ng-container
+          *ngIf="((element.depthChartPlayers.wr3.allReceivingYards / element.depthChartPlayers.wr3.games.length) - returnOpponentAvgWr3RecYardsGiven(element) > 40)">
+          <mat-icon class="color-crimson">flash_auto</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.wr3.allReceivingYards / element.depthChartPlayers.wr3.games.length) > returnOpponentAvgWr3RecYardsGiven(element) && (element.depthChartPlayers.wr3.allReceivingYards / element.depthChartPlayers.wr3.games.length) - returnOpponentAvgWr3RecYardsGiven(element) <= 40">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.wr3.allReceivingYards / element.depthChartPlayers.wr3.games.length) < returnOpponentAvgWr3RecYardsGiven(element)">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.wr3.allReceivingYards / element.depthChartPlayers.wr3.games.length) === returnOpponentAvgWr3RecYardsGiven(element)">
+          <mat-icon>trending_flat</mat-icon>
+        </ng-container>
+      </span>
+      <span class="difference-span">
+        <ng-container *ngIf="((element.depthChartPlayers.wr3.allReceivingYards / element.depthChartPlayers.wr3.games.length) - returnOpponentAvgWr3RecYardsGiven(element) > 0)">
+          <span class="color-green">+</span>
+        </ng-container>
+        <span><i>{{(element.depthChartPlayers.wr3.allReceivingYards / element.depthChartPlayers.wr3.games.length) - returnOpponentAvgWr3RecYardsGiven(element) | number: '1.0-0'}}</i></span>
+      </span>
+      <span class="given-span color-crimson">{{returnOpponentAvgWr3RecYardsGiven(element) | number: '1.0-0'}}</span>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averageTeYardsPerGame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Avg Te Rec Yards </mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.depthChartPlayers.te.name}} :  {{returnAvgValue(element.depthChartPlayers.te.allReceivingYards) | number: '1.0-0'}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>TE</b> avg REC Yards </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span class="left-wrapper-span">{{element.depthChartPlayers.te.name}}</span>
+      <mat-icon>arrow_forward</mat-icon>
+      <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.te.allReceivingYards /
+        element.depthChartPlayers.te.games.length) | number: '1.0-0'}}</span>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averageTeYardsPerGameGiven">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Avg Te Rec Yards Given</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{returnOpponentAvgTeRecYardsGiven(element.currentOpponentId) | number: '1.0-0'}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>avg REC Yards <b class="color-crimson"> GIVEN </b> to TE</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span>
+        <ng-container
+          *ngIf="((element.depthChartPlayers.te.allReceivingYards / element.depthChartPlayers.te.games.length) - returnOpponentAvgTeRecYardsGiven(element) > 40)">
+          <mat-icon class="color-crimson">flash_auto</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.te.allReceivingYards / element.depthChartPlayers.te.games.length) > returnOpponentAvgTeRecYardsGiven(element) && (element.depthChartPlayers.te.allReceivingYards / element.depthChartPlayers.te.games.length) - returnOpponentAvgTeRecYardsGiven(element) <= 40">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.te.allReceivingYards / element.depthChartPlayers.te.games.length) < returnOpponentAvgTeRecYardsGiven(element)">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.te.allReceivingYards / element.depthChartPlayers.te.games.length) === returnOpponentAvgTeRecYardsGiven(element)">
+          <mat-icon>trending_flat</mat-icon>
+        </ng-container>
+      </span>
+      <span class="difference-span">
+        <ng-container *ngIf="((element.depthChartPlayers.te.allReceivingYards / element.depthChartPlayers.te.games.length) - returnOpponentAvgTeRecYardsGiven(element) > 0)">
+          <span class="color-green">+</span>
+        </ng-container>
+        <span><i>{{(element.depthChartPlayers.te.allReceivingYards / element.depthChartPlayers.te.games.length) - returnOpponentAvgTeRecYardsGiven(element) | number: '1.0-0'}}</i></span>
+      </span>
+      <span class="given-span color-crimson">{{returnOpponentAvgTeRecYardsGiven(element) | number: '1.0-0'}}</span>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="opponentName">

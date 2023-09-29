@@ -6,3 +6,38 @@ mat-table {
 mat-table mat-row mat-cell:hover {
   background-color: goldenrod;
 }
+
+.left-wrapper-span {
+  width: 17rem;
+}
+
+.right-wrapper-span {
+  text-align: right;
+  width: 9rem;
+}
+
+.mat-icon {
+  overflow: visible;
+}
+
+.color-green {
+  color: green;
+}
+
+.color-orangeRed {
+  color: orangered;
+}
+
+.given-span {
+  margin: 0 auto;
+}
+
+.difference-span {
+  padding-left: 3px;
+  width: 2rem;
+  text-align: right;
+}
+
+.color-crimson {
+  color: crimson;
+}

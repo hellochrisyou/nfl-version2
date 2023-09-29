@@ -12,10 +12,15 @@ export interface Team {
   defenseVsWr3?: DefenseStats[];
   defenseVsTe?: DefenseStats[];
   allYardsGivenQb: number;
+  allYardsGivenQbCounter: number;
   allYardsGivenWr1: number;
+  allYardsGivenWr1Counter: number;
   allYardsGivenWr2: number;
+  allYardsGivenWr2Counter: number;
   allYardsGivenWr3: number;
+  allYardsGivenWr3Counter: number;
   allYardsGivenTe: number;
+  allYardsGivenTeCounter: number;
 }
 
 export interface PassingPlayer {

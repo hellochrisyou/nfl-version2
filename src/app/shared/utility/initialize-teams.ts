@@ -42,13 +42,73 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '25';
   tmpTeam.displayName = '49ers';
   tmpTeam.apiTeamUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/25?lang=en&region=us';
   tmpTeam.eventsUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/25/events?lang=en&region=us';
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/25/depthcharts?lang=en&region=us';
+  inputTeams.push(tmpTeam);
+
+tmpTeam = {
+		apiTeamUrl: '',
+     depthChartPlayers: {
+      qb: {
+        playerUrl: '',
+        gamesUrl: '',
+        allPassingYards: 0,
+        games: []
+      },
+      wr1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allReceivingYards: 0,
+        games: []
+      },
+      wr2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allReceivingYards: 0,
+        games: []
+      },
+      wr3: {
+        playerUrl: '',
+        gamesUrl: '',
+        allReceivingYards: 0,
+        games: []
+      },
+      te: {
+        playerUrl: '',
+        gamesUrl: '',
+        allReceivingYards: 0,
+        games: []
+      },
+    },
+    depthChartUrl: '',
+    eventsUrl: '',
+    currentWeekEventUrl: '',
+    allYardsGivenQb: 0,
+    allYardsGivenWr1: 0,
+    allYardsGivenWr2: 0,
+    allYardsGivenWr3: 0,
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
+  };
+  tmpTeam.id = '3';
+  tmpTeam.displayName = 'Bears';
+  tmpTeam.apiTeamUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/3?lang=en&region=us';
+  tmpTeam.eventsUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/3/events?lang=en&region=us';
+  tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/3/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
@@ -92,57 +152,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
-  };
-  tmpTeam.id = '3';
-  tmpTeam.displayName = 'Bears';
-  tmpTeam.apiTeamUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/3?lang=en&region=us';
-  tmpTeam.eventsUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/3/events?lang=en&region=us';
-  tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/3/depthcharts?lang=en&region=us';
-  inputTeams.push(tmpTeam);
-
-  tmpTeam = {
-		apiTeamUrl: '',
-     depthChartPlayers: {
-      qb: {
-        playerUrl: '',
-        gamesUrl: '',
-        allPassingYards: 0,
-        games: []
-      },
-      wr1: {
-        playerUrl: '',
-        gamesUrl: '',
-        allReceivingYards: 0,
-        games: []
-      },
-      wr2: {
-        playerUrl: '',
-        gamesUrl: '',
-        allReceivingYards: 0,
-        games: []
-      },
-      wr3: {
-        playerUrl: '',
-        gamesUrl: '',
-        allReceivingYards: 0,
-        games: []
-      },
-      te: {
-        playerUrl: '',
-        gamesUrl: '',
-        allReceivingYards: 0,
-        games: []
-      },
-    },
-    depthChartUrl: '',
-    eventsUrl: '',
-    currentWeekEventUrl: '',
-    allYardsGivenQb: 0,
-    allYardsGivenWr1: 0,
-    allYardsGivenWr2: 0,
-    allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '4';
   tmpTeam.displayName = 'Bengals';
@@ -151,7 +166,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/4/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -192,7 +207,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '2';
   tmpTeam.displayName = 'Bills';
@@ -201,7 +221,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/2/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -242,7 +262,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '7';
   tmpTeam.displayName = 'Broncos';
@@ -251,7 +276,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/7/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -292,7 +317,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '5';
   tmpTeam.displayName = 'Browns';
@@ -301,7 +331,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/5/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -342,7 +372,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '27';
   tmpTeam.displayName = 'Buccaneers';
@@ -351,7 +386,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/27/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -392,7 +427,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '22';
   tmpTeam.displayName = 'Cardinals';
@@ -401,7 +441,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/22/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -442,7 +482,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '24';
   tmpTeam.displayName = 'Chargers';
@@ -451,7 +496,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/24/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -492,7 +537,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '12';
   tmpTeam.displayName = 'Chiefs';
@@ -501,7 +551,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/12/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -542,7 +592,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '11';
   tmpTeam.displayName = 'Colts';
@@ -551,7 +606,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/11/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -592,7 +647,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '28';
   tmpTeam.displayName = 'Commanders';
@@ -601,7 +661,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/28/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -642,7 +702,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '6';
   tmpTeam.displayName = 'Cowboys';
@@ -651,7 +716,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/6/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -692,7 +757,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '15';
   tmpTeam.displayName = 'Dolphins';
@@ -701,7 +771,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/15/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -742,7 +812,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '21';
   tmpTeam.displayName = 'Eagles';
@@ -751,7 +826,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/21/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -792,7 +867,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '1';
   tmpTeam.displayName = 'Falcons';
@@ -801,7 +881,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/1/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -842,7 +922,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '19';
   tmpTeam.displayName = 'Giants';
@@ -851,7 +936,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/19/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -892,7 +977,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '30';
   tmpTeam.displayName = 'Jaguars';
@@ -901,7 +991,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/30/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -942,7 +1032,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '20';
   tmpTeam.displayName = 'Jets';
@@ -951,7 +1046,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/20/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -992,7 +1087,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '8';
   tmpTeam.displayName = 'Lions';
@@ -1001,7 +1101,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/8/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -1042,7 +1142,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '9';
   tmpTeam.displayName = 'Packers';
@@ -1051,7 +1156,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/9/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -1092,7 +1197,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '29';
   tmpTeam.displayName = 'Panthers';
@@ -1101,7 +1211,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/29/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -1142,7 +1252,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '17';
   tmpTeam.displayName = 'Patriots';
@@ -1151,7 +1266,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/17/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -1192,7 +1307,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '13';
   tmpTeam.displayName = 'Raiders';
@@ -1201,7 +1321,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/13/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -1242,7 +1362,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '14';
   tmpTeam.displayName = 'Rams';
@@ -1251,7 +1376,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/14/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -1292,7 +1417,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '33';
   tmpTeam.displayName = 'Ravens';
@@ -1301,7 +1431,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/33/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -1342,7 +1472,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '18';
   tmpTeam.displayName = 'Saints';
@@ -1351,7 +1486,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/18/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -1392,7 +1527,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '26';
   tmpTeam.displayName = 'Seahawks';
@@ -1442,7 +1582,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '23';
   tmpTeam.displayName = 'Steelers';
@@ -1451,7 +1596,7 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   tmpTeam.depthChartUrl = 'http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/teams/23/depthcharts?lang=en&region=us';
   inputTeams.push(tmpTeam);
 
-  tmpTeam = {
+ tmpTeam = {
 		apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
@@ -1492,7 +1637,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '34';
   tmpTeam.displayName = 'Texans';
@@ -1542,7 +1692,12 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
-    allYardsGivenTe: 0
+    allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '10';
   tmpTeam.displayName = 'Titans';
@@ -1593,6 +1748,11 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
+    allYardsGivenQbCounter: 0,
+    allYardsGivenWr1Counter: 0,
+    allYardsGivenWr2Counter: 0,
+    allYardsGivenWr3Counter: 0,
+    allYardsGivenTeCounter: 0,
   };
   tmpTeam.id = '16';
   tmpTeam.displayName = 'Vikings';

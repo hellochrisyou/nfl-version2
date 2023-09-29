@@ -68,35 +68,30 @@ export class AppComponent implements OnInit {
   }
   downloadPart8() {
     this.httpService.initializeAverageCalculations();
-    ;
   }
   downloadPart9() {
     this.httpService.initializeOpponentYdsGiven();
-    ;
   }
 
-  returnAvgValue(totalYards: number) {
-    return totalYards / ( this.dateService.currentWeek - 1);
+  returnOpponentAvgPassYardsGiven(element: any) {
+    let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
+    return this.httpService.allTeams[opponentIndex].allYardsGivenQb / this.httpService.allTeams[opponentIndex].allYardsGivenQbCounter;
   }
-  returnOpponentAvgPassYardsGiven(opponentId: string) {
-    let opponentIndex = this.httpService.findTeamIndex(opponentId);
-    return this.httpService.allTeams[opponentIndex].allYardsGivenQb / (this.dateService.currentWeek - 1);
+  returnOpponentAvgWr1RecYardsGiven(element: any) {
+    let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
+    return this.httpService.allTeams[opponentIndex].allYardsGivenWr1 / this.httpService.allTeams[opponentIndex].allYardsGivenWr1Counter;
   }
-  returnOpponentAvgWr1RecYardsGiven(opponentId: string) {
-    let opponentIndex = this.httpService.findTeamIndex(opponentId);
-    return this.httpService.allTeams[opponentIndex].allYardsGivenWr1 / (this.dateService.currentWeek - 1);
+  returnOpponentAvgWr2RecYardsGiven(element: any) {
+    let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
+    return this.httpService.allTeams[opponentIndex].allYardsGivenWr2 / this.httpService.allTeams[opponentIndex].allYardsGivenWr2Counter;
   }
-  returnOpponentAvgWr2RecYardsGiven(opponentId: string) {
-    let opponentIndex = this.httpService.findTeamIndex(opponentId);
-    return this.httpService.allTeams[opponentIndex].allYardsGivenWr2 / (this.dateService.currentWeek - 1);
+  returnOpponentAvgWr3RecYardsGiven(element: any) {
+    let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
+    return this.httpService.allTeams[opponentIndex].allYardsGivenWr3 / this.httpService.allTeams[opponentIndex].allYardsGivenWr3Counter;
   }
-  returnOpponentAvgWr3RecYardsGiven(opponentId: string) {
-    let opponentIndex = this.httpService.findTeamIndex(opponentId);
-    return this.httpService.allTeams[opponentIndex].allYardsGivenWr3 / (this.dateService.currentWeek - 1);
-  }
-  returnOpponentAvgTeRecYardsGiven(opponentId: string) {
-    let opponentIndex = this.httpService.findTeamIndex(opponentId);
-    return this.httpService.allTeams[opponentIndex].allYardsGivenTe / (this.dateService.currentWeek - 1);
+  returnOpponentAvgTeRecYardsGiven(element: any) {
+    let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
+    return this.httpService.allTeams[opponentIndex].allYardsGivenTe / this.httpService.allTeams[opponentIndex].allYardsGivenTeCounter;
   }
   returnOpponentName(opponentId: string) {
     let tmpIndex = +opponentId -1;
@@ -108,4 +103,5 @@ export class AppComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.httpService.allTeams);
     this.dataSource.sort = this.sort;
   }
+
 }

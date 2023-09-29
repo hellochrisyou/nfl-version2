@@ -66,16 +66,22 @@ export class HttpService {
 
               this.apiService.httpGet(tmpGame.gameUrl).subscribe((data: any) => {
                 if (data.competitions[0].competitors[0].id === team.id) {
-                  tmpGame.gameStatsUrl = data.competitions[0].competitors[0].$ref;
+                  tmpGame.gameStatsUrl = data.competitions[0].competitors[0].statistics.$ref;
                   tmpGame.opponentId = data.competitions[0].competitors[1].id;
                 } else {
-                  tmpGame.gameStatsUrl = data.competitions[0].competitors[1].$ref;
+                  tmpGame.gameStatsUrl = data.competitions[0].competitors[1].statistics.$ref;
                   tmpGame.opponentId = data.competitions[0].competitors[0].id;
                 }
                 this.apiService.httpGet(tmpGame.gameStatsUrl).subscribe((data: any) => {
-                  tmpGame.playerGameStatsUrl = data.statistics.$ref;
+                  tmpGame.playerGameStatsUrl = data.$ref;
                   this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
-                    tmpGame.passingYards = data.splits.categories[1].stats[8].value;
+                    if (data.splits === undefined) {
+                      this.apiService.httpGet(data.statistics.$ref).subscribe((data: any) => {
+                        tmpGame.passingYards = data.splits.categories[1].stats[8].value;
+                      });
+                    } else {
+                      tmpGame.passingYards = data.splits.categories[1].stats[8].value;
+                    }
                     team.depthChartPlayers.qb.games.push(tmpGame);
                   });
                 });
@@ -93,10 +99,9 @@ export class HttpService {
         this.apiService.httpGet(team.depthChartPlayers.wr1.playerUrl).subscribe((playerData: any) => {
           team.depthChartPlayers.wr1.id = playerData.id;
           team.depthChartPlayers.wr1.name = playerData.displayName;
-          team.depthChartPlayers.wr1.gamesUrl = playerData.statistics.$ref;
-          team.depthChartPlayers.wr1.games = [];
+          team.depthChartPlayers.wr1.gamesUrl = playerData.eventLog.$ref;
 
-          this.apiService.httpGet(team.eventsUrl).subscribe((data: any) => {
+          this.apiService.httpGet(team.depthChartPlayers.wr1.gamesUrl).subscribe((data: any) => {
             for (let i = 0; i < this.dateService.currentWeek; i++) {
               let tmpGame: ReceivingPlayerGame = {
                 gameUrl: '',
@@ -105,24 +110,65 @@ export class HttpService {
                 receivingYards: 0
               };
               tmpGame.weekNum = i + 1;
-              tmpGame.gameUrl = data.items[i].$ref;
-
-              this.apiService.httpGet(tmpGame.gameUrl).subscribe((data: any) => {
-                if (data.competitions[0].competitors[0].id === team.id) {
-                  tmpGame.gameStatsUrl = data.competitions[0].competitors[0].$ref;
-                  tmpGame.opponentId = data.competitions[0].competitors[1].id;
-                } else {
-                  tmpGame.gameStatsUrl = data.competitions[0].competitors[1].$ref;
-                  tmpGame.opponentId = data.competitions[0].competitors[0].id;
-                }
-                this.apiService.httpGet(tmpGame.gameStatsUrl).subscribe((data: any) => {
-                  tmpGame.playerGameStatsUrl = data.statistics.$ref;
-                  this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
-                    tmpGame.receivingYards = data.splits.categories[3].stats[4].value;
-                    team.depthChartPlayers.wr1.games.push(tmpGame);
+              if (data.events.items[i] === undefined) {
+                console.log('API data is missing for: ' + team.depthChartPlayers.wr1.name);
+              } else {
+                tmpGame.gameUrl = data.events.items[i].event.$ref;
+                this.apiService.httpGet(tmpGame.gameUrl).subscribe((data: any) => {
+                  if (data.competitions[0].competitors[0].id === team.id) {
+                    tmpGame.gameStatsUrl = data.competitions[0].competitors[0].statistics.$ref;
+                    tmpGame.opponentId = data.competitions[0].competitors[1].id;
+                  } else {
+                    tmpGame.gameStatsUrl = data.competitions[0].competitors[1].statistics.$ref;
+                    tmpGame.opponentId = data.competitions[0].competitors[0].id;
+                  }
+                  this.apiService.httpGet(tmpGame.gameStatsUrl).subscribe((data: any) => {
+                    for (let a = 0; a < data.splits.categories[3].athletes.length; a++) {
+                      let tmpPlayerUrl = data.splits.categories[3].athletes[a].athlete.$ref;
+                      let tmpChar = '';
+                      for (let b = 0; b < tmpPlayerUrl.length; b++) {
+                        if (tmpPlayerUrl.charAt(b) !== '/') {
+                          tmpChar += tmpPlayerUrl.charAt(b);
+                        } else {
+                          if (tmpChar !== 'athletes') {
+                            tmpChar = '';
+                          } else {
+                            tmpChar = '';
+                            for (let c = b + 1; c < b + 8; c++) {
+                              if (tmpPlayerUrl.charAt(c) === '?') {
+                                break;
+                              } else {
+                                tmpChar += tmpPlayerUrl.charAt(c);
+                              }
+                            }
+                            break;
+                          }
+                        }
+                      }
+                      if (tmpChar === team.depthChartPlayers.wr1.id) {
+                        tmpGame.playerGameStatsUrl = data.splits.categories[3].athletes[a].statistics.$ref;
+                        break;
+                      } else {
+                        continue;
+                      }
+                    };
+                    if (tmpGame.playerGameStatsUrl.length === 0) {
+                      console.log('API missing data for: ', team.depthChartPlayers.wr1);
+                    } else {
+                      this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
+                        if (data.splits === undefined) {
+                          this.apiService.httpGet(data.statistics.$ref).subscribe((data: any) => {
+                            tmpGame.receivingYards = data.splits.categories[3].stats[12].value;
+                          });
+                        } else {
+                          tmpGame.receivingYards = data.splits.categories[3].stats[12].value;
+                        }
+                        team.depthChartPlayers.wr1.games.push(tmpGame);
+                      });
+                    }
                   });
                 });
-              });
+              }
             }
           })
         });
@@ -134,90 +180,163 @@ export class HttpService {
     this.allTeams.forEach(team => {
       if (team.depthChartPlayers.wr2.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.wr2.playerUrl).subscribe((playerData: any) => {
-          if (playerData.statistics !== undefined) {
-            team.depthChartPlayers.wr2.id = playerData.id;
-            team.depthChartPlayers.wr2.name = playerData.displayName;
-            team.depthChartPlayers.wr2.gamesUrl = playerData.statistics.$ref;
-            team.depthChartPlayers.wr2.games = [];
+          team.depthChartPlayers.wr2.id = playerData.id;
+          team.depthChartPlayers.wr2.name = playerData.displayName;
+          team.depthChartPlayers.wr2.gamesUrl = playerData.eventLog.$ref;
 
-            this.apiService.httpGet(team.eventsUrl).subscribe((data: any) => {
-              for (let i = 0; i < this.dateService.currentWeek; i++) {
-                let tmpGame: ReceivingPlayerGame = {
-                  gameUrl: '',
-                  gameStatsUrl: '',
-                  playerGameStatsUrl: '',
-                  receivingYards: 0
-                };
-                tmpGame.weekNum = i + 1;
-                tmpGame.gameUrl = data.items[i].$ref;
-
+          this.apiService.httpGet(team.depthChartPlayers.wr2.gamesUrl).subscribe((data: any) => {
+            for (let i = 0; i < this.dateService.currentWeek; i++) {
+              let tmpGame: ReceivingPlayerGame = {
+                gameUrl: '',
+                gameStatsUrl: '',
+                playerGameStatsUrl: '',
+                receivingYards: 0
+              };
+              tmpGame.weekNum = i + 1;
+              if (data.events === undefined || data.events.items[i] === undefined) {
+                console.log('API data is missing for: ' + team.depthChartPlayers.wr2.name);
+              } else {
+                tmpGame.gameUrl = data.events.items[i].event.$ref;
                 this.apiService.httpGet(tmpGame.gameUrl).subscribe((data: any) => {
                   if (data.competitions[0].competitors[0].id === team.id) {
-                    tmpGame.gameStatsUrl = data.competitions[0].competitors[0].$ref;
+                    tmpGame.gameStatsUrl = data.competitions[0].competitors[0].statistics.$ref;
                     tmpGame.opponentId = data.competitions[0].competitors[1].id;
                   } else {
-                    tmpGame.gameStatsUrl = data.competitions[0].competitors[1].$ref;
+                    tmpGame.gameStatsUrl = data.competitions[0].competitors[1].statistics.$ref;
                     tmpGame.opponentId = data.competitions[0].competitors[0].id;
                   }
                   this.apiService.httpGet(tmpGame.gameStatsUrl).subscribe((data: any) => {
-                    tmpGame.playerGameStatsUrl = data.statistics.$ref;
-                    this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
-                      tmpGame.receivingYards = data.splits.categories[3].stats[4].value;
-                      team.depthChartPlayers.wr2.games.push(tmpGame);
-                    });
+                    for (let a = 0; a < data.splits.categories[3].athletes.length; a++) {
+                      let tmpPlayerUrl = data.splits.categories[3].athletes[a].athlete.$ref;
+                      let tmpChar = '';
+                      for (let b = 0; b < tmpPlayerUrl.length; b++) {
+                        if (tmpPlayerUrl.charAt(b) !== '/') {
+                          tmpChar += tmpPlayerUrl.charAt(b);
+                        } else {
+                          if (tmpChar !== 'athletes') {
+                            tmpChar = '';
+                          } else {
+                            tmpChar = '';
+                            for (let c = b + 1; c < b + 8; c++) {
+                              if (tmpPlayerUrl.charAt(c) === '?') {
+                                break;
+                              } else {
+                                tmpChar += tmpPlayerUrl.charAt(c);
+                              }
+                            }
+                            break;
+                          }
+                        }
+                      }
+                      if (tmpChar === team.depthChartPlayers.wr2.id) {
+                        tmpGame.playerGameStatsUrl = data.splits.categories[3].athletes[a].statistics.$ref;
+                        break;
+                      } else {
+                        continue;
+                      }
+                    };
+                    if (tmpGame.playerGameStatsUrl.length === 0) {
+                      console.log('API missing data for: ', team.depthChartPlayers.wr2);
+                    } else {
+                      this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
+                        if (data.splits === undefined) {
+                          this.apiService.httpGet(data.statistics.$ref).subscribe((data: any) => {
+                            tmpGame.receivingYards = data.splits.categories[3].stats[12].value;
+                          });
+                        } else {
+                          tmpGame.receivingYards = data.splits.categories[3].stats[12].value;
+                        }
+                        team.depthChartPlayers.wr2.games.push(tmpGame);
+                      });
+                    }
                   });
                 });
               }
-            })
-          } else {
-            console.log('API is missing data for: ' + playerData.displayName);
-          }
+            }
+          })
         });
       }
     });
   }
 
   initializeWr3Players() {
-
     this.allTeams.forEach(team => {
       if (team.depthChartPlayers.wr3.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.wr3.playerUrl).subscribe((playerData: any) => {
-          if (playerData.statistics !== undefined) {
-            team.depthChartPlayers.wr3.id = playerData.id;
-            team.depthChartPlayers.wr3.name = playerData.displayName;
-            team.depthChartPlayers.wr3.gamesUrl = playerData.statistics.$ref;
-            team.depthChartPlayers.wr3.games = [];
+          team.depthChartPlayers.wr3.id = playerData.id;
+          team.depthChartPlayers.wr3.name = playerData.displayName;
+          team.depthChartPlayers.wr3.gamesUrl = playerData.eventLog.$ref;
 
-            this.apiService.httpGet(team.eventsUrl).subscribe((data: any) => {
-              for (let i = 0; i < this.dateService.currentWeek; i++) {
-                let tmpGame: ReceivingPlayerGame = {
-                  gameUrl: '',
-                  gameStatsUrl: '',
-                  playerGameStatsUrl: '',
-                  receivingYards: 0
-                };
-                tmpGame.weekNum = i + 1;
-                tmpGame.gameUrl = data.items[i].$ref;
-
+          this.apiService.httpGet(team.depthChartPlayers.wr3.gamesUrl).subscribe((data: any) => {
+            for (let i = 0; i < this.dateService.currentWeek; i++) {
+              let tmpGame: ReceivingPlayerGame = {
+                gameUrl: '',
+                gameStatsUrl: '',
+                playerGameStatsUrl: '',
+                receivingYards: 0
+              };
+              tmpGame.weekNum = i + 1;
+              if (data.events === undefined || data.events.items[i] === undefined) {
+                console.log('API data is missing for: ' + team.depthChartPlayers.wr3.name);
+              } else {
+                tmpGame.gameUrl = data.events.items[i].event.$ref;
                 this.apiService.httpGet(tmpGame.gameUrl).subscribe((data: any) => {
                   if (data.competitions[0].competitors[0].id === team.id) {
-                    tmpGame.gameStatsUrl = data.competitions[0].competitors[0].$ref;
+                    tmpGame.gameStatsUrl = data.competitions[0].competitors[0].statistics.$ref;
                     tmpGame.opponentId = data.competitions[0].competitors[1].id;
                   } else {
-                    tmpGame.gameStatsUrl = data.competitions[0].competitors[1].$ref;
+                    tmpGame.gameStatsUrl = data.competitions[0].competitors[1].statistics.$ref;
                     tmpGame.opponentId = data.competitions[0].competitors[0].id;
                   }
                   this.apiService.httpGet(tmpGame.gameStatsUrl).subscribe((data: any) => {
-                    tmpGame.playerGameStatsUrl = data.statistics.$ref;
-                    this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
-                      tmpGame.receivingYards = data.splits.categories[3].stats[4].value;
-                      team.depthChartPlayers.wr3.games.push(tmpGame);
-                    });
+                    for (let a = 0; a < data.splits.categories[3].athletes.length; a++) {
+                      let tmpPlayerUrl = data.splits.categories[3].athletes[a].athlete.$ref;
+                      let tmpChar = '';
+                      for (let b = 0; b < tmpPlayerUrl.length; b++) {
+                        if (tmpPlayerUrl.charAt(b) !== '/') {
+                          tmpChar += tmpPlayerUrl.charAt(b);
+                        } else {
+                          if (tmpChar !== 'athletes') {
+                            tmpChar = '';
+                          } else {
+                            tmpChar = '';
+                            for (let c = b + 1; c < b + 8; c++) {
+                              if (tmpPlayerUrl.charAt(c) === '?') {
+                                break;
+                              } else {
+                                tmpChar += tmpPlayerUrl.charAt(c);
+                              }
+                            }
+                            break;
+                          }
+                        }
+                      }
+                      if (tmpChar === team.depthChartPlayers.wr3.id) {
+                        tmpGame.playerGameStatsUrl = data.splits.categories[3].athletes[a].statistics.$ref;
+                        break;
+                      } else {
+                        continue;
+                      }
+                    };
+                    if (tmpGame.playerGameStatsUrl.length === 0) {
+                      console.log('API missing data for: ', team.depthChartPlayers.wr3);
+                    } else {
+                      this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
+                        if (data.splits === undefined) {
+                          this.apiService.httpGet(data.statistics.$ref).subscribe((data: any) => {
+                            tmpGame.receivingYards = data.splits.categories[3].stats[12].value;
+                          });
+                        } else {
+                          tmpGame.receivingYards = data.splits.categories[3].stats[12].value;
+                        }
+                        team.depthChartPlayers.wr3.games.push(tmpGame);
+                      });
+                    }
                   });
                 });
               }
-            })
-          }
+            }
+          })
         });
       }
     });
@@ -227,42 +346,80 @@ export class HttpService {
     this.allTeams.forEach(team => {
       if (team.depthChartPlayers.te.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.te.playerUrl).subscribe((playerData: any) => {
-          if (playerData.statistics !== undefined) {
-            team.depthChartPlayers.te.id = playerData.id;
-            team.depthChartPlayers.te.name = playerData.displayName;
-            team.depthChartPlayers.te.gamesUrl = playerData.statistics.$ref;
-            team.depthChartPlayers.te.games = [];
+          team.depthChartPlayers.te.id = playerData.id;
+          team.depthChartPlayers.te.name = playerData.displayName;
+          team.depthChartPlayers.te.gamesUrl = playerData.eventLog.$ref;
 
-            this.apiService.httpGet(team.eventsUrl).subscribe((data: any) => {
-              for (let i = 0; i < this.dateService.currentWeek; i++) {
-                let tmpGame: ReceivingPlayerGame = {
-                  gameUrl: '',
-                  gameStatsUrl: '',
-                  playerGameStatsUrl: '',
-                  receivingYards: 0
-                };
-                tmpGame.weekNum = i + 1;
-                tmpGame.gameUrl = data.items[i].$ref;
-
+          this.apiService.httpGet(team.depthChartPlayers.te.gamesUrl).subscribe((data: any) => {
+            for (let i = 0; i < this.dateService.currentWeek; i++) {
+              let tmpGame: ReceivingPlayerGame = {
+                gameUrl: '',
+                gameStatsUrl: '',
+                playerGameStatsUrl: '',
+                receivingYards: 0
+              };
+              tmpGame.weekNum = i + 1;
+              if (data.events === undefined || data.events.items[i] === undefined) {
+                console.log('API data is missing for: ' + team.depthChartPlayers.te.name);
+              } else {
+                tmpGame.gameUrl = data.events.items[i].event.$ref;
                 this.apiService.httpGet(tmpGame.gameUrl).subscribe((data: any) => {
                   if (data.competitions[0].competitors[0].id === team.id) {
-                    tmpGame.gameStatsUrl = data.competitions[0].competitors[0].$ref;
+                    tmpGame.gameStatsUrl = data.competitions[0].competitors[0].statistics.$ref;
                     tmpGame.opponentId = data.competitions[0].competitors[1].id;
                   } else {
-                    tmpGame.gameStatsUrl = data.competitions[0].competitors[1].$ref;
+                    tmpGame.gameStatsUrl = data.competitions[0].competitors[1].statistics.$ref;
                     tmpGame.opponentId = data.competitions[0].competitors[0].id;
                   }
                   this.apiService.httpGet(tmpGame.gameStatsUrl).subscribe((data: any) => {
-                    tmpGame.playerGameStatsUrl = data.statistics.$ref;
-                    this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
-                      tmpGame.receivingYards = data.splits.categories[3].stats[4].value;
-                      team.depthChartPlayers.te.games.push(tmpGame);
-                    });
+                    for (let a = 0; a < data.splits.categories[3].athletes.length; a++) {
+                      let tmpPlayerUrl = data.splits.categories[3].athletes[a].athlete.$ref;
+                      let tmpChar = '';
+                      for (let b = 0; b < tmpPlayerUrl.length; b++) {
+                        if (tmpPlayerUrl.charAt(b) !== '/') {
+                          tmpChar += tmpPlayerUrl.charAt(b);
+                        } else {
+                          if (tmpChar !== 'athletes') {
+                            tmpChar = '';
+                          } else {
+                            tmpChar = '';
+                            for (let c = b + 1; c < b + 8; c++) {
+                              if (tmpPlayerUrl.charAt(c) === '?') {
+                                break;
+                              } else {
+                                tmpChar += tmpPlayerUrl.charAt(c);
+                              }
+                            }
+                            break;
+                          }
+                        }
+                      }
+                      if (tmpChar === team.depthChartPlayers.te.id) {
+                        tmpGame.playerGameStatsUrl = data.splits.categories[3].athletes[a].statistics.$ref;
+                        break;
+                      } else {
+                        continue;
+                      }
+                    };
+                    if (tmpGame.playerGameStatsUrl.length === 0) {
+                      console.log('API missing data for: ', team.depthChartPlayers.te);
+                    } else {
+                      this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
+                        if (data.splits === undefined) {
+                          this.apiService.httpGet(data.statistics.$ref).subscribe((data: any) => {
+                            tmpGame.receivingYards = data.splits.categories[3].stats[12].value;
+                          });
+                        } else {
+                          tmpGame.receivingYards = data.splits.categories[3].stats[12].value;
+                        }
+                        team.depthChartPlayers.te.games.push(tmpGame);
+                      });
+                    }
                   });
                 });
               }
-            })
-          }
+            }
+          })
         });
       }
     });
@@ -319,30 +476,35 @@ export class HttpService {
       team.depthChartPlayers.qb.games.forEach(game => {
         let opponentIndex = this.findTeamIndex(game.opponentId);
         this.allTeams[opponentIndex].allYardsGivenQb += game.passingYards;
+        this.allTeams[opponentIndex].allYardsGivenQbCounter++;
       })
     })
     this.allTeams.forEach(team => {
       team.depthChartPlayers.wr1.games.forEach(game => {
         let opponentIndex = this.findTeamIndex(game.opponentId);
         this.allTeams[opponentIndex].allYardsGivenWr1 += game.receivingYards;
+        this.allTeams[opponentIndex].allYardsGivenWr1Counter++;
       })
     })
     this.allTeams.forEach(team => {
       team.depthChartPlayers.wr2.games.forEach(game => {
         let opponentIndex = this.findTeamIndex(game.opponentId);
         this.allTeams[opponentIndex].allYardsGivenWr2 += game.receivingYards;
+        this.allTeams[opponentIndex].allYardsGivenWr2Counter++;
       })
     })
     this.allTeams.forEach(team => {
       team.depthChartPlayers.wr3.games.forEach(game => {
         let opponentIndex = this.findTeamIndex(game.opponentId);
         this.allTeams[opponentIndex].allYardsGivenWr3 += game.receivingYards;
+        this.allTeams[opponentIndex].allYardsGivenWr3Counter++;
       })
     })
     this.allTeams.forEach(team => {
       team.depthChartPlayers.te.games.forEach(game => {
         let opponentIndex = this.findTeamIndex(game.opponentId);
         this.allTeams[opponentIndex].allYardsGivenTe += game.receivingYards;
+        this.allTeams[opponentIndex].allYardsGivenTeCounter++;
       })
     })
     console.log('Done aggregating Average Given Values')
