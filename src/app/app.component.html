@@ -1,14 +1,16 @@
-<div fxLayout="row" fxLayoutAlign="space-around center">
+<div fxLayout="row" fxLayoutAlign="space-around center row wrap">
   <div fxFlex>
-    <button fxFlex (click)="downloadPart1()" mat-raised-button color="primary">Download Data pt.1</button>
-    <button fxFlex (click)="downloadPart2()" mat-raised-button color="primary">Download Data pt.2</button>
-    <button fxFlex (click)="downloadPart3()" mat-raised-button color="primary">Download Data pt.3</button>
-    <button fxFlex (click)="downloadPart4()" mat-raised-button color="primary">Download Data pt.4</button>
-    <button fxFlex (click)="downloadPart5()" mat-raised-button color="primary">Download Data pt.5</button>
-    <button fxFlex (click)="downloadPart6()" mat-raised-button color="primary">Download Data pt.6</button>
-    <button fxFlex (click)="downloadPart7()" mat-raised-button color="primary">Download Data pt.7</button>
-    <button fxFlex (click)="downloadPart8()" mat-raised-button color="primary">Download Data pt.8</button>
-    <button fxFlex (click)="downloadPart9()" mat-raised-button color="primary">Download Data pt.9</button>
+    <button fxFlex (click)="downloadPart1()" mat-raised-button color="primary">Create Teams</button>
+    <button fxFlex (click)="downloadPart2()" mat-raised-button color="primary">Download Qb</button>
+    <button fxFlex (click)="downloadPart3()" mat-raised-button color="primary">Download Rb1</button>
+    <button fxFlex (click)="downloadPart4()" mat-raised-button color="primary">Download Rb2</button>
+    <button fxFlex (click)="downloadPart5()" mat-raised-button color="primary">Download Wr1</button>
+    <button fxFlex (click)="downloadPart6()" mat-raised-button color="primary">Download Wr2</button>
+    <button fxFlex (click)="downloadPart7()" mat-raised-button color="primary">Download Wr3</button>
+    <button fxFlex (click)="downloadPart8()" mat-raised-button color="primary">Download Te</button>
+    <button fxFlex (click)="downloadPart9()" mat-raised-button color="primary">initializeOpponentId</button>
+    <button fxFlex (click)="downloadPart10()" mat-raised-button color="primary">initializeAverageCalculations</button>
+    <button fxFlex (click)="downloadPart11()" mat-raised-button color="primary">initializeOpponentYdsGiven</button>
     <button fxFlex (click)="setTableData()" mat-raised-button color="primary">Set Table Data</button>
   </div>
 </div>
@@ -23,15 +25,15 @@
     </mat-select>
   </mat-form-field>
 </form> -->
-<mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8"  matSort (matSortChange)= "sortColumn($event)">
   <ng-container matColumnDef="teamName">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Team </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
+    <mat-cell *matCellDef="let element"> <span [ngClass]="element.currentAwayHome === 'home' ? 'bg-grey':''" class="team">{{element.displayName}}</span> <i class="vs-padding">vs </i> <i class="opponent"> {{returnOpponentName(element.currentOpponentId)}}</i></mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averagePassYardsPerGame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header><b>QB</b> avg PASS Yards </mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>QB</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openQbDialog(element.depthChartPlayers.qb)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.qb.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.qb.allPassingYards /
@@ -40,8 +42,8 @@
   </ng-container>
 
   <ng-container matColumnDef="averagePassYardsPerGameGiven">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>avg PASS Yards <b class="color-crimson"> GIVEN </b> to QB</mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openAllowedQbDialog(element.currentOpponentId)">
       <span>
         <ng-container
           *ngIf="((element.depthChartPlayers.qb.allPassingYards / element.depthChartPlayers.qb.games.length) - returnOpponentAvgPassYardsGiven(element) > 40)">
@@ -70,9 +72,91 @@
     </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="averageRb1YardsPerGame">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>RB1</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openRb1Dialog(element.depthChartPlayers.rb1)">
+      <span class="left-wrapper-span">{{element.depthChartPlayers.rb1.name}}</span>
+      <mat-icon>arrow_forward</mat-icon>
+      <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.rb1.allRushingYards /
+        element.depthChartPlayers.rb1.games.length) | number: '1.0-0'}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="averageRb1YardsPerGameGiven">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openAllowedRb1Dialog(element.currentOpponentId)">
+      <span>
+        <ng-container
+          *ngIf="((element.depthChartPlayers.rb1.allRushingYards / element.depthChartPlayers.rb1.games.length) - returnOpponentAvgRb1RushYardsGiven(element) > 40)">
+          <mat-icon class="color-crimson">flash_auto</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.rb1.allRushingYards / element.depthChartPlayers.rb1.games.length) > returnOpponentAvgRb1RushYardsGiven(element) && (element.depthChartPlayers.rb1.allRushingYards / element.depthChartPlayers.rb1.games.length) - returnOpponentAvgRb1RushYardsGiven(element) <= 40">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.rb1.allRushingYards / element.depthChartPlayers.rb1.games.length) < returnOpponentAvgRb1RushYardsGiven(element)">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.rb1.allRushingYards / element.depthChartPlayers.rb1.games.length) === returnOpponentAvgRb1RushYardsGiven(element)">
+          <mat-icon>trending_flat</mat-icon>
+        </ng-container>
+      </span>
+      <span class="difference-span">
+        <ng-container *ngIf="((element.depthChartPlayers.rb1.allRushingYards / element.depthChartPlayers.rb1.games.length) - returnOpponentAvgRb1RushYardsGiven(element) > 0)">
+          <span class="color-green">+</span>
+        </ng-container>
+        <span><i>{{(element.depthChartPlayers.rb1.allRushingYards / element.depthChartPlayers.rb1.games.length) - returnOpponentAvgRb1RushYardsGiven(element) | number: '1.0-0'}}</i></span>
+      </span>
+      <span class="given-span color-crimson">{{returnOpponentAvgRb1RushYardsGiven(element) | number: '1.0-0'}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="averageRb2YardsPerGame">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>RB2</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openRb2Dialog(element.depthChartPlayers.rb2)">
+      <span class="left-wrapper-span">{{element.depthChartPlayers.rb2.name}}</span>
+      <mat-icon>arrow_forward</mat-icon>
+      <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.rb2.allRushingYards /
+        element.depthChartPlayers.rb2.games.length) | number: '1.0-0'}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="averageRb2YardsPerGameGiven">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openAllowedRb2Dialog(element.currentOpponentId)">
+      <span>
+        <ng-container
+          *ngIf="((element.depthChartPlayers.rb2.allRushingYards / element.depthChartPlayers.rb2.games.length) - returnOpponentAvgRb2RushYardsGiven(element) > 40)">
+          <mat-icon class="color-crimson">flash_auto</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.rb2.allRushingYards / element.depthChartPlayers.rb2.games.length) > returnOpponentAvgRb2RushYardsGiven(element) && (element.depthChartPlayers.rb2.allRushingYards / element.depthChartPlayers.rb2.games.length) - returnOpponentAvgRb2RushYardsGiven(element) <= 40">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.rb2.allRushingYards / element.depthChartPlayers.rb2.games.length) < returnOpponentAvgRb2RushYardsGiven(element)">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(element.depthChartPlayers.rb2.allRushingYards / element.depthChartPlayers.rb2.games.length) === returnOpponentAvgRb2RushYardsGiven(element)">
+          <mat-icon>trending_flat</mat-icon>
+        </ng-container>
+      </span>
+      <span class="difference-span">
+        <ng-container *ngIf="((element.depthChartPlayers.rb2.allRushingYards / element.depthChartPlayers.rb2.games.length) - returnOpponentAvgRb2RushYardsGiven(element) > 0)">
+          <span class="color-green">+</span>
+        </ng-container>
+        <span><i>{{(element.depthChartPlayers.rb2.allRushingYards / element.depthChartPlayers.rb2.games.length) - returnOpponentAvgRb2RushYardsGiven(element) | number: '1.0-0'}}</i></span>
+      </span>
+      <span class="given-span color-crimson">{{returnOpponentAvgRb2RushYardsGiven(element) | number: '1.0-0'}}</span>
+    </mat-cell>
+  </ng-container>
+
   <ng-container matColumnDef="averageWr1YardsPerGame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR1</b> avg REC Yards </mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR1</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openWr1Dialog(element.depthChartPlayers.wr1)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.wr1.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.wr1.allReceivingYards /
@@ -81,8 +165,8 @@
   </ng-container>
 
   <ng-container matColumnDef="averageWr1YardsPerGameGiven">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>avg REC Yards <b class="color-crimson"> GIVEN </b> to WR1</mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openAllowedWr1Dialog(element.currentOpponentId)">
       <span>
         <ng-container
           *ngIf="((element.depthChartPlayers.wr1.allReceivingYards / element.depthChartPlayers.wr1.games.length) - returnOpponentAvgWr1RecYardsGiven(element) > 40)">
@@ -112,8 +196,8 @@
   </ng-container>
 
   <ng-container matColumnDef="averageWr2YardsPerGame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR2</b> avg REC Yards </mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR2</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openWr2Dialog(element.depthChartPlayers.wr2)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.wr2.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.wr2.allReceivingYards /
@@ -122,8 +206,8 @@
   </ng-container>
 
   <ng-container matColumnDef="averageWr2YardsPerGameGiven">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>avg REC Yards <b class="color-crimson"> GIVEN </b> to WR2</mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openAllowedWr2Dialog(element.currentOpponentId)">
       <span>
         <ng-container
           *ngIf="((element.depthChartPlayers.wr2.allReceivingYards / element.depthChartPlayers.wr2.games.length) - returnOpponentAvgWr2RecYardsGiven(element) > 40)">
@@ -153,8 +237,8 @@
   </ng-container>
 
   <ng-container matColumnDef="averageWr3YardsPerGame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR3</b> avg REC Yards </mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR3</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openWr3Dialog(element.depthChartPlayers.wr3)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.wr3.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.wr3.allReceivingYards /
@@ -163,8 +247,8 @@
   </ng-container>
 
   <ng-container matColumnDef="averageWr3YardsPerGameGiven">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>avg REC Yards <b class="color-crimson"> GIVEN </b> to WR3</mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openAllowedWr3Dialog(element.currentOpponentId)">
       <span>
         <ng-container
           *ngIf="((element.depthChartPlayers.wr3.allReceivingYards / element.depthChartPlayers.wr3.games.length) - returnOpponentAvgWr3RecYardsGiven(element) > 40)">
@@ -194,8 +278,8 @@
   </ng-container>
 
   <ng-container matColumnDef="averageTeYardsPerGame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header><b>TE</b> avg REC Yards </mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>TE</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openTeDialog(element.depthChartPlayers.te)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.te.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.te.allReceivingYards /
@@ -204,8 +288,8 @@
   </ng-container>
 
   <ng-container matColumnDef="averageTeYardsPerGameGiven">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>avg REC Yards <b class="color-crimson"> GIVEN </b> to TE</mat-header-cell>
-    <mat-cell *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openAllowedTeDialog(element.currentOpponentId)">
       <span>
         <ng-container
           *ngIf="((element.depthChartPlayers.te.allReceivingYards / element.depthChartPlayers.te.games.length) - returnOpponentAvgTeRecYardsGiven(element) > 40)">
@@ -233,12 +317,6 @@
       <span class="given-span color-crimson">{{returnOpponentAvgTeRecYardsGiven(element) | number: '1.0-0'}}</span>
     </mat-cell>
   </ng-container>
-
-  <ng-container matColumnDef="opponentName">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Opponent </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{returnOpponentName(element.currentOpponentId)}} </mat-cell>
-  </ng-container>
-
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>

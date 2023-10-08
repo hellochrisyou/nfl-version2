@@ -27,7 +27,6 @@ export class DateService {
   private _currentWeek = 1;
 
   public get currentWeek() {
-
     return this._currentWeek;
   }
   public set currentWeek(value) {
@@ -36,5 +35,92 @@ export class DateService {
   constructor(
   ) {
   }
-
+  isCurrentWeek(weekInput: Date): boolean {
+    if (this.currentWeek === 5) {
+      if (weekInput > this.week5 && weekInput < this.week6) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 6) {
+      if (weekInput > this.week6 && weekInput < this.week7) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 7) {
+      if (weekInput > this.week7 && weekInput < this.week8) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 8) {
+      if (weekInput > this.week8 && weekInput < this.week9) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 9) {
+      if (weekInput > this.week9 && weekInput < this.week10) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 10) {
+      if (weekInput > this.week10 && weekInput < this.week11) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 11) {
+      if (weekInput > this.week11 && weekInput < this.week12) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 12) {
+      if (weekInput > this.week12 && weekInput < this.week13) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 13) {
+      if (weekInput > this.week13 && weekInput < this.week14) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 14) {
+      if (weekInput > this.week14 && weekInput < this.week15) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 15) {
+      if (weekInput > this.week15 && weekInput < this.week16) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 16) {
+      if (weekInput > this.week16 && weekInput < this.week17) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 17) {
+      if (weekInput > this.week17 && weekInput < this.week18) {
+        return true;
+      } else {
+        return false;
+      }
+    }else if (this.currentWeek === 18) {
+      if (weekInput > this.week18) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;;
+  }
 }

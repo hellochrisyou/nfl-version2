@@ -8,46 +8,90 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '25';
   tmpTeam.displayName = '49ers';
@@ -57,52 +101,96 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
   inputTeams.push(tmpTeam);
 
 tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '3';
   tmpTeam.displayName = 'Bears';
@@ -112,52 +200,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '4';
   tmpTeam.displayName = 'Bengals';
@@ -167,52 +299,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '2';
   tmpTeam.displayName = 'Bills';
@@ -222,52 +398,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '7';
   tmpTeam.displayName = 'Broncos';
@@ -277,52 +497,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '5';
   tmpTeam.displayName = 'Browns';
@@ -332,52 +596,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '27';
   tmpTeam.displayName = 'Buccaneers';
@@ -387,52 +695,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '22';
   tmpTeam.displayName = 'Cardinals';
@@ -442,52 +794,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '24';
   tmpTeam.displayName = 'Chargers';
@@ -497,52 +893,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '12';
   tmpTeam.displayName = 'Chiefs';
@@ -552,52 +992,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '11';
   tmpTeam.displayName = 'Colts';
@@ -607,52 +1091,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '28';
   tmpTeam.displayName = 'Commanders';
@@ -662,52 +1190,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '6';
   tmpTeam.displayName = 'Cowboys';
@@ -717,52 +1289,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '15';
   tmpTeam.displayName = 'Dolphins';
@@ -772,52 +1388,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '21';
   tmpTeam.displayName = 'Eagles';
@@ -827,52 +1487,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '1';
   tmpTeam.displayName = 'Falcons';
@@ -882,52 +1586,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '19';
   tmpTeam.displayName = 'Giants';
@@ -937,52 +1685,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '30';
   tmpTeam.displayName = 'Jaguars';
@@ -992,52 +1784,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '20';
   tmpTeam.displayName = 'Jets';
@@ -1047,52 +1883,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '8';
   tmpTeam.displayName = 'Lions';
@@ -1102,52 +1982,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '9';
   tmpTeam.displayName = 'Packers';
@@ -1157,52 +2081,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '29';
   tmpTeam.displayName = 'Panthers';
@@ -1212,52 +2180,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '17';
   tmpTeam.displayName = 'Patriots';
@@ -1267,52 +2279,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '13';
   tmpTeam.displayName = 'Raiders';
@@ -1322,52 +2378,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '14';
   tmpTeam.displayName = 'Rams';
@@ -1377,52 +2477,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '33';
   tmpTeam.displayName = 'Ravens';
@@ -1432,52 +2576,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '18';
   tmpTeam.displayName = 'Saints';
@@ -1487,52 +2675,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '26';
   tmpTeam.displayName = 'Seahawks';
@@ -1542,52 +2774,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
   tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '23';
   tmpTeam.displayName = 'Steelers';
@@ -1597,52 +2873,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
  tmpTeam = {
-		apiTeamUrl: '',
+    apiTeamUrl: '',
      depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '34';
   tmpTeam.displayName = 'Texans';
@@ -1658,46 +2978,90 @@ tmpTeam = {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '10';
   tmpTeam.displayName = 'Titans';
@@ -1707,52 +3071,96 @@ tmpTeam = {
   inputTeams.push(tmpTeam);
 
   tmpTeam = {
-		apiTeamUrl: '',
-    depthChartPlayers: {
+    apiTeamUrl: '',
+     depthChartPlayers: {
       qb: {
         playerUrl: '',
         gamesUrl: '',
         allPassingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb1: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
+      },
+      rb2: {
+        playerUrl: '',
+        gamesUrl: '',
+        allRushingYards: 0,
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr1: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr2: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       wr3: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
       te: {
         playerUrl: '',
         gamesUrl: '',
         allReceivingYards: 0,
-        games: []
+        games: [],
+        missingData: {
+          item: []
+        }
       },
     },
     depthChartUrl: '',
     eventsUrl: '',
     currentWeekEventUrl: '',
     allYardsGivenQb: 0,
+    allYardsGivenRb1: 0,
+    allYardsGivenRb2: 0,
     allYardsGivenWr1: 0,
     allYardsGivenWr2: 0,
     allYardsGivenWr3: 0,
     allYardsGivenTe: 0,
     allYardsGivenQbCounter: 0,
+    allYardsGivenRb1Counter: 0,
+    allYardsGivenRb2Counter: 0,
     allYardsGivenWr1Counter: 0,
     allYardsGivenWr2Counter: 0,
     allYardsGivenWr3Counter: 0,
     allYardsGivenTeCounter: 0,
+    opponentGamesQb: [],
+    opponentGamesRb1: [],
+    opponentGamesRb2: [],
+    opponentGamesWr1: [],
+    opponentGamesWr2: [],
+    opponentGamesWr3: [],
+    opponentGamesTe: []
   };
   tmpTeam.id = '16';
   tmpTeam.displayName = 'Vikings';

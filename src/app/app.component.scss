@@ -3,7 +3,7 @@ mat-table {
   margin: 1rem auto 1rem;
 }
 
-mat-table mat-row mat-cell:hover {
+mat-table mat-row:hover {
   background-color: goldenrod;
 }
 
@@ -28,6 +28,10 @@ mat-table mat-row mat-cell:hover {
   color: orangered;
 }
 
+.bg-grey {
+  background-color: lightgray;
+}
+
 .given-span {
   margin: 0 auto;
 }
@@ -40,4 +44,22 @@ mat-table mat-row mat-cell:hover {
 
 .color-crimson {
   color: crimson;
+}
+
+.vs-padding {
+  width: 3rem;
+  padding-left: 1rem;
+  padding-right:1rem;
+}
+
+.opponent {
+  text-align: right;
+  width: 12rem;
+  color: orangered;
+}
+
+.team {
+  text-align: right;
+  width: 8  rem;
+  color: green;
 }
