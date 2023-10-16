@@ -51,6 +51,13 @@ export class HttpService {
     this.allTeams.forEach(team => {
       if (team.depthChartPlayers.qb.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.qb.playerUrl).subscribe((playerData: any) => {
+          if (playerData.injuries.length > 0) {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+              team.depthChartPlayers.qb.injuryStatus = data.status;
+            });
+          } else {
+            team.depthChartPlayers.qb.injuryStatus = '';
+          }
           team.depthChartPlayers.qb.id = playerData.id;
           team.depthChartPlayers.qb.name = playerData.displayName;
           team.depthChartPlayers.qb.gamesUrl = playerData.statistics.$ref;
@@ -114,10 +121,16 @@ export class HttpService {
   }
 
   initializeRb1Players() {
-    console.log('hel')
     this.allTeams.forEach(team => {
       if (team.depthChartPlayers.rb1.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.rb1.playerUrl).subscribe((playerData: any) => {
+          if (playerData.injuries.length > 0) {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+              team.depthChartPlayers.rb1.injuryStatus = data.status;
+            });
+          } else {
+            team.depthChartPlayers.rb1.injuryStatus = '';
+          }
           team.depthChartPlayers.rb1.id = playerData.id;
           team.depthChartPlayers.rb1.name = playerData.displayName;
           team.depthChartPlayers.rb1.gamesUrl = playerData.eventLog.$ref;
@@ -234,6 +247,13 @@ export class HttpService {
     this.allTeams.forEach(team => {
       if (team.depthChartPlayers.rb2.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.rb2.playerUrl).subscribe((playerData: any) => {
+          if (playerData.injuries.length > 0) {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+              team.depthChartPlayers.rb2.injuryStatus = data.status;
+            });
+          } else {
+            team.depthChartPlayers.rb2.injuryStatus = '';
+          }
           team.depthChartPlayers.rb2.id = playerData.id;
           team.depthChartPlayers.rb2.name = playerData.displayName;
           team.depthChartPlayers.rb2.gamesUrl = playerData.eventLog.$ref;
@@ -350,6 +370,13 @@ export class HttpService {
     this.allTeams.forEach(team => {
       if (team.depthChartPlayers.wr1.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.wr1.playerUrl).subscribe((playerData: any) => {
+          if (playerData.injuries.length > 0) {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+              team.depthChartPlayers.wr1.injuryStatus = data.status;
+            });
+          } else {
+            team.depthChartPlayers.wr1.injuryStatus = '';
+          }
           team.depthChartPlayers.wr1.id = playerData.id;
           team.depthChartPlayers.wr1.name = playerData.displayName;
           team.depthChartPlayers.wr1.gamesUrl = playerData.eventLog.$ref;
@@ -465,6 +492,13 @@ export class HttpService {
     this.allTeams.forEach(team => {
       if (team.depthChartPlayers.wr2.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.wr2.playerUrl).subscribe((playerData: any) => {
+          if (playerData.injuries.length > 0) {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+              team.depthChartPlayers.wr2.injuryStatus = data.status;
+            });
+          } else {
+            team.depthChartPlayers.wr2.injuryStatus = '';
+          }
           team.depthChartPlayers.wr2.id = playerData.id;
           team.depthChartPlayers.wr2.name = playerData.displayName;
           team.depthChartPlayers.wr2.gamesUrl = playerData.eventLog.$ref;
@@ -581,6 +615,13 @@ export class HttpService {
     this.allTeams.forEach(team => {
       if (team.depthChartPlayers.wr3.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.wr3.playerUrl).subscribe((playerData: any) => {
+          if (playerData.injuries.length > 0) {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+              team.depthChartPlayers.wr3.injuryStatus = data.status;
+            });
+          } else {
+            team.depthChartPlayers.wr3.injuryStatus = '';
+          }
           team.depthChartPlayers.wr3.id = playerData.id;
           team.depthChartPlayers.wr3.name = playerData.displayName;
           team.depthChartPlayers.wr3.gamesUrl = playerData.eventLog.$ref;
@@ -697,6 +738,13 @@ export class HttpService {
     this.allTeams.forEach(team => {
       if (team.depthChartPlayers.te.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.te.playerUrl).subscribe((playerData: any) => {
+          if (playerData.injuries.length > 0) {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+              team.depthChartPlayers.te.injuryStatus = data.status;
+            });
+          } else {
+            team.depthChartPlayers.te.injuryStatus = '';
+          }
           team.depthChartPlayers.te.id = playerData.id;
           team.depthChartPlayers.te.name = playerData.displayName;
           team.depthChartPlayers.te.gamesUrl = playerData.eventLog.$ref;

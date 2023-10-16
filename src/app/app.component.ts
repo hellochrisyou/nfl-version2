@@ -50,6 +50,16 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  checkInjury(status: string) {
+    if (status === 'Questionable') {
+      return 'bg-grey';
+    } else if (status === 'Out') {
+      return 'bg-red';
+    } else {
+      return '';
+    }
+  }
+
   openAllowedQbDialog(opponentId: string) {
     let tmpOpponent = this.httpService.allTeams.find(team => {
       return team.id === opponentId

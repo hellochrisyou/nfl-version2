@@ -9,7 +9,7 @@ export class DateService {
   week3 = new Date('2023-09-20');
   week4 = new Date('2023-09-27');
   week5 = new Date('2023-10-04');
-  week6 = new Date('2023-10-11');
+  week6 = new Date('2023-10-10');
   week7 = new Date('2023-10-18');
   week8 = new Date('2023-10-25');
   week9 = new Date('2023-11-01');
@@ -43,7 +43,7 @@ export class DateService {
         return false;
       }
     }else if (this.currentWeek === 6) {
-      if (weekInput > this.week6 && weekInput < this.week7) {
+      if (weekInput >= this.week6 && weekInput < this.week7) {
         return true;
       } else {
         return false;

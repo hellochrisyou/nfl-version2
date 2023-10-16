@@ -33,7 +33,7 @@
 
   <ng-container matColumnDef="averagePassYardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>QB</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openQbDialog(element.depthChartPlayers.qb)">
+    <mat-cell *matCellDef="let element" (click)="openQbDialog(element.depthChartPlayers.qb)" [ngClass]="checkInjury(element.depthChartPlayers.qb.injuryStatus)" class="team">
       <span class="left-wrapper-span">{{element.depthChartPlayers.qb.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.qb.allPassingYards /
@@ -74,7 +74,7 @@
 
   <ng-container matColumnDef="averageRb1YardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>RB1</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openRb1Dialog(element.depthChartPlayers.rb1)">
+    <mat-cell *matCellDef="let element" (click)="openRb1Dialog(element.depthChartPlayers.rb1)" [ngClass]="checkInjury(element.depthChartPlayers.rb1.injuryStatus)" >
       <span class="left-wrapper-span">{{element.depthChartPlayers.rb1.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.rb1.allRushingYards /
@@ -115,7 +115,7 @@
 
   <ng-container matColumnDef="averageRb2YardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>RB2</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openRb2Dialog(element.depthChartPlayers.rb2)">
+    <mat-cell *matCellDef="let element" (click)="openRb2Dialog(element.depthChartPlayers.rb2)" [ngClass]="checkInjury(element.depthChartPlayers.rb2.injuryStatus)" >
       <span class="left-wrapper-span">{{element.depthChartPlayers.rb2.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.rb2.allRushingYards /
@@ -156,7 +156,7 @@
 
   <ng-container matColumnDef="averageWr1YardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR1</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openWr1Dialog(element.depthChartPlayers.wr1)">
+    <mat-cell *matCellDef="let element" (click)="openWr1Dialog(element.depthChartPlayers.wr1)" [ngClass]="checkInjury(element.depthChartPlayers.wr1.injuryStatus)" >
       <span class="left-wrapper-span">{{element.depthChartPlayers.wr1.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.wr1.allReceivingYards /
@@ -197,7 +197,7 @@
 
   <ng-container matColumnDef="averageWr2YardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR2</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openWr2Dialog(element.depthChartPlayers.wr2)">
+    <mat-cell *matCellDef="let element" (click)="openWr2Dialog(element.depthChartPlayers.wr2)" [ngClass]="checkInjury(element.depthChartPlayers.wr2.injuryStatus)" >
       <span class="left-wrapper-span">{{element.depthChartPlayers.wr2.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.wr2.allReceivingYards /
@@ -238,7 +238,7 @@
 
   <ng-container matColumnDef="averageWr3YardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR3</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openWr3Dialog(element.depthChartPlayers.wr3)">
+    <mat-cell *matCellDef="let element" (click)="openWr3Dialog(element.depthChartPlayers.wr3)" [ngClass]="checkInjury(element.depthChartPlayers.wr3.injuryStatus)" >
       <span class="left-wrapper-span">{{element.depthChartPlayers.wr3.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.wr3.allReceivingYards /
@@ -279,7 +279,7 @@
 
   <ng-container matColumnDef="averageTeYardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>TE</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openTeDialog(element.depthChartPlayers.te)">
+    <mat-cell *matCellDef="let element" (click)="openTeDialog(element.depthChartPlayers.te)" [ngClass]="checkInjury(element.depthChartPlayers.te.injuryStatus)" >
       <span class="left-wrapper-span">{{element.depthChartPlayers.te.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{(element.depthChartPlayers.te.allReceivingYards /

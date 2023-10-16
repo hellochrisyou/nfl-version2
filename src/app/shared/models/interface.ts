@@ -50,6 +50,7 @@ export interface PassingPlayer {
   games: Game[];
   allPassingYards: number;
   missingData: MissingData;
+  injuryStatus?: string;
 }
 
 export interface RushingPlayer {
@@ -60,6 +61,7 @@ export interface RushingPlayer {
   games: Game[];
   allRushingYards: number;
   missingData: MissingData;
+  injuryStatus?: string;
 }
 
 export interface ReceivingPlayer {
@@ -70,6 +72,7 @@ export interface ReceivingPlayer {
   games: Game[];
   allReceivingYards: number;
   missingData: MissingData;
+  injuryStatus?: string;
 }
 
 export interface Game {
