@@ -6,7 +6,7 @@
   </ng-container>
   <ng-container matColumnDef="opponent">
     <mat-header-cell *matHeaderCellDef> Opponent </mat-header-cell>
-    <mat-cell *matCellDef="let element">{{returnOpponentTeamName(element.opponentId)}}</mat-cell>
+    <mat-cell *matCellDef="let element">{{returnOpponentTeamName(element.opponentId)}} - {{element.opponentPlayer}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="value">
     <mat-header-cell *matHeaderCellDef> ALLOWED Value </mat-header-cell>

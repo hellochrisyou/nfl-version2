@@ -7,6 +7,8 @@ import { HttpService } from './core/services/http.service';
 import { PlayerPreviousGameComponent } from './shared/component/previous-game/previous-game.component';
 import { TEAM_ID_NAME } from './shared/const/const';
 import { PreviousGameOpponentComponent } from './shared/component/previous-game-opponent/previous-game-opponent.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { PassingPlayer, ReceivingPlayer, RushingPlayer } from './shared/models/interface';
 
 interface Team {
   value: string;
@@ -40,14 +42,29 @@ export class AppComponent implements OnInit {
   ];
   dataSource: any;
   @ViewChild(MatSort) sort: any;
+  noHighLowFormGroup: FormGroup = this.fb.group({
+    toggleValue: [],
+  });
+  toggleStatus = 'No High or Low';
+  toggleValue: any;
 
   constructor(
     private httpService: HttpService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fb: FormBuilder
   ) {
 
   }
   ngOnInit(): void {
+    this.noHighLowFormGroup.valueChanges.subscribe(val => {
+      if (val.toggleValue) {
+        this.toggleStatus = 'All Average';
+      } else {
+        this.toggleStatus = 'No High or Low';
+      }
+      console.log(val);
+    })
+    this.httpService.initializeDepthChart();
   }
 
   checkInjury(status: string) {
@@ -55,8 +72,10 @@ export class AppComponent implements OnInit {
       return 'bg-grey';
     } else if (status === 'Out') {
       return 'bg-red';
+    } else if (status === '') {
+      return ''
     } else {
-      return '';
+      return 'bg-orange';
     }
   }
 
@@ -225,40 +244,65 @@ export class AppComponent implements OnInit {
       width: '1200px',
     });
   }
-
-
-  downloadPart1() {
-    this.httpService.initializeDepthChart();
+  sliceHighLow(value: any[]) {
+    value.sort((a, b) => a - b);
+    value = value.slice(1, value.length - 1);
+    return value;
   }
-  downloadPart2() {
+  calculateQb(value: PassingPlayer): number {
+    if (this.toggleStatus === 'No High or Low') {
+      return value.allPassingYards / value.games.length;
+    } else {
+      let tmpData = this.sliceHighLow(value.games);
+      let tmpYards = 0;
+      tmpData.forEach(item => {
+        tmpYards += item.value;
+      });
+      return tmpYards/tmpData.length;
+    }
+  }
+
+  calculateRb(value: RushingPlayer): number {
+    if (this.toggleStatus === 'No High or Low') {
+      return value.allRushingYards / value.games.length;
+    } else {
+      let tmpData = this.sliceHighLow(value.games);
+      let tmpYards = 0;
+      tmpData.forEach(item => {
+        tmpYards += item.value;
+      });
+      return tmpYards/tmpData.length;
+    }
+  }
+
+  calculateReceiving(value: ReceivingPlayer): number {
+    if (this.toggleStatus === 'No High or Low') {
+      return value.allReceivingYards / value.games.length;
+    } else {
+      let tmpData = this.sliceHighLow(value.games);
+      let tmpYards = 0;
+      tmpData.forEach(item => {
+        tmpYards += item.value;
+      });
+      return tmpYards/tmpData.length;
+    }
+  }
+
+  downloadAllPositions() {
     this.httpService.initializeQbPlayers();
-  }
-  downloadPart3() {
     this.httpService.initializeRb1Players();
-  }
-  downloadPart4() {
     this.httpService.initializeRb2Players();
-  }
-  downloadPart5() {
     this.httpService.initializeWr1Players();
-  }
-  downloadPart6() {
     this.httpService.initializeWr2Players();
-  }
-  downloadPart7() {
     this.httpService.initializeWr3Players();
-  }
-  downloadPart8() {
     this.httpService.initializeTePlayers();
   }
-  downloadPart9() {
+  finishInitialization() {
     this.httpService.initializeOpponentId();
-  }
-  downloadPart10() {
     this.httpService.initializeAverageCalculations();
-  }
-  downloadPart11() {
     this.httpService.initializeOpponentYdsGiven();
+    this.dataSource = new MatTableDataSource(this.httpService.allTeams);
+    this.dataSource.sort = this.sort;
   }
 
   returnOpponentAvgPassYardsGiven(element: any) {
@@ -267,7 +311,16 @@ export class AppComponent implements OnInit {
       if (this.httpService.allTeams[opponentIndex] === undefined) {
         console.log("🚀 ~ this.httpService.allTeams[opponentIndex]:", this.httpService.allTeams[opponentIndex])
       }
-      return this.httpService.allTeams[opponentIndex].allYardsGivenQb / this.httpService.allTeams[opponentIndex].allYardsGivenQbCounter;
+      if (this.toggleStatus === 'No High or Low') {
+        return this.httpService.allTeams[opponentIndex].allYardsGivenQb / this.httpService.allTeams[opponentIndex].allYardsGivenQbCounter;
+      } else {
+        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesQb);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards/tmpData.length;
+      }
     } else {
       return 0;
     }
@@ -275,7 +328,16 @@ export class AppComponent implements OnInit {
   returnOpponentAvgRb1RushYardsGiven(element: any) {
     if (element.currentOpponentId !== '') {
       let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      return this.httpService.allTeams[opponentIndex].allYardsGivenRb1 / this.httpService.allTeams[opponentIndex].allYardsGivenRb1Counter;
+      if (this.toggleStatus === 'No High or Low') {
+        return this.httpService.allTeams[opponentIndex].allYardsGivenRb1 / this.httpService.allTeams[opponentIndex].allYardsGivenRb1Counter;
+      } else {
+        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesRb1);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards/tmpData.length;
+      }
     } else {
       return 0;
     }
@@ -283,7 +345,16 @@ export class AppComponent implements OnInit {
   returnOpponentAvgRb2RushYardsGiven(element: any) {
     if (element.currentOpponentId !== '') {
       let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      return this.httpService.allTeams[opponentIndex].allYardsGivenRb2 / this.httpService.allTeams[opponentIndex].allYardsGivenRb2Counter;
+      if (this.toggleStatus === 'No High or Low') {
+        return this.httpService.allTeams[opponentIndex].allYardsGivenRb2 / this.httpService.allTeams[opponentIndex].allYardsGivenRb2Counter;
+      } else {
+        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesRb2);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards/tmpData.length;
+      }
     }
     else {
       return 0;
@@ -292,7 +363,16 @@ export class AppComponent implements OnInit {
   returnOpponentAvgWr1RecYardsGiven(element: any) {
     if (element.currentOpponentId !== '') {
       let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      return this.httpService.allTeams[opponentIndex].allYardsGivenWr1 / this.httpService.allTeams[opponentIndex].allYardsGivenWr1Counter;
+      if (this.toggleStatus === 'No High or Low') {
+        return this.httpService.allTeams[opponentIndex].allYardsGivenWr1 / this.httpService.allTeams[opponentIndex].allYardsGivenWr1Counter;
+      } else {
+        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesWr1);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards/tmpData.length;
+      }
     }
     else {
       return 0;
@@ -301,8 +381,16 @@ export class AppComponent implements OnInit {
   returnOpponentAvgWr2RecYardsGiven(element: any) {
     if (element.currentOpponentId !== '') {
       let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      return this.httpService.allTeams[opponentIndex].allYardsGivenWr2 / this.httpService.allTeams[opponentIndex].allYardsGivenWr2Counter;
-    }
+      if (this.toggleStatus === 'No High or Low') {
+        return this.httpService.allTeams[opponentIndex].allYardsGivenWr2 / this.httpService.allTeams[opponentIndex].allYardsGivenWr2Counter;
+      } else {
+        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesWr2);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards/tmpData.length;
+      }    }
     else {
       return 0;
     }
@@ -310,7 +398,16 @@ export class AppComponent implements OnInit {
   returnOpponentAvgWr3RecYardsGiven(element: any) {
     if (element.currentOpponentId !== '') {
       let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      return this.httpService.allTeams[opponentIndex].allYardsGivenWr3 / this.httpService.allTeams[opponentIndex].allYardsGivenWr3Counter;
+      if (this.toggleStatus === 'No High or Low') {
+        return this.httpService.allTeams[opponentIndex].allYardsGivenWr3 / this.httpService.allTeams[opponentIndex].allYardsGivenWr3Counter;
+      } else {
+        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesWr3);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards/tmpData.length;
+      }
     }
     else {
       return 0;
@@ -319,7 +416,16 @@ export class AppComponent implements OnInit {
   returnOpponentAvgTeRecYardsGiven(element: any) {
     if (element.currentOpponentId !== '') {
       let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      return this.httpService.allTeams[opponentIndex].allYardsGivenTe / this.httpService.allTeams[opponentIndex].allYardsGivenTeCounter;
+      if (this.toggleStatus === 'No High or Low') {
+        return this.httpService.allTeams[opponentIndex].allYardsGivenTe / this.httpService.allTeams[opponentIndex].allYardsGivenTeCounter;
+      } else {
+        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesTe);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards/tmpData.length;
+      }
     }
     else {
       return 0;
@@ -335,12 +441,6 @@ export class AppComponent implements OnInit {
       return 'BYE'
     }
   }
-
-  setTableData() {
-    this.dataSource = new MatTableDataSource(this.httpService.allTeams);
-    this.dataSource.sort = this.sort;
-  }
-
   sortColumn(event: any) {
     switch (event.active) {
       case 'averagePassYardsPerGame': {

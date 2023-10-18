@@ -87,8 +87,10 @@ export class HttpService {
                   tmpGame.homeAway = 'away';
                 }
                 this.apiService.httpGet(tmpGame.gameStatsUrl).subscribe((data: any) => {
+                  console.log("🚀 ~ data:", data)
                   tmpGame.playerGameStatsUrl = data.$ref;
                   this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
+                    console.log("🚀 ~ data:", data)
                     if (data.splits === undefined) {
                       this.apiService.httpGet(data.statistics.$ref).subscribe((data: any) => {
                         tmpGame.value = data.splits.categories[1].stats[8].value;
@@ -106,7 +108,8 @@ export class HttpService {
                       weekNum: tmpGame.weekNum,
                       playerGameStatsUrl: '',
                       value: tmpGame.value,
-                      homeAway: ''
+                      homeAway: '',
+                      opponentPlayer: team.depthChartPlayers.qb.name
                     };
                     opponentTeam?.opponentGamesQb.push(tmpOpponentGame);
                     team.depthChartPlayers.qb.games.push(tmpGame);
@@ -226,7 +229,8 @@ export class HttpService {
                             weekNum: tmpGame.weekNum,
                             playerGameStatsUrl: '',
                             value: tmpGame.value,
-                            homeAway: ''
+                            homeAway: '',
+                            opponentPlayer: team.depthChartPlayers.rb1.name
                           };
                           opponentTeam?.opponentGamesRb1.push(tmpOpponentGame);
                           team.depthChartPlayers.rb1.games.push(tmpGame);
@@ -349,7 +353,8 @@ export class HttpService {
                             weekNum: tmpGame.weekNum,
                             playerGameStatsUrl: '',
                             value: tmpGame.value,
-                            homeAway: ''
+                            homeAway: '',
+                            opponentPlayer: team.depthChartPlayers.rb2.name
                           };
                           opponentTeam?.opponentGamesRb2.push(tmpOpponentGame);
                           team.depthChartPlayers.rb2.games.push(tmpGame);
@@ -471,7 +476,8 @@ export class HttpService {
                             weekNum: tmpGame.weekNum,
                             playerGameStatsUrl: '',
                             value: tmpGame.value,
-                            homeAway: ''
+                            homeAway: '',
+                            opponentPlayer: team.depthChartPlayers.wr1.name
                           };
                           opponentTeam?.opponentGamesWr1.push(tmpOpponentGame);
                           team.depthChartPlayers.wr1.games.push(tmpGame);
@@ -594,7 +600,8 @@ export class HttpService {
                             weekNum: tmpGame.weekNum,
                             playerGameStatsUrl: '',
                             value: tmpGame.value,
-                            homeAway: ''
+                            homeAway: '',
+                            opponentPlayer: team.depthChartPlayers.wr2.name
                           };
                           opponentTeam?.opponentGamesWr2.push(tmpOpponentGame);
                           team.depthChartPlayers.wr2.games.push(tmpGame);
@@ -717,7 +724,8 @@ export class HttpService {
                             weekNum: tmpGame.weekNum,
                             playerGameStatsUrl: '',
                             value: tmpGame.value,
-                            homeAway: ''
+                            homeAway: '',
+                            opponentPlayer: team.depthChartPlayers.wr3.name
                           };
                           opponentTeam?.opponentGamesWr3.push(tmpOpponentGame);
                           team.depthChartPlayers.wr3.games.push(tmpGame);
@@ -839,7 +847,8 @@ export class HttpService {
                             gameStatsUrl: '',
                             playerGameStatsUrl: '',
                             value: tmpGame.value,
-                            homeAway: ''
+                            homeAway: '',
+                            opponentPlayer: team.depthChartPlayers.te.name
                           };
                           opponentTeam?.opponentGamesTe.push(tmpOpponentGame);
                           team.depthChartPlayers.te.games.push(tmpGame);

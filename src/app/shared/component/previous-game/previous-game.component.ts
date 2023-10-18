@@ -16,7 +16,6 @@ export class PlayerPreviousGameComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private httpService: HttpService) {
-    console.log("🚀 ~ data:", data)
     this.currentPlayer = data.player.name;
     this.dataSource = new MatTableDataSource(data.player.games);
   }

@@ -34,7 +34,11 @@ mat-table mat-row:hover {
 
 .bg-red {
   background-color: crimson;
-  color: white;
+  color: white !important;
+}
+
+.bg-orange {
+  background-color: orangered;
 }
 
 .given-span {

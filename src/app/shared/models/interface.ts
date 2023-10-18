@@ -83,6 +83,7 @@ export interface Game {
   homeAway: string;
   playerGameStatsUrl: string;
   value: number;
+  opponentPlayer?: string;
 }
 
 export interface DefenseStats {
