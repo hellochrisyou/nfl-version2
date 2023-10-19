@@ -1,5 +1,5 @@
 <h1>{{currentPlayer}}</h1>
-<mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="week">
     <mat-header-cell *matHeaderCellDef> Week </mat-header-cell>
     <mat-cell *matCellDef="let element">{{element.weekNum}}</mat-cell>
@@ -10,7 +10,12 @@
   </ng-container>
   <ng-container matColumnDef="value">
     <mat-header-cell *matHeaderCellDef> Value </mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.value}}</mat-cell>
+    <ng-container *ngIf="data.type">
+      <mat-cell *matCellDef="let element">{{element.rbReceivingValue}}</mat-cell>
+    </ng-container>
+    <ng-container *ngIf="!data.type">
+      <mat-cell *matCellDef="let element">{{element.value}}</mat-cell>
+    </ng-container>
   </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

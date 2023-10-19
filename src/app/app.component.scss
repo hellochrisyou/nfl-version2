@@ -39,6 +39,21 @@ mat-table mat-row:hover {
 
 .bg-orange {
   background-color: orangered;
+  color: white !important;
+}
+
+.bg-yellow {
+  background-color: yellowgreen;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.key-wrapper {
+  width: 50vw;
+  margin: 1rem auto;
+  text-align: center;
 }
 
 .given-span {

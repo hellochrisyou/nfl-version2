@@ -20,7 +20,8 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -29,7 +30,8 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -91,7 +93,11 @@ export const INITIALIZE_TEAMS = (inputTeams: Team[]) => {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0,
   };
   tmpTeam.id = '25';
   tmpTeam.displayName = '49ers';
@@ -119,7 +125,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -128,7 +135,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -190,7 +198,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '3';
   tmpTeam.displayName = 'Bears';
@@ -218,7 +230,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -227,7 +240,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -289,7 +303,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '4';
   tmpTeam.displayName = 'Bengals';
@@ -317,7 +335,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -326,7 +345,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -388,7 +408,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '2';
   tmpTeam.displayName = 'Bills';
@@ -416,7 +440,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -425,7 +450,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -487,7 +513,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '7';
   tmpTeam.displayName = 'Broncos';
@@ -515,7 +545,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -524,7 +555,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -586,7 +618,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '5';
   tmpTeam.displayName = 'Browns';
@@ -614,7 +650,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -623,7 +660,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -685,7 +723,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '27';
   tmpTeam.displayName = 'Buccaneers';
@@ -713,7 +755,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -722,7 +765,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -784,7 +828,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '22';
   tmpTeam.displayName = 'Cardinals';
@@ -812,7 +860,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -821,7 +870,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -883,7 +933,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '24';
   tmpTeam.displayName = 'Chargers';
@@ -911,7 +965,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -920,7 +975,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -982,7 +1038,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '12';
   tmpTeam.displayName = 'Chiefs';
@@ -1010,7 +1070,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -1019,7 +1080,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -1081,7 +1143,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '11';
   tmpTeam.displayName = 'Colts';
@@ -1109,7 +1175,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -1118,7 +1185,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -1180,7 +1248,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '28';
   tmpTeam.displayName = 'Commanders';
@@ -1208,7 +1280,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -1217,7 +1290,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -1279,7 +1353,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '6';
   tmpTeam.displayName = 'Cowboys';
@@ -1307,7 +1385,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -1316,7 +1395,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -1378,7 +1458,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '15';
   tmpTeam.displayName = 'Dolphins';
@@ -1406,7 +1490,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -1415,7 +1500,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -1477,7 +1563,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '21';
   tmpTeam.displayName = 'Eagles';
@@ -1505,7 +1595,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -1514,7 +1605,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -1576,7 +1668,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '1';
   tmpTeam.displayName = 'Falcons';
@@ -1604,7 +1700,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -1613,7 +1710,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -1675,7 +1773,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '19';
   tmpTeam.displayName = 'Giants';
@@ -1703,7 +1805,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -1712,7 +1815,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -1774,7 +1878,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '30';
   tmpTeam.displayName = 'Jaguars';
@@ -1802,7 +1910,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -1811,7 +1920,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -1873,7 +1983,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '20';
   tmpTeam.displayName = 'Jets';
@@ -1901,7 +2015,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -1910,7 +2025,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -1972,7 +2088,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '8';
   tmpTeam.displayName = 'Lions';
@@ -2000,7 +2120,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2009,7 +2130,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -2071,7 +2193,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '9';
   tmpTeam.displayName = 'Packers';
@@ -2099,7 +2225,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2108,7 +2235,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -2170,7 +2298,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '29';
   tmpTeam.displayName = 'Panthers';
@@ -2198,7 +2330,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2207,7 +2340,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -2269,7 +2403,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '17';
   tmpTeam.displayName = 'Patriots';
@@ -2297,7 +2435,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2306,7 +2445,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -2368,7 +2508,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '13';
   tmpTeam.displayName = 'Raiders';
@@ -2396,7 +2540,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2405,7 +2550,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -2467,7 +2613,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '14';
   tmpTeam.displayName = 'Rams';
@@ -2495,7 +2645,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2504,7 +2655,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -2566,7 +2718,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '33';
   tmpTeam.displayName = 'Ravens';
@@ -2594,7 +2750,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2603,7 +2760,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -2665,7 +2823,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '18';
   tmpTeam.displayName = 'Saints';
@@ -2693,7 +2855,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2702,7 +2865,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -2764,7 +2928,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '26';
   tmpTeam.displayName = 'Seahawks';
@@ -2792,7 +2960,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2801,7 +2970,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -2863,7 +3033,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '23';
   tmpTeam.displayName = 'Steelers';
@@ -2891,7 +3065,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2900,7 +3075,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -2962,7 +3138,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '34';
   tmpTeam.displayName = 'Texans';
@@ -2990,7 +3170,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -2999,7 +3180,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -3061,7 +3243,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '10';
   tmpTeam.displayName = 'Titans';
@@ -3089,7 +3275,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       rb2: {
         playerUrl: '',
@@ -3098,7 +3285,8 @@ tmpTeam = {
         games: [],
         missingData: {
           item: []
-        }
+        },
+        allReceivingYards: 0
       },
       wr1: {
         playerUrl: '',
@@ -3160,7 +3348,11 @@ tmpTeam = {
     opponentGamesWr1: [],
     opponentGamesWr2: [],
     opponentGamesWr3: [],
-    opponentGamesTe: []
+    opponentGamesTe: [],
+    allYardsGivenRb1Rec: 0,
+    allYardsGivenRb1RecCounter: 0,
+    allYardsGivenRb2Rec: 0,
+    allYardsGivenRb2RecCounter: 0
   };
   tmpTeam.id = '16';
   tmpTeam.displayName = 'Vikings';

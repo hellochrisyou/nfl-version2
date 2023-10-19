@@ -33,8 +33,20 @@ export class PreviousGameOpponentComponent {
         this.dataSource = new MatTableDataSource(data.team.opponentGamesRb1);
         break;
       }
+      case 'rb1Rec':  {
+        this.currentRole = 'RB1Receiving';
+        data.team.opponentGamesRb1.sort((a: Game, b: Game) => ((a.weekNum < b.weekNum? -1 : 1)));
+        this.dataSource = new MatTableDataSource(data.team.opponentGamesRb1);
+        break;
+      }
       case 'rb2':  {
         this.currentRole = 'RB2';
+        data.team.opponentGamesRb2.sort((a: Game, b: Game) => ((a.weekNum < b.weekNum? -1 : 1)));
+        this.dataSource = new MatTableDataSource(data.team.opponentGamesRb2);
+        break;
+      }
+      case 'rb2Rec':  {
+        this.currentRole = 'RB2Receiving';
         data.team.opponentGamesRb2.sort((a: Game, b: Game) => ((a.weekNum < b.weekNum? -1 : 1)));
         this.dataSource = new MatTableDataSource(data.team.opponentGamesRb2);
         break;

@@ -23,6 +23,10 @@ export interface Team {
   allYardsGivenQbCounter: number;
   allYardsGivenRb1: number;
   allYardsGivenRb1Counter: number;
+  allYardsGivenRb1Rec: number;
+  allYardsGivenRb1RecCounter: number;
+  allYardsGivenRb2Rec: number;
+  allYardsGivenRb2RecCounter: number;
   allYardsGivenRb2: number;
   allYardsGivenRb2Counter: number;
   allYardsGivenWr1: number;
@@ -59,6 +63,7 @@ export interface RushingPlayer {
   name?: string;
   gamesUrl: string;
   games: Game[];
+  allReceivingYards: number;
   allRushingYards: number;
   missingData: MissingData;
   injuryStatus?: string;
@@ -83,6 +88,7 @@ export interface Game {
   homeAway: string;
   playerGameStatsUrl: string;
   value: number;
+  rbReceivingValue?: number;
   opponentPlayer?: string;
 }
 

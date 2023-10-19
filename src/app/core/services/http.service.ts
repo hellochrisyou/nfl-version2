@@ -52,7 +52,7 @@ export class HttpService {
       if (team.depthChartPlayers.qb.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.qb.playerUrl).subscribe((playerData: any) => {
           if (playerData.injuries.length > 0) {
-            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length - 1].$ref).subscribe((data: any) => {
               team.depthChartPlayers.qb.injuryStatus = data.status;
             });
           } else {
@@ -87,10 +87,8 @@ export class HttpService {
                   tmpGame.homeAway = 'away';
                 }
                 this.apiService.httpGet(tmpGame.gameStatsUrl).subscribe((data: any) => {
-                  console.log("🚀 ~ data:", data)
                   tmpGame.playerGameStatsUrl = data.$ref;
                   this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
-                    console.log("🚀 ~ data:", data)
                     if (data.splits === undefined) {
                       this.apiService.httpGet(data.statistics.$ref).subscribe((data: any) => {
                         tmpGame.value = data.splits.categories[1].stats[8].value;
@@ -128,7 +126,7 @@ export class HttpService {
       if (team.depthChartPlayers.rb1.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.rb1.playerUrl).subscribe((playerData: any) => {
           if (playerData.injuries.length > 0) {
-            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length - 1].$ref).subscribe((data: any) => {
               team.depthChartPlayers.rb1.injuryStatus = data.status;
             });
           } else {
@@ -211,13 +209,16 @@ export class HttpService {
                         console.log('API missing data for: ', team.depthChartPlayers.rb1.name);
                         team.depthChartPlayers.rb1.missingData.item.push(team.depthChartPlayers.rb1.name + ' missing ' + 'tmpGame.playerGameStatsUrl');
                       } else {
+                        tmpGame.rbReceivingValue = 0;
                         this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
                           if (data.splits === undefined) {
                             this.apiService.httpGet(data.statistics.$ref).subscribe((data: any) => {
                               tmpGame.value = data.splits.categories[2].stats[12].value;
+                              tmpGame.rbReceivingValue = data.splits.categories[3].stats[12].value;
                             });
                           } else {
                             tmpGame.value = data.splits.categories[2].stats[12].value;
+                            tmpGame.rbReceivingValue = data.splits.categories[3].stats[12].value;
                           }
                           let opponentTeam = this.allTeams.find(team => {
                             return team.id === tmpGame.opponentId
@@ -229,6 +230,7 @@ export class HttpService {
                             weekNum: tmpGame.weekNum,
                             playerGameStatsUrl: '',
                             value: tmpGame.value,
+                            rbReceivingValue: tmpGame.rbReceivingValue,
                             homeAway: '',
                             opponentPlayer: team.depthChartPlayers.rb1.name
                           };
@@ -252,7 +254,7 @@ export class HttpService {
       if (team.depthChartPlayers.rb2.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.rb2.playerUrl).subscribe((playerData: any) => {
           if (playerData.injuries.length > 0) {
-            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length - 1].$ref).subscribe((data: any) => {
               team.depthChartPlayers.rb2.injuryStatus = data.status;
             });
           } else {
@@ -335,13 +337,16 @@ export class HttpService {
                         console.log('API missing data for: ', team.depthChartPlayers.rb2.name);
                         team.depthChartPlayers.rb2.missingData.item.push(team.depthChartPlayers.rb2.name + ' missing ' + 'teamGame.gaemStatsUrl');
                       } else {
+                        tmpGame.rbReceivingValue = 0;
                         this.apiService.httpGet(tmpGame.playerGameStatsUrl).subscribe((data: any) => {
                           if (data.splits === undefined) {
                             this.apiService.httpGet(data.statistics.$ref).subscribe((data: any) => {
                               tmpGame.value = data.splits.categories[2].stats[12].value;
+                              tmpGame.rbReceivingValue = data.splits.categories[3].stats[12].value;
                             });
                           } else {
                             tmpGame.value = data.splits.categories[2].stats[12].value;
+                            tmpGame.rbReceivingValue = data.splits.categories[3].stats[12].value;
                           }
                           let opponentTeam = this.allTeams.find(team => {
                             return team.id === tmpGame.opponentId
@@ -353,6 +358,7 @@ export class HttpService {
                             weekNum: tmpGame.weekNum,
                             playerGameStatsUrl: '',
                             value: tmpGame.value,
+                            rbReceivingValue: tmpGame.rbReceivingValue,
                             homeAway: '',
                             opponentPlayer: team.depthChartPlayers.rb2.name
                           };
@@ -376,7 +382,7 @@ export class HttpService {
       if (team.depthChartPlayers.wr1.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.wr1.playerUrl).subscribe((playerData: any) => {
           if (playerData.injuries.length > 0) {
-            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length - 1].$ref).subscribe((data: any) => {
               team.depthChartPlayers.wr1.injuryStatus = data.status;
             });
           } else {
@@ -499,7 +505,7 @@ export class HttpService {
       if (team.depthChartPlayers.wr2.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.wr2.playerUrl).subscribe((playerData: any) => {
           if (playerData.injuries.length > 0) {
-            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length - 1].$ref).subscribe((data: any) => {
               team.depthChartPlayers.wr2.injuryStatus = data.status;
             });
           } else {
@@ -623,7 +629,7 @@ export class HttpService {
       if (team.depthChartPlayers.wr3.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.wr3.playerUrl).subscribe((playerData: any) => {
           if (playerData.injuries.length > 0) {
-            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length - 1].$ref).subscribe((data: any) => {
               team.depthChartPlayers.wr3.injuryStatus = data.status;
             });
           } else {
@@ -747,7 +753,7 @@ export class HttpService {
       if (team.depthChartPlayers.te.playerUrl.length > 0) {
         this.apiService.httpGet(team.depthChartPlayers.te.playerUrl).subscribe((playerData: any) => {
           if (playerData.injuries.length > 0) {
-            this.apiService.httpGet(playerData.injuries[playerData.injuries.length-1].$ref).subscribe((data: any) => {
+            this.apiService.httpGet(playerData.injuries[playerData.injuries.length - 1].$ref).subscribe((data: any) => {
               team.depthChartPlayers.te.injuryStatus = data.status;
             });
           } else {
@@ -990,11 +996,11 @@ export class HttpService {
               }
             });
           }
-          };
-        });
+        };
       });
-      console.log('Done processing Opponent Ids');
-    };
+    });
+    console.log('Done processing Opponent Ids');
+  };
 
   initializeAverageCalculations() {
     this.allTeams.forEach(team => {
@@ -1008,8 +1014,22 @@ export class HttpService {
       })
     })
     this.allTeams.forEach(team => {
+      team.depthChartPlayers.rb1.games.forEach(game => {
+        if (game.rbReceivingValue) {
+          team.depthChartPlayers.rb1.allReceivingYards += game.rbReceivingValue
+        }
+      })
+    })
+    this.allTeams.forEach(team => {
       team.depthChartPlayers.rb2.games.forEach(game => {
         team.depthChartPlayers.rb2.allRushingYards += game.value;
+      })
+    })
+    this.allTeams.forEach(team => {
+      team.depthChartPlayers.rb2.games.forEach(game => {
+        if (game.rbReceivingValue) {
+          team.depthChartPlayers.rb2.allReceivingYards += game.rbReceivingValue
+        }
       })
     })
     this.allTeams.forEach(team => {
@@ -1051,10 +1071,28 @@ export class HttpService {
       })
     })
     this.allTeams.forEach(team => {
+      team.depthChartPlayers.rb1.games.forEach(game => {
+        let opponentIndex = this.findTeamIndex(game.opponentId);
+        if (game.rbReceivingValue) {
+          this.allTeams[opponentIndex].allYardsGivenRb1Rec += game.rbReceivingValue;
+          this.allTeams[opponentIndex].allYardsGivenRb1RecCounter++;
+        }
+      })
+    })
+    this.allTeams.forEach(team => {
       team.depthChartPlayers.rb2.games.forEach(game => {
         let opponentIndex = this.findTeamIndex(game.opponentId);
         this.allTeams[opponentIndex].allYardsGivenRb2 += game.value;
         this.allTeams[opponentIndex].allYardsGivenRb2Counter++;
+      })
+    })
+    this.allTeams.forEach(team => {
+      team.depthChartPlayers.rb2.games.forEach(game => {
+        let opponentIndex = this.findTeamIndex(game.opponentId);
+        if (game.rbReceivingValue) {
+          this.allTeams[opponentIndex].allYardsGivenRb2Rec += game.rbReceivingValue;
+          this.allTeams[opponentIndex].allYardsGivenRb2RecCounter++;
+        }
       })
     })
     this.allTeams.forEach(team => {

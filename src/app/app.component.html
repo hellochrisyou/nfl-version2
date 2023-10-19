@@ -18,15 +18,25 @@
 <form class="example-form" [formGroup]="noHighLowFormGroup">
   <mat-slide-toggle formControlName="toggleValue" [checked]="toggleValue">Toggle {{toggleStatus}}</mat-slide-toggle>
 </form>
-<mat-table [dataSource]="dataSource" class="mat-elevation-z8"  matSort (matSortChange)= "sortColumn($event)">
+<div class="key-wrapper" fxLayout="row" fxLayoutAlign="space-around center row wrap">
+  <div fxFlex class="bg-yellow">Doubtful</div>
+  <div fxFlex class="bg-grey">Questionable</div>
+  <div fxFlex class="bg-red">Out</div>
+  <div fxFlex class="bg-orange">Injured Reserve</div>
+</div>
+
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortColumn($event)">
   <ng-container matColumnDef="teamName">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Team </mat-header-cell>
-    <mat-cell *matCellDef="let element"> <span [ngClass]="element.currentAwayHome === 'home' ? 'bg-grey':''" class="team">{{element.displayName}}</span> <i class="vs-padding">vs </i> <i class="opponent"> {{returnOpponentName(element.currentOpponentId)}}</i></mat-cell>
+    <mat-cell *matCellDef="let element"> <span [ngClass]="element.currentAwayHome === 'home' ? 'bg-grey':''"
+        class="team">{{element.displayName}}</span> <i class="vs-padding">vs </i> <i class="opponent">
+        {{returnOpponentName(element.currentOpponentId)}}</i></mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="averagePassYardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>QB</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openQbDialog(element.depthChartPlayers.qb)" [ngClass]="checkInjury(element.depthChartPlayers.qb.injuryStatus)">
+    <mat-cell *matCellDef="let element" (click)="openQbDialog(element.depthChartPlayers.qb)"
+      [ngClass]="checkInjury(element.depthChartPlayers.qb.injuryStatus)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.qb.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
       <span class="right-wrapper-span color-green">{{calculateQb(element.depthChartPlayers.qb)| number: '1.0-0'}}</span>
@@ -45,20 +55,20 @@
           *ngIf="calculateQb(element.depthChartPlayers.qb) > returnOpponentAvgPassYardsGiven(element) && (element.depthChartPlayers.qb - returnOpponentAvgPassYardsGiven(element)) <= 40">
           <mat-icon class="color-green">trending_up</mat-icon>
         </ng-container>
-        <ng-container
-          *ngIf="(calculateQb(element.depthChartPlayers.qb) < returnOpponentAvgPassYardsGiven(element))">
+        <ng-container *ngIf="(calculateQb(element.depthChartPlayers.qb) < returnOpponentAvgPassYardsGiven(element))">
           <mat-icon class="color-orangeRed">trending_down</mat-icon>
         </ng-container>
-        <ng-container
-        *ngIf="(calculateQb(element.depthChartPlayers.qb) === returnOpponentAvgPassYardsGiven(element))">
-        <mat-icon>trending_flat</mat-icon>
+        <ng-container *ngIf="(calculateQb(element.depthChartPlayers.qb) === returnOpponentAvgPassYardsGiven(element))">
+          <mat-icon>trending_flat</mat-icon>
         </ng-container>
       </span>
       <span class="difference-span">
-        <ng-container *ngIf="(calculateQb(element.depthChartPlayers.qb) - returnOpponentAvgPassYardsGiven(element)) > 0">
+        <ng-container
+          *ngIf="(calculateQb(element.depthChartPlayers.qb) - returnOpponentAvgPassYardsGiven(element)) > 0">
           <span class="color-green">+</span>
         </ng-container>
-        <span><i>{{calculateQb(element.depthChartPlayers.qb) - returnOpponentAvgPassYardsGiven(element) | number: '1.0-0'}}</i></span>
+        <span><i>{{calculateQb(element.depthChartPlayers.qb) - returnOpponentAvgPassYardsGiven(element) | number:
+            '1.0-0'}}</i></span>
       </span>
       <span class="given-span color-crimson">{{returnOpponentAvgPassYardsGiven(element) | number: '1.0-0'}}</span>
     </mat-cell>
@@ -66,10 +76,12 @@
 
   <ng-container matColumnDef="averageRb1YardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>RB1</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openRb1Dialog(element.depthChartPlayers.rb1)" [ngClass]="checkInjury(element.depthChartPlayers.rb1.injuryStatus)" >
+    <mat-cell *matCellDef="let element" (click)="openRb1Dialog(element.depthChartPlayers.rb1)"
+      [ngClass]="checkInjury(element.depthChartPlayers.rb1.injuryStatus)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.rb1.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
-      <span class="right-wrapper-span color-green">{{calculateRb(element.depthChartPlayers.rb1)| number: '1.0-0'}}</span>
+      <span class="right-wrapper-span color-green">{{calculateRb(element.depthChartPlayers.rb1)| number:
+        '1.0-0'}}</span>
     </mat-cell>
   </ng-container>
 
@@ -78,38 +90,85 @@
     <mat-cell *matCellDef="let element" (click)="openAllowedRb1Dialog(element.currentOpponentId)">
       <span>
         <ng-container
-        *ngIf="(calculateRb(element.depthChartPlayers.rb1) - returnOpponentAvgRb1RushYardsGiven(element)) > 40">
-        <mat-icon class="color-crimson">flash_auto</mat-icon>
+          *ngIf="(calculateRb(element.depthChartPlayers.rb1) - returnOpponentAvgRb1RushYardsGiven(element)) > 40">
+          <mat-icon class="color-crimson">flash_auto</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="calculateRb(element.depthChartPlayers.rb1) > returnOpponentAvgRb1RushYardsGiven(element) && (element.depthChartPlayers.rb1 - returnOpponentAvgRb1RushYardsGiven(element)) <= 40">
-        <mat-icon class="color-green">trending_up</mat-icon>
+          *ngIf="calculateRb(element.depthChartPlayers.rb1) > returnOpponentAvgRb1RushYardsGiven(element) && (element.depthChartPlayers.rb1 - returnOpponentAvgRb1RushYardsGiven(element)) <= 40">
+          <mat-icon class="color-green">trending_up</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateRb(element.depthChartPlayers.rb1) < returnOpponentAvgRb1RushYardsGiven(element))">
+          *ngIf="(calculateRb(element.depthChartPlayers.rb1) < returnOpponentAvgRb1RushYardsGiven(element))">
           <mat-icon class="color-orangeRed">trending_down</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateRb(element.depthChartPlayers.rb1) === returnOpponentAvgRb1RushYardsGiven(element))">
+          *ngIf="(calculateRb(element.depthChartPlayers.rb1) === returnOpponentAvgRb1RushYardsGiven(element))">
           <mat-icon>trending_flat</mat-icon>
         </ng-container>
       </span>
       <span class="difference-span">
-        <ng-container *ngIf="(calculateRb(element.depthChartPlayers.rb1) - returnOpponentAvgRb1RushYardsGiven(element)) > 0">
+        <ng-container
+          *ngIf="(calculateRb(element.depthChartPlayers.rb1) - returnOpponentAvgRb1RushYardsGiven(element)) > 0">
           <span class="color-green">+</span>
         </ng-container>
-        <span><i>{{calculateRb(element.depthChartPlayers.rb1) - returnOpponentAvgRb1RushYardsGiven(element) | number: '1.0-0'}}</i></span>
+        <span><i>{{calculateRb(element.depthChartPlayers.rb1) - returnOpponentAvgRb1RushYardsGiven(element) | number:
+            '1.0-0'}}</i></span>
       </span>
       <span class="given-span color-crimson">{{returnOpponentAvgRb1RushYardsGiven(element) | number: '1.0-0'}}</span>
     </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="averageRb1RecYardsPerGame">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>RB1 Rec</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openRbRecDialog(element.depthChartPlayers.rb1)"
+      [ngClass]="checkInjury(element.depthChartPlayers.rb1.injuryStatus)" class="center-text">
+      <mat-icon>arrow_forward</mat-icon>
+      <span class="right-wrapper-span color-green">{{calculateRbRec(element.depthChartPlayers.rb1)| number:
+        '1.0-0'}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="averageRb1RecYardsPerGameGiven">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openAllowedRb1RecDialog(element.currentOpponentId)" class="center-text">
+      <span>
+        <ng-container
+          *ngIf="(calculateRbRec(element.depthChartPlayers.rb1) - returnOpponentAvgRb1RecYardsGiven(element)) > 40">
+          <mat-icon class="color-crimson">flash_auto</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="calculateRbRec(element.depthChartPlayers.rb1) > returnOpponentAvgRb1RecYardsGiven(element) && (element.depthChartPlayers.rb1 - returnOpponentAvgRb1RecYardsGiven(element)) <= 40">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(calculateRbRec(element.depthChartPlayers.rb1) < returnOpponentAvgRb1RecYardsGiven(element))">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(calculateRbRec(element.depthChartPlayers.rb1) === returnOpponentAvgRb1RecYardsGiven(element))">
+          <mat-icon>trending_flat</mat-icon>
+        </ng-container>
+      </span>
+      <span class="difference-span">
+        <ng-container
+          *ngIf="(calculateRbRec(element.depthChartPlayers.rb1) - returnOpponentAvgRb1RecYardsGiven(element)) > 0">
+          <span class="color-green">+</span>
+        </ng-container>
+        <span><i>{{calculateRbRec(element.depthChartPlayers.rb1) - returnOpponentAvgRb1RecYardsGiven(element) | number:
+            '1.0-0'}}</i></span>
+      </span>
+      <span class="given-span color-crimson">{{returnOpponentAvgRb1RecYardsGiven(element) | number: '1.0-0'}}</span>
+    </mat-cell>
+  </ng-container>
+
   <ng-container matColumnDef="averageRb2YardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>RB2</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openRb2Dialog(element.depthChartPlayers.rb2)" [ngClass]="checkInjury(element.depthChartPlayers.rb2.injuryStatus)" >
+    <mat-cell *matCellDef="let element" (click)="openRb2Dialog(element.depthChartPlayers.rb2)"
+      [ngClass]="checkInjury(element.depthChartPlayers.rb2.injuryStatus)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.rb2.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
-      <span class="right-wrapper-span color-green">{{calculateRb(element.depthChartPlayers.rb2)| number: '1.0-0'}}</span>
+      <span class="right-wrapper-span color-green">{{calculateRb(element.depthChartPlayers.rb2)| number:
+        '1.0-0'}}</span>
     </mat-cell>
   </ng-container>
 
@@ -118,38 +177,85 @@
     <mat-cell *matCellDef="let element" (click)="openAllowedRb2Dialog(element.currentOpponentId)">
       <span>
         <ng-container
-        *ngIf="(calculateRb(element.depthChartPlayers.rb2) - returnOpponentAvgRb2RushYardsGiven(element)) > 40">
+          *ngIf="(calculateRb(element.depthChartPlayers.rb2) - returnOpponentAvgRb2RushYardsGiven(element)) > 40">
           <mat-icon class="color-crimson">flash_auto</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="calculateRb(element.depthChartPlayers.rb2) > returnOpponentAvgRb2RushYardsGiven(element) && (element.depthChartPlayers.rb2 - returnOpponentAvgRb2RushYardsGiven(element)) <= 40">
+          *ngIf="calculateRb(element.depthChartPlayers.rb2) > returnOpponentAvgRb2RushYardsGiven(element) && (element.depthChartPlayers.rb2 - returnOpponentAvgRb2RushYardsGiven(element)) <= 40">
           <mat-icon class="color-green">trending_up</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateRb(element.depthChartPlayers.rb2) < returnOpponentAvgRb2RushYardsGiven(element))">
+          *ngIf="(calculateRb(element.depthChartPlayers.rb2) < returnOpponentAvgRb2RushYardsGiven(element))">
           <mat-icon class="color-orangeRed">trending_down</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateRb(element.depthChartPlayers.rb2) === returnOpponentAvgRb2RushYardsGiven(element))">
+          *ngIf="(calculateRb(element.depthChartPlayers.rb2) === returnOpponentAvgRb2RushYardsGiven(element))">
           <mat-icon>trending_flat</mat-icon>
         </ng-container>
       </span>
       <span class="difference-span">
-        <ng-container *ngIf="(calculateRb(element.depthChartPlayers.rb2) - returnOpponentAvgRb2RushYardsGiven(element)) > 0">
+        <ng-container
+          *ngIf="(calculateRb(element.depthChartPlayers.rb2) - returnOpponentAvgRb2RushYardsGiven(element)) > 0">
           <span class="color-green">+</span>
         </ng-container>
-        <span><i>{{calculateRb(element.depthChartPlayers.rb2) - returnOpponentAvgRb2RushYardsGiven(element) | number: '1.0-0'}}</i></span>
+        <span><i>{{calculateRb(element.depthChartPlayers.rb2) - returnOpponentAvgRb2RushYardsGiven(element) | number:
+            '1.0-0'}}</i></span>
       </span>
       <span class="given-span color-crimson">{{returnOpponentAvgRb2RushYardsGiven(element) | number: '1.0-0'}}</span>
     </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="averageRb2RecYardsPerGame">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b>RB2 Rec</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openRbRecDialog(element.depthChartPlayers.rb2)"
+      [ngClass]="checkInjury(element.depthChartPlayers.rb2.injuryStatus)" class="center-text">
+      <mat-icon>arrow_forward</mat-icon>
+      <span class="right-wrapper-span color-green">{{calculateRbRec(element.depthChartPlayers.rb2)| number:
+        '1.0-0'}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="averageRb2RecYardsPerGameGiven">
+    <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openAllowedRb2RecDialog(element.currentOpponentId)" class="center-text">
+      <span>
+        <ng-container
+          *ngIf="(calculateRbRec(element.depthChartPlayers.rb2) - returnOpponentAvgRb2RecYardsGiven(element)) > 40">
+          <mat-icon class="color-crimson">flash_auto</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="calculateRbRec(element.depthChartPlayers.rb2) > returnOpponentAvgRb2RecYardsGiven(element) && (element.depthChartPlayers.rb2 - returnOpponentAvgRb2RecYardsGiven(element)) <= 40">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(calculateRbRec(element.depthChartPlayers.rb2) < returnOpponentAvgRb2RecYardsGiven(element))">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <ng-container
+          *ngIf="(calculateRbRec(element.depthChartPlayers.rb2) === returnOpponentAvgRb2RecYardsGiven(element))">
+          <mat-icon>trending_flat</mat-icon>
+        </ng-container>
+      </span>
+      <span class="difference-span">
+        <ng-container
+          *ngIf="(calculateRbRec(element.depthChartPlayers.rb2) - returnOpponentAvgRb2RecYardsGiven(element)) > 0">
+          <span class="color-green">+</span>
+        </ng-container>
+        <span><i>{{calculateRbRec(element.depthChartPlayers.rb2) - returnOpponentAvgRb2RecYardsGiven(element) | number:
+            '1.0-0'}}</i></span>
+      </span>
+      <span class="given-span color-crimson">{{returnOpponentAvgRb2RecYardsGiven(element) | number: '1.0-0'}}</span>
+    </mat-cell>
+  </ng-container>
+
   <ng-container matColumnDef="averageWr1YardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR1</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openWr1Dialog(element.depthChartPlayers.wr1)" [ngClass]="checkInjury(element.depthChartPlayers.wr1.injuryStatus)" >
+    <mat-cell *matCellDef="let element" (click)="openWr1Dialog(element.depthChartPlayers.wr1)"
+      [ngClass]="checkInjury(element.depthChartPlayers.wr1.injuryStatus)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.wr1.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
-      <span class="right-wrapper-span color-green">{{calculateReceiving(element.depthChartPlayers.wr1)| number: '1.0-0'}}</span>
+      <span class="right-wrapper-span color-green">{{calculateReceiving(element.depthChartPlayers.wr1)| number:
+        '1.0-0'}}</span>
     </mat-cell>
   </ng-container>
 
@@ -158,27 +264,29 @@
     <mat-cell *matCellDef="let element" (click)="openAllowedWr1Dialog(element.currentOpponentId)">
       <span>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.wr1) - returnOpponentAvgWr1RecYardsGiven(element)) > 40">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr1) - returnOpponentAvgWr1RecYardsGiven(element)) > 40">
           <mat-icon class="color-crimson">flash_auto</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="calculateReceiving(element.depthChartPlayers.wr1) > returnOpponentAvgWr1RecYardsGiven(element) && (element.depthChartPlayers.wr1 - returnOpponentAvgWr1RecYardsGiven(element)) <= 40">
+          *ngIf="calculateReceiving(element.depthChartPlayers.wr1) > returnOpponentAvgWr1RecYardsGiven(element) && (element.depthChartPlayers.wr1 - returnOpponentAvgWr1RecYardsGiven(element)) <= 40">
           <mat-icon class="color-green">trending_up</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.wr1) < returnOpponentAvgWr1RecYardsGiven(element))">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr1) < returnOpponentAvgWr1RecYardsGiven(element))">
           <mat-icon class="color-orangeRed">trending_down</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.wr1) === returnOpponentAvgWr1RecYardsGiven(element))">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr1) === returnOpponentAvgWr1RecYardsGiven(element))">
           <mat-icon>trending_flat</mat-icon>
         </ng-container>
       </span>
       <span class="difference-span">
-        <ng-container *ngIf="(calculateReceiving(element.depthChartPlayers.wr1) - returnOpponentAvgWr1RecYardsGiven(element)) > 0">
+        <ng-container
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr1) - returnOpponentAvgWr1RecYardsGiven(element)) > 0">
           <span class="color-green">+</span>
         </ng-container>
-        <span><i>{{calculateReceiving(element.depthChartPlayers.wr1) - returnOpponentAvgWr1RecYardsGiven(element) | number: '1.0-0'}}</i></span>
+        <span><i>{{calculateReceiving(element.depthChartPlayers.wr1) - returnOpponentAvgWr1RecYardsGiven(element) |
+            number: '1.0-0'}}</i></span>
       </span>
       <span class="given-span color-crimson">{{returnOpponentAvgWr1RecYardsGiven(element) | number: '1.0-0'}}</span>
     </mat-cell>
@@ -186,10 +294,12 @@
 
   <ng-container matColumnDef="averageWr2YardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR2</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openWr2Dialog(element.depthChartPlayers.wr2)" [ngClass]="checkInjury(element.depthChartPlayers.wr2.injuryStatus)" >
+    <mat-cell *matCellDef="let element" (click)="openWr2Dialog(element.depthChartPlayers.wr2)"
+      [ngClass]="checkInjury(element.depthChartPlayers.wr2.injuryStatus)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.wr2.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
-      <span class="right-wrapper-span color-green">{{calculateReceiving(element.depthChartPlayers.wr2)| number: '1.0-0'}}</span>
+      <span class="right-wrapper-span color-green">{{calculateReceiving(element.depthChartPlayers.wr2)| number:
+        '1.0-0'}}</span>
     </mat-cell>
   </ng-container>
 
@@ -198,27 +308,29 @@
     <mat-cell *matCellDef="let element" (click)="openAllowedWr2Dialog(element.currentOpponentId)">
       <span>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.wr2) - returnOpponentAvgWr2RecYardsGiven(element)) > 40">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr2) - returnOpponentAvgWr2RecYardsGiven(element)) > 40">
           <mat-icon class="color-crimson">flash_auto</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="calculateReceiving(element.depthChartPlayers.wr2) > returnOpponentAvgWr2RecYardsGiven(element) && (element.depthChartPlayers.wr2 - returnOpponentAvgWr2RecYardsGiven(element)) <= 40">
+          *ngIf="calculateReceiving(element.depthChartPlayers.wr2) > returnOpponentAvgWr2RecYardsGiven(element) && (element.depthChartPlayers.wr2 - returnOpponentAvgWr2RecYardsGiven(element)) <= 40">
           <mat-icon class="color-green">trending_up</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.wr2) < returnOpponentAvgWr2RecYardsGiven(element))">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr2) < returnOpponentAvgWr2RecYardsGiven(element))">
           <mat-icon class="color-orangeRed">trending_down</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.wr2) === returnOpponentAvgWr2RecYardsGiven(element))">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr2) === returnOpponentAvgWr2RecYardsGiven(element))">
           <mat-icon>trending_flat</mat-icon>
         </ng-container>
       </span>
       <span class="difference-span">
-        <ng-container *ngIf="(calculateReceiving(element.depthChartPlayers.wr2) - returnOpponentAvgWr2RecYardsGiven(element)) > 0">
+        <ng-container
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr2) - returnOpponentAvgWr2RecYardsGiven(element)) > 0">
           <span class="color-green">+</span>
         </ng-container>
-        <span><i>{{calculateReceiving(element.depthChartPlayers.wr2) - returnOpponentAvgWr2RecYardsGiven(element) | number: '1.0-0'}}</i></span>
+        <span><i>{{calculateReceiving(element.depthChartPlayers.wr2) - returnOpponentAvgWr2RecYardsGiven(element) |
+            number: '1.0-0'}}</i></span>
       </span>
       <span class="given-span color-crimson">{{returnOpponentAvgWr2RecYardsGiven(element) | number: '1.0-0'}}</span>
     </mat-cell>
@@ -226,10 +338,12 @@
 
   <ng-container matColumnDef="averageWr3YardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>WR3</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openWr3Dialog(element.depthChartPlayers.wr3)" [ngClass]="checkInjury(element.depthChartPlayers.wr3.injuryStatus)" >
+    <mat-cell *matCellDef="let element" (click)="openWr3Dialog(element.depthChartPlayers.wr3)"
+      [ngClass]="checkInjury(element.depthChartPlayers.wr3.injuryStatus)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.wr3.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
-      <span class="right-wrapper-span color-green">{{calculateReceiving(element.depthChartPlayers.wr3)| number: '1.0-0'}}</span>
+      <span class="right-wrapper-span color-green">{{calculateReceiving(element.depthChartPlayers.wr3)| number:
+        '1.0-0'}}</span>
     </mat-cell>
   </ng-container>
 
@@ -238,27 +352,29 @@
     <mat-cell *matCellDef="let element" (click)="openAllowedWr3Dialog(element.currentOpponentId)">
       <span>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.wr3) - returnOpponentAvgWr3RecYardsGiven(element)) > 40">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr3) - returnOpponentAvgWr3RecYardsGiven(element)) > 40">
           <mat-icon class="color-crimson">flash_auto</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="calculateReceiving(element.depthChartPlayers.wr3) > returnOpponentAvgWr3RecYardsGiven(element) && (element.depthChartPlayers.wr3 - returnOpponentAvgWr3RecYardsGiven(element)) <= 40">
+          *ngIf="calculateReceiving(element.depthChartPlayers.wr3) > returnOpponentAvgWr3RecYardsGiven(element) && (element.depthChartPlayers.wr3 - returnOpponentAvgWr3RecYardsGiven(element)) <= 40">
           <mat-icon class="color-green">trending_up</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.wr3) < returnOpponentAvgWr3RecYardsGiven(element))">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr3) < returnOpponentAvgWr3RecYardsGiven(element))">
           <mat-icon class="color-orangeRed">trending_down</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.wr3) === returnOpponentAvgWr3RecYardsGiven(element))">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr3) === returnOpponentAvgWr3RecYardsGiven(element))">
           <mat-icon>trending_flat</mat-icon>
         </ng-container>
       </span>
       <span class="difference-span">
-        <ng-container *ngIf="(calculateReceiving(element.depthChartPlayers.wr3) - returnOpponentAvgWr3RecYardsGiven(element)) > 0">
+        <ng-container
+          *ngIf="(calculateReceiving(element.depthChartPlayers.wr3) - returnOpponentAvgWr3RecYardsGiven(element)) > 0">
           <span class="color-green">+</span>
         </ng-container>
-        <span><i>{{calculateReceiving(element.depthChartPlayers.wr3) - returnOpponentAvgWr3RecYardsGiven(element) | number: '1.0-0'}}</i></span>
+        <span><i>{{calculateReceiving(element.depthChartPlayers.wr3) - returnOpponentAvgWr3RecYardsGiven(element) |
+            number: '1.0-0'}}</i></span>
       </span>
       <span class="given-span color-crimson">{{returnOpponentAvgWr3RecYardsGiven(element) | number: '1.0-0'}}</span>
     </mat-cell>
@@ -266,10 +382,12 @@
 
   <ng-container matColumnDef="averageTeYardsPerGame">
     <mat-header-cell *matHeaderCellDef mat-sort-header><b>TE</b></mat-header-cell>
-    <mat-cell *matCellDef="let element" (click)="openTeDialog(element.depthChartPlayers.te)" [ngClass]="checkInjury(element.depthChartPlayers.te.injuryStatus)" >
+    <mat-cell *matCellDef="let element" (click)="openTeDialog(element.depthChartPlayers.te)"
+      [ngClass]="checkInjury(element.depthChartPlayers.te.injuryStatus)">
       <span class="left-wrapper-span">{{element.depthChartPlayers.te.name}}</span>
       <mat-icon>arrow_forward</mat-icon>
-      <span class="right-wrapper-span color-green">{{calculateReceiving(element.depthChartPlayers.te)| number: '1.0-0'}}</span>
+      <span class="right-wrapper-span color-green">{{calculateReceiving(element.depthChartPlayers.te)| number:
+        '1.0-0'}}</span>
     </mat-cell>
   </ng-container>
 
@@ -278,27 +396,29 @@
     <mat-cell *matCellDef="let element" (click)="openAllowedTeDialog(element.currentOpponentId)">
       <span>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.te) - returnOpponentAvgTeRecYardsGiven(element)) > 40">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.te) - returnOpponentAvgTeRecYardsGiven(element)) > 40">
           <mat-icon class="color-crimson">flash_auto</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="calculateReceiving(element.depthChartPlayers.te) > returnOpponentAvgTeRecYardsGiven(element) && (element.depthChartPlayers.te - returnOpponentAvgTeRecYardsGiven(element)) <= 40">
+          *ngIf="calculateReceiving(element.depthChartPlayers.te) > returnOpponentAvgTeRecYardsGiven(element) && (element.depthChartPlayers.te - returnOpponentAvgTeRecYardsGiven(element)) <= 40">
           <mat-icon class="color-green">trending_up</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.te) === returnOpponentAvgTeRecYardsGiven(element))">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.te) === returnOpponentAvgTeRecYardsGiven(element))">
           <mat-icon class="color-orangeRed">trending_down</mat-icon>
         </ng-container>
         <ng-container
-        *ngIf="(calculateReceiving(element.depthChartPlayers.te) === returnOpponentAvgTeRecYardsGiven(element))">
+          *ngIf="(calculateReceiving(element.depthChartPlayers.te) === returnOpponentAvgTeRecYardsGiven(element))">
           <mat-icon>trending_flat</mat-icon>
         </ng-container>
       </span>
       <span class="difference-span">
-        <ng-container *ngIf="(calculateReceiving(element.depthChartPlayers.te) - returnOpponentAvgTeRecYardsGiven(element)) > 0">
+        <ng-container
+          *ngIf="(calculateReceiving(element.depthChartPlayers.te) - returnOpponentAvgTeRecYardsGiven(element)) > 0">
           <span class="color-green">+</span>
         </ng-container>
-        <span><i>{{calculateReceiving(element.depthChartPlayers.te) - returnOpponentAvgTeRecYardsGiven(element) | number: '1.0-0'}}</i></span>
+        <span><i>{{calculateReceiving(element.depthChartPlayers.te) - returnOpponentAvgTeRecYardsGiven(element) |
+            number: '1.0-0'}}</i></span>
       </span>
       <span class="given-span color-crimson">{{returnOpponentAvgTeRecYardsGiven(element) | number: '1.0-0'}}</span>
     </mat-cell>
