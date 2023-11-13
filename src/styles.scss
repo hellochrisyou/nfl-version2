@@ -1,4 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+.color-green {
+  color: green;
+}
+
+.color-orangeRed {
+  color: orangered;
+}
+
+.padding-left-1rem {
+  padding-left: 1rem;
+}
+
+button {
+  margin: 2rem;
+}
+
+mat-table.mat-mdc-table mat-cell.mat-mdc-cell, mat-table.mat-mdc-table mat-header-cell.mat-mdc-header-cell {
+  max-width:18rem !important;
+}

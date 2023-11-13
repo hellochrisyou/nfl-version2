@@ -9,6 +9,7 @@ import { TEAM_ID_NAME } from './shared/const/const';
 import { PreviousGameOpponentComponent } from './shared/component/previous-game-opponent/previous-game-opponent.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PassingPlayer, ReceivingPlayer, RushingPlayer } from './shared/models/interface';
+import { DateService } from './core/services/date';
 
 interface Team {
   value: string;
@@ -23,37 +24,49 @@ interface Team {
 })
 export class AppComponent implements OnInit {
   title = 'nfl-version2';
-
-  displayedColumns: string[] = ['teamName',
+  currentWeek: number = 0;
+  qbDisplayedColumns: string[] = ['teamName',
     'averagePassYardsPerGame',
-    'averagePassYardsPerGameGiven',
+    'averagePassYardsPerGameGiven'];
+  rb1DisplayedColumns: string[] = ['teamName',
     'averageRb1YardsPerGame',
     'averageRb1YardsPerGameGiven',
     'averageRb1RecYardsPerGame',
     'averageRb1RecYardsPerGameGiven',
+  ];
+  rb2DisplayedColumns: string[] = ['teamName',
     'averageRb2YardsPerGame',
     'averageRb2YardsPerGameGiven',
     'averageRb2RecYardsPerGame',
     'averageRb2RecYardsPerGameGiven',
+  ];
+  wr1DisplayedColumns: string[] = ['teamName',
     'averageWr1YardsPerGame',
     'averageWr1YardsPerGameGiven',
+  ];
+  wr2DisplayedColumns: string[] = ['teamName',
     'averageWr2YardsPerGame',
     'averageWr2YardsPerGameGiven',
+  ];
+  wr3DisplayedColumns: string[] = ['teamName',
     'averageWr3YardsPerGame',
     'averageWr3YardsPerGameGiven',
-    'averageTeYardsPerGame',
-    'averageTeYardsPerGameGiven'
   ];
+  teDisplayedColumns: string[] = ['teamName',
+    'averageTeYardsPerGame',
+    'averageTeYardsPerGameGiven',
+  ];
+
   dataSource: any;
   @ViewChild(MatSort) sort: any;
   noHighLowFormGroup: FormGroup = this.fb.group({
     toggleValue: [],
   });
-  toggleStatus = 'No High or Low';
   toggleValue: any;
 
   constructor(
-    private httpService: HttpService,
+    private dateService: DateService,
+    public httpService: HttpService,
     private dialog: MatDialog,
     private fb: FormBuilder
   ) {
@@ -62,13 +75,14 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.noHighLowFormGroup.valueChanges.subscribe(val => {
       if (val.toggleValue) {
-        this.toggleStatus = 'All Average';
+        this.httpService.toggleStatus = 'All Average';
       } else {
-        this.toggleStatus = 'No High or Low';
+        this.httpService.toggleStatus = 'No High or Low';
       }
       console.log(val);
     })
     this.httpService.initializeDepthChart();
+    this.currentWeek = this.dateService.currentWeek;
   }
 
   checkInjury(status: string) {
@@ -89,9 +103,9 @@ export class AppComponent implements OnInit {
     return '';
   }
 
-  openAllowedQbDialog(opponentId: string) {
+  openAllowedQbDialog(element: any) {
     let tmpOpponent = this.httpService.allTeams.find(team => {
-      return team.id === opponentId
+      return team.id === element.currentOpponentId
     });
     this.dialog.open(PreviousGameOpponentComponent, {
       data: {
@@ -103,28 +117,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  openRbRecDialog(player: RushingPlayer) {
-    this.dialog.open(PlayerPreviousGameComponent, {
-      data: {
-        player: player,
-        type: 'rushingReceiving'
-      },
-      height: '1200px',
-      width: '1200px',
-    });
-  }
-  calculateRbRec(player: RushingPlayer): number {
-    if (this.toggleStatus === 'No High or Low') {
-      return player.allReceivingYards / player.games.length;
-    } else {
-      let tmpData = this.sliceHighLow(player.games);
-      let tmpYards = 0;
-      tmpData.forEach(item => {
-        tmpYards += item.rbReceivingValue;
-      });
-      return tmpYards/tmpData.length;
-    }
-  }
   openAllowedRb1RecDialog(opponentId: string) {
     let tmpOpponent = this.httpService.allTeams.find(team => {
       return team.id === opponentId
@@ -132,7 +124,9 @@ export class AppComponent implements OnInit {
     this.dialog.open(PreviousGameOpponentComponent, {
       data: {
         team: tmpOpponent,
-        position: 'rb1Rec'
+        position: 'rb1Rec',
+        type: 'rbRec'
+
       },
       height: '1200px',
       width: '1200px',
@@ -145,48 +139,14 @@ export class AppComponent implements OnInit {
     this.dialog.open(PreviousGameOpponentComponent, {
       data: {
         team: tmpOpponent,
-        position: 'rb2Rec'
+        position: 'rb2Rec',
+        type: 'rbRec'
       },
       height: '1200px',
       width: '1200px',
     });
   }
 
-  returnOpponentAvgRb1RecYardsGiven(element: any): number {
-    if (element.currentOpponentId !== '') {
-      let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      if (this.toggleStatus === 'No High or Low') {
-        return this.httpService.allTeams[opponentIndex].allYardsGivenRb1Rec / this.httpService.allTeams[opponentIndex].allYardsGivenRb1RecCounter;
-      } else {
-        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesRb1);
-        let tmpYards = 0;
-        tmpData.forEach(item => {
-          tmpYards += item.rbReceivingValue;
-        });
-        return tmpYards/tmpData.length;
-      }
-    } else {
-      return 0;
-    }
-  }
-
-  returnOpponentAvgRb2RecYardsGiven(element: any): number {
-    if (element.currentOpponentId !== '') {
-      let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      if (this.toggleStatus === 'No High or Low') {
-        return this.httpService.allTeams[opponentIndex].allYardsGivenRb2Rec / this.httpService.allTeams[opponentIndex].allYardsGivenRb2RecCounter;
-      } else {
-        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesRb2);
-        let tmpYards = 0;
-        tmpData.forEach(item => {
-          tmpYards += item.rbReceivingValue;
-        });
-        return tmpYards/tmpData.length;
-      }
-    } else {
-      return 0;
-    }
-  }
 
   openAllowedRb1Dialog(opponentId: string) {
     let tmpOpponent = this.httpService.allTeams.find(team => {
@@ -270,119 +230,115 @@ export class AppComponent implements OnInit {
       width: '1200px',
     });
   }
-  openQbDialog(qb: any) {
+  openQbDialog(team: any) {
     this.dialog.open(PlayerPreviousGameComponent, {
       data: {
-        player: qb
+        player: team.depthChartPlayers.qb,
+        position: 'qb',
+        teamId: team.id
       },
       height: '1200px',
       width: '1200px',
     });
   }
 
-  openRb1Dialog(rb1: any) {
+  openRb1Dialog(team: any) {
     this.dialog.open(PlayerPreviousGameComponent, {
       data: {
-        player: rb1
+        player: team.depthChartPlayers.rb1,
+        position: 'rb1',
+        teamId: team.id
       },
       height: '1200px',
       width: '1200px',
     });
   }
 
-  openRb2Dialog(rb2: any) {
+  openRb2Dialog(team: any) {
     this.dialog.open(PlayerPreviousGameComponent, {
       data: {
-        player: rb2
+        player: team.depthChartPlayers.rb2,
+        position: 'rb2',
+        teamId: team.id
       },
       height: '1200px',
       width: '1200px',
     });
   }
 
-  openWr1Dialog(wr1: any) {
+  openWr1Dialog(team: any) {
     this.dialog.open(PlayerPreviousGameComponent, {
       data: {
-        player: wr1
+        player: team.depthChartPlayers.wr1,
+        position: 'wr1',
+        teamId: team.id
       },
       height: '1200px',
       width: '1200px',
     });
   }
 
-  openWr2Dialog(wr2: any) {
+  openWr2Dialog(team: any) {
     this.dialog.open(PlayerPreviousGameComponent, {
       data: {
-        player: wr2
+        player: team.depthChartPlayers.wr2,
+        position: 'wr2',
+        teamId: team.id
       },
       height: '1200px',
       width: '1200px',
     });
   }
 
-  openWr3Dialog(wr3: any) {
+  openWr3Dialog(team: any) {
     this.dialog.open(PlayerPreviousGameComponent, {
       data: {
-        player: wr3
+        player: team.depthChartPlayers.wr3,
+        position: 'wr3',
+        teamId: team.id
       },
       height: '1200px',
       width: '1200px',
     });
   }
 
-  openTeDialog(te: any) {
+  openTeDialog(team: any) {
     this.dialog.open(PlayerPreviousGameComponent, {
       data: {
-        player: te
+        player: team.depthChartPlayers.te,
+        position: 'te',
+        teamId: team.id
       },
       height: '1200px',
       width: '1200px',
     });
   }
-  sliceHighLow(value: any[]) {
-    value.sort((a, b) => a - b);
-    value = value.slice(1, value.length - 1);
-    return value;
-  }
-  calculateQb(value: PassingPlayer): number {
-    if (this.toggleStatus === 'No High or Low') {
-      return value.allPassingYards / value.games.length;
-    } else {
-      let tmpData = this.sliceHighLow(value.games);
-      let tmpYards = 0;
-      tmpData.forEach(item => {
-        tmpYards += item.value;
-      });
-      return tmpYards/tmpData.length;
-    }
+
+  openRbRec1Dialog(team: any) {
+    this.dialog.open(PlayerPreviousGameComponent, {
+      data: {
+        player: team.depthChartPlayers.rb1,
+        position: 'rb1Rec',
+        teamId: team.id,
+        type: 'rbRec'
+      },
+      height: '1200px',
+      width: '1200px',
+    });
   }
 
-  calculateRb(value: RushingPlayer): number {
-    if (this.toggleStatus === 'No High or Low') {
-      return value.allRushingYards / value.games.length;
-    } else {
-      let tmpData = this.sliceHighLow(value.games);
-      let tmpYards = 0;
-      tmpData.forEach(item => {
-        tmpYards += item.value;
-      });
-      return tmpYards/tmpData.length;
-    }
+  openRbRec2Dialog(team: any) {
+    this.dialog.open(PlayerPreviousGameComponent, {
+      data: {
+        player: team.depthChartPlayers.rb2,
+        position: 'rb2Rec',
+        teamId: team.id,
+        type: 'rbRec'
+      },
+      height: '1200px',
+      width: '1200px',
+    });
   }
-
-  calculateReceiving(value: ReceivingPlayer): number {
-    if (this.toggleStatus === 'No High or Low') {
-      return value.allReceivingYards / value.games.length;
-    } else {
-      let tmpData = this.sliceHighLow(value.games);
-      let tmpYards = 0;
-      tmpData.forEach(item => {
-        tmpYards += item.value;
-      });
-      return tmpYards/tmpData.length;
-    }
-  }
-
   downloadAllPositions() {
     this.httpService.initializeQbPlayers();
     this.httpService.initializeRb1Players();
@@ -392,150 +348,16 @@ export class AppComponent implements OnInit {
     this.httpService.initializeWr3Players();
     this.httpService.initializeTePlayers();
   }
-  finishInitialization() {
+  finishInitialization1() {
     this.httpService.initializeOpponentId();
+  }
+  finishInitialization2() {
     this.httpService.initializeAverageCalculations();
     this.httpService.initializeOpponentYdsGiven();
     this.dataSource = new MatTableDataSource(this.httpService.allTeams);
     this.dataSource.sort = this.sort;
   }
 
-  returnOpponentAvgPassYardsGiven(element: any) {
-    if (element.currentOpponentId !== '') {
-      let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      if (this.httpService.allTeams[opponentIndex] === undefined) {
-        console.log("🚀 ~ this.httpService.allTeams[opponentIndex]:", this.httpService.allTeams[opponentIndex])
-      }
-      if (this.toggleStatus === 'No High or Low') {
-        return this.httpService.allTeams[opponentIndex].allYardsGivenQb / this.httpService.allTeams[opponentIndex].allYardsGivenQbCounter;
-      } else {
-        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesQb);
-        let tmpYards = 0;
-        tmpData.forEach(item => {
-          tmpYards += item.value;
-        });
-        return tmpYards/tmpData.length;
-      }
-    } else {
-      return 0;
-    }
-  }
-  returnOpponentAvgRb1RushYardsGiven(element: any) {
-    if (element.currentOpponentId !== '') {
-      let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      if (this.toggleStatus === 'No High or Low') {
-        return this.httpService.allTeams[opponentIndex].allYardsGivenRb1 / this.httpService.allTeams[opponentIndex].allYardsGivenRb1Counter;
-      } else {
-        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesRb1);
-        let tmpYards = 0;
-        tmpData.forEach(item => {
-          tmpYards += item.value;
-        });
-        return tmpYards/tmpData.length;
-      }
-    } else {
-      return 0;
-    }
-  }
-  returnOpponentAvgRb2RushYardsGiven(element: any) {
-    if (element.currentOpponentId !== '') {
-      let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      if (this.toggleStatus === 'No High or Low') {
-        return this.httpService.allTeams[opponentIndex].allYardsGivenRb2 / this.httpService.allTeams[opponentIndex].allYardsGivenRb2Counter;
-      } else {
-        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesRb2);
-        let tmpYards = 0;
-        tmpData.forEach(item => {
-          tmpYards += item.value;
-        });
-        return tmpYards/tmpData.length;
-      }
-    }
-    else {
-      return 0;
-    }
-  }
-  returnOpponentAvgWr1RecYardsGiven(element: any) {
-    if (element.currentOpponentId !== '') {
-      let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      if (this.toggleStatus === 'No High or Low') {
-        return this.httpService.allTeams[opponentIndex].allYardsGivenWr1 / this.httpService.allTeams[opponentIndex].allYardsGivenWr1Counter;
-      } else {
-        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesWr1);
-        let tmpYards = 0;
-        tmpData.forEach(item => {
-          tmpYards += item.value;
-        });
-        return tmpYards/tmpData.length;
-      }
-    }
-    else {
-      return 0;
-    }
-  }
-  returnOpponentAvgWr2RecYardsGiven(element: any) {
-    if (element.currentOpponentId !== '') {
-      let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      if (this.toggleStatus === 'No High or Low') {
-        return this.httpService.allTeams[opponentIndex].allYardsGivenWr2 / this.httpService.allTeams[opponentIndex].allYardsGivenWr2Counter;
-      } else {
-        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesWr2);
-        let tmpYards = 0;
-        tmpData.forEach(item => {
-          tmpYards += item.value;
-        });
-        return tmpYards/tmpData.length;
-      }    }
-    else {
-      return 0;
-    }
-  }
-  returnOpponentAvgWr3RecYardsGiven(element: any) {
-    if (element.currentOpponentId !== '') {
-      let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      if (this.toggleStatus === 'No High or Low') {
-        return this.httpService.allTeams[opponentIndex].allYardsGivenWr3 / this.httpService.allTeams[opponentIndex].allYardsGivenWr3Counter;
-      } else {
-        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesWr3);
-        let tmpYards = 0;
-        tmpData.forEach(item => {
-          tmpYards += item.value;
-        });
-        return tmpYards/tmpData.length;
-      }
-    }
-    else {
-      return 0;
-    }
-  }
-  returnOpponentAvgTeRecYardsGiven(element: any) {
-    if (element.currentOpponentId !== '') {
-      let opponentIndex = this.httpService.findTeamIndex(element.currentOpponentId);
-      if (this.toggleStatus === 'No High or Low') {
-        return this.httpService.allTeams[opponentIndex].allYardsGivenTe / this.httpService.allTeams[opponentIndex].allYardsGivenTeCounter;
-      } else {
-        let tmpData = this.sliceHighLow(this.httpService.allTeams[opponentIndex].opponentGamesTe);
-        let tmpYards = 0;
-        tmpData.forEach(item => {
-          tmpYards += item.value;
-        });
-        return tmpYards/tmpData.length;
-      }
-    }
-    else {
-      return 0;
-    }
-  }
-  returnOpponentName(opponentId: string) {
-    if (opponentId !== '') {
-      let tmpTeam = this.httpService.allTeams.find(team => {
-        return (team.id === opponentId);
-      })
-      return tmpTeam?.displayName;
-    } else {
-      return 'BYE'
-    }
-  }
   sortColumn(event: any) {
     switch (event.active) {
       case 'averagePassYardsPerGame': {
@@ -550,9 +372,9 @@ export class AppComponent implements OnInit {
       }
       case 'averagePassYardsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.qb.allPassingYards / a.depthChartPlayers.qb.games.length) - this.returnOpponentAvgPassYardsGiven(a) < (b.depthChartPlayers.qb.allPassingYards / b.depthChartPlayers.qb.games.length) - this.returnOpponentAvgPassYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.qb.allPassingYards / a.depthChartPlayers.qb.games.length) - this.httpService.returnOpponentAvgPassYardsGiven(a.currentOpponentId!) < (b.depthChartPlayers.qb.allPassingYards / b.depthChartPlayers.qb.games.length) - this.httpService.returnOpponentAvgPassYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.qb.allPassingYards / a.depthChartPlayers.qb.games.length) - this.returnOpponentAvgPassYardsGiven(a) > (b.depthChartPlayers.qb.allPassingYards / b.depthChartPlayers.qb.games.length) - this.returnOpponentAvgPassYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.qb.allPassingYards / a.depthChartPlayers.qb.games.length) - this.httpService.returnOpponentAvgPassYardsGiven(a.currentOpponentId!) > (b.depthChartPlayers.qb.allPassingYards / b.depthChartPlayers.qb.games.length) - this.httpService.returnOpponentAvgPassYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else {
 
         }
@@ -570,9 +392,9 @@ export class AppComponent implements OnInit {
       }
       case 'averageRb1YardsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb1.allRushingYards / a.depthChartPlayers.rb1.games.length) - this.returnOpponentAvgRb1RushYardsGiven(a) < (b.depthChartPlayers.rb1.allRushingYards / b.depthChartPlayers.rb1.games.length) - this.returnOpponentAvgRb1RushYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb1.allRushingYards / a.depthChartPlayers.rb1.games.length) - this.httpService.returnOpponentAvgRb1RushYardsGiven(a.currentOpponentId!) < (b.depthChartPlayers.rb1.allRushingYards / b.depthChartPlayers.rb1.games.length) - this.httpService.returnOpponentAvgRb1RushYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb1.allRushingYards / a.depthChartPlayers.rb1.games.length) - this.returnOpponentAvgRb1RushYardsGiven(a) > (b.depthChartPlayers.rb1.allRushingYards / b.depthChartPlayers.rb1.games.length) - this.returnOpponentAvgRb1RushYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb1.allRushingYards / a.depthChartPlayers.rb1.games.length) - this.httpService.returnOpponentAvgRb1RushYardsGiven(a.currentOpponentId!) > (b.depthChartPlayers.rb1.allRushingYards / b.depthChartPlayers.rb1.games.length) - this.httpService.returnOpponentAvgRb1RushYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else {
 
         }
@@ -590,9 +412,9 @@ export class AppComponent implements OnInit {
       }
       case 'averageRb1RecYardsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb1.allReceivingYards / a.depthChartPlayers.rb1.games.length) - this.returnOpponentAvgRb1RecYardsGiven(a) < (b.depthChartPlayers.rb1.allReceivingYards / b.depthChartPlayers.rb1.games.length) - this.returnOpponentAvgRb1RecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb1.allReceivingYards / a.depthChartPlayers.rb1.games.length) - this.httpService.returnOpponentAvgRb1RecYardsGiven(a.currentOpponentId!) < (b.depthChartPlayers.rb1.allReceivingYards / b.depthChartPlayers.rb1.games.length) - this.httpService.returnOpponentAvgRb1RecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb1.allReceivingYards / a.depthChartPlayers.rb1.games.length) - this.returnOpponentAvgRb1RecYardsGiven(a) > (b.depthChartPlayers.rb1.allReceivingYards / b.depthChartPlayers.rb1.games.length) - this.returnOpponentAvgRb1RecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb1.allReceivingYards / a.depthChartPlayers.rb1.games.length) - this.httpService.returnOpponentAvgRb1RecYardsGiven(a.currentOpponentId!) > (b.depthChartPlayers.rb1.allReceivingYards / b.depthChartPlayers.rb1.games.length) - this.httpService.returnOpponentAvgRb1RecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else {
 
         }
@@ -610,9 +432,9 @@ export class AppComponent implements OnInit {
       }
       case 'averageRb2RecYardsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb2.allReceivingYards / a.depthChartPlayers.rb2.games.length) - this.returnOpponentAvgRb2RecYardsGiven(a) < (b.depthChartPlayers.rb2.allReceivingYards / b.depthChartPlayers.rb2.games.length) - this.returnOpponentAvgRb2RecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb2.allReceivingYards / a.depthChartPlayers.rb2.games.length) - this.httpService.returnOpponentAvgRb2RecYardsGiven(a.currentOpponentId!) < (b.depthChartPlayers.rb2.allReceivingYards / b.depthChartPlayers.rb2.games.length) - this.httpService.returnOpponentAvgRb2RecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb2.allReceivingYards / a.depthChartPlayers.rb2.games.length) - this.returnOpponentAvgRb2RecYardsGiven(a) > (b.depthChartPlayers.rb2.allReceivingYards / b.depthChartPlayers.rb2.games.length) - this.returnOpponentAvgRb2RecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb2.allReceivingYards / a.depthChartPlayers.rb2.games.length) - this.httpService.returnOpponentAvgRb2RecYardsGiven(a.currentOpponentId!) > (b.depthChartPlayers.rb2.allReceivingYards / b.depthChartPlayers.rb2.games.length) - this.httpService.returnOpponentAvgRb2RecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else {
 
         }
@@ -630,9 +452,9 @@ export class AppComponent implements OnInit {
       }
       case 'averageRb2YardsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb2.allRushingYards / a.depthChartPlayers.rb2.games.length) - this.returnOpponentAvgRb2RushYardsGiven(a) < (b.depthChartPlayers.rb2.allRushingYards / b.depthChartPlayers.rb2.games.length) - this.returnOpponentAvgRb2RushYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb2.allRushingYards / a.depthChartPlayers.rb2.games.length) - this.httpService.returnOpponentAvgRb2RushYardsGiven(a.currentOpponentId!) < (b.depthChartPlayers.rb2.allRushingYards / b.depthChartPlayers.rb2.games.length) - this.httpService.returnOpponentAvgRb2RushYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb2.allRushingYards / a.depthChartPlayers.rb2.games.length) - this.returnOpponentAvgRb2RushYardsGiven(a) > (b.depthChartPlayers.rb2.allRushingYards / b.depthChartPlayers.rb2.games.length) - this.returnOpponentAvgRb2RushYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.rb2.allRushingYards / a.depthChartPlayers.rb2.games.length) - this.httpService.returnOpponentAvgRb2RushYardsGiven(a.currentOpponentId!) > (b.depthChartPlayers.rb2.allRushingYards / b.depthChartPlayers.rb2.games.length) - this.httpService.returnOpponentAvgRb2RushYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else {
 
         }
@@ -650,9 +472,9 @@ export class AppComponent implements OnInit {
       }
       case 'averageWr1YardsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr1.allReceivingYards / a.depthChartPlayers.wr1.games.length) - this.returnOpponentAvgWr1RecYardsGiven(a) < (b.depthChartPlayers.wr1.allReceivingYards / b.depthChartPlayers.wr1.games.length) - this.returnOpponentAvgWr1RecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr1.allReceivingYards / a.depthChartPlayers.wr1.games.length) - this.httpService.returnOpponentAvgWr1RecYardsGiven(a.currentOpponentId!) < (b.depthChartPlayers.wr1.allReceivingYards / b.depthChartPlayers.wr1.games.length) - this.httpService.returnOpponentAvgWr1RecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr1.allReceivingYards / a.depthChartPlayers.wr1.games.length) - this.returnOpponentAvgWr1RecYardsGiven(a) > (b.depthChartPlayers.wr1.allReceivingYards / b.depthChartPlayers.wr1.games.length) - this.returnOpponentAvgWr1RecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr1.allReceivingYards / a.depthChartPlayers.wr1.games.length) - this.httpService.returnOpponentAvgWr1RecYardsGiven(a.currentOpponentId!) > (b.depthChartPlayers.wr1.allReceivingYards / b.depthChartPlayers.wr1.games.length) - this.httpService.returnOpponentAvgWr1RecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else {
 
         }
@@ -670,9 +492,9 @@ export class AppComponent implements OnInit {
       }
       case 'averageWr2YardsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr2.allReceivingYards / a.depthChartPlayers.wr2.games.length) - this.returnOpponentAvgWr2RecYardsGiven(a) < (b.depthChartPlayers.wr2.allReceivingYards / b.depthChartPlayers.wr2.games.length) - this.returnOpponentAvgWr2RecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr2.allReceivingYards / a.depthChartPlayers.wr2.games.length) - this.httpService.returnOpponentAvgWr2RecYardsGiven(a.currentOpponentId!) < (b.depthChartPlayers.wr2.allReceivingYards / b.depthChartPlayers.wr2.games.length) - this.httpService.returnOpponentAvgWr2RecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr2.allReceivingYards / a.depthChartPlayers.wr2.games.length) - this.returnOpponentAvgWr2RecYardsGiven(a) > (b.depthChartPlayers.wr2.allReceivingYards / b.depthChartPlayers.wr2.games.length) - this.returnOpponentAvgWr2RecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr2.allReceivingYards / a.depthChartPlayers.wr2.games.length) - this.httpService.returnOpponentAvgWr2RecYardsGiven(a.currentOpponentId!) > (b.depthChartPlayers.wr2.allReceivingYards / b.depthChartPlayers.wr2.games.length) - this.httpService.returnOpponentAvgWr2RecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else {
 
         }
@@ -690,9 +512,9 @@ export class AppComponent implements OnInit {
       }
       case 'averageWr3YardsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr3.allReceivingYards / a.depthChartPlayers.wr3.games.length) - this.returnOpponentAvgWr3RecYardsGiven(a) < (b.depthChartPlayers.wr3.allReceivingYards / b.depthChartPlayers.wr3.games.length) - this.returnOpponentAvgWr3RecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr3.allReceivingYards / a.depthChartPlayers.wr3.games.length) - this.httpService.returnOpponentAvgWr3RecYardsGiven(a.currentOpponentId!) < (b.depthChartPlayers.wr3.allReceivingYards / b.depthChartPlayers.wr3.games.length) - this.httpService.returnOpponentAvgWr3RecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr3.allReceivingYards / a.depthChartPlayers.wr3.games.length) - this.returnOpponentAvgWr3RecYardsGiven(a) > (b.depthChartPlayers.wr3.allReceivingYards / b.depthChartPlayers.wr3.games.length) - this.returnOpponentAvgWr3RecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.wr3.allReceivingYards / a.depthChartPlayers.wr3.games.length) - this.httpService.returnOpponentAvgWr3RecYardsGiven(a.currentOpponentId!) > (b.depthChartPlayers.wr3.allReceivingYards / b.depthChartPlayers.wr3.games.length) - this.httpService.returnOpponentAvgWr3RecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else {
 
         }
@@ -710,9 +532,9 @@ export class AppComponent implements OnInit {
       }
       case 'averageTeYardsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.te.allReceivingYards / a.depthChartPlayers.te.games.length) - this.returnOpponentAvgTeRecYardsGiven(a) < (b.depthChartPlayers.te.allReceivingYards / b.depthChartPlayers.te.games.length) - this.returnOpponentAvgTeRecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.te.allReceivingYards / a.depthChartPlayers.te.games.length) - this.httpService.returnOpponentAvgTeRecYardsGiven(a.currentOpponentId!) < (b.depthChartPlayers.te.allReceivingYards / b.depthChartPlayers.te.games.length) - this.httpService.returnOpponentAvgTeRecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.te.allReceivingYards / a.depthChartPlayers.te.games.length) - this.returnOpponentAvgTeRecYardsGiven(a) > (b.depthChartPlayers.te.allReceivingYards / b.depthChartPlayers.te.games.length) - this.returnOpponentAvgTeRecYardsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpService.allTeams.sort((a, b) => ((a.depthChartPlayers.te.allReceivingYards / a.depthChartPlayers.te.games.length) - this.httpService.returnOpponentAvgTeRecYardsGiven(a.currentOpponentId!) > (b.depthChartPlayers.te.allReceivingYards / b.depthChartPlayers.te.games.length) - this.httpService.returnOpponentAvgTeRecYardsGiven(b.currentOpponentId!) ? -1 : 1)));
         } else {
 
         }

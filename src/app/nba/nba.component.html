@@ -1,0 +1,1050 @@
+<button mat-raised-button (click)="downloadPlayers()" color="accent">Download Players</button>
+
+<button mat-raised-button (click)="processData()" color="primary">Process Data</button>
+<form class="example-form" [formGroup]="noHighLowFormGroup">
+  <mat-slide-toggle formControlName="toggleValue" [checked]="toggleValue">Toggle {{httpNbaService.toggleStatus}}</mat-slide-toggle>
+</form>
+<div class="key-wrapper" fxLayout="row" fxLayoutAlign="space-around center row wrap">
+  <div fxFlex class="bg-grey">Day-To-Day</div>
+  <div fxFlex class="bg-red">Out</div>
+</div>
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+  <mat-tab label="PG">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 nba-table" matSort (matSortChange)="sortColumn($event)">
+      <ng-container matColumnDef="teamName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header sticky> Team </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <span [ngClass]="element.currentAwayHome === 'home' ? 'bg-grey':''"
+            class="team">{{element.displayName}}</span> <i class="vs-padding">vs </i> <i class="opponent">
+            {{httpNbaService.returnOpponentName(element.currentOpponentId)}} | {{element.date}}</i></mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="averagePgPointsPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>PG</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openPgDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.pg.injuryStatus)">
+          <span class="left-wrapper-span">{{element.depthChartPlayers.pg.name}}</span>
+          <mat-icon>arrow_forward</mat-icon>
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculatePg(element.depthChartPlayers.pg)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePgPointsPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedPgDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculatePg(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgPointsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculatePg(element.depthChartPlayers.pg) > httpNbaService.returnOpponentAvgPgPointsGiven(element.currentOpponentId) && (element.depthChartPlayers.pg - httpNbaService.returnOpponentAvgPgPointsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculatePg(element.depthChartPlayers.pg) < httpNbaService.returnOpponentAvgPgPointsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculatePg(element.depthChartPlayers.pg) === httpNbaService.returnOpponentAvgPgPointsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculatePg(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgPointsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculatePg(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgPointsGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgPgPointsGiven(element.currentOpponentId)|number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePgAssistsPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Pg Assists</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openPgAssistsDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.pg.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateAssists(element.depthChartPlayers.pg)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePgAssistsPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedPgAssistsDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgAssistsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateAssists(element.depthChartPlayers.pg) > httpNbaService.returnOpponentAvgPgAssistsGiven(element.currentOpponentId) && (element.depthChartPlayers.pg - httpNbaService.returnOpponentAvgPgAssistsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.pg) < httpNbaService.returnOpponentAvgPgAssistsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.pg) === httpNbaService.returnOpponentAvgPgAssistsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgAssistsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateAssists(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgAssistsGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgPgAssistsGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePgThreesPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Pg Threes</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openPgThreesDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.pg.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateThrees(element.depthChartPlayers.pg)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePgThreesPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedPgThreesDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgThreesGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateThrees(element.depthChartPlayers.pg) > httpNbaService.returnOpponentAvgPgThreesGiven(element.currentOpponentId) && (element.depthChartPlayers.pg - httpNbaService.returnOpponentAvgPgThreesGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.pg) < httpNbaService.returnOpponentAvgPgThreesGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.pg) === httpNbaService.returnOpponentAvgPgThreesGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgThreesGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateThrees(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgThreesGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgPgThreesGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePgBlocksPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Pg Blocks</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openBlocksDialog(element.depthChartPlayers.pg)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.pg.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateBlocks(element.depthChartPlayers.pg)| number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePgBlocksPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedBlocksDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgBlocksGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateBlocks(element.depthChartPlayers.pg) > httpNbaService.returnOpponentAvgPgBlocksGiven(element.currentOpponentId) && (element.depthChartPlayers.pg - httpNbaService.returnOpponentAvgPgBlocksGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.pg) < httpNbaService.returnOpponentAvgPgBlocksGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.pg) === httpNbaService.returnOpponentAvgPgBlocksGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgBlocksGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateBlocks(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgBlocksGiven(element.currentOpponentId) | number:
+                '1.1-2'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgPgBlocksGiven(element.currentOpponentId) | number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePgRebPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Pg Rebound</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openDefensiveReboundDialog(element.depthChartPlayers.pg)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.pg.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateRebounds(element.depthChartPlayers.pg)| number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePgRebPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateRebounds(element.depthChartPlayers.pg) > httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(element.currentOpponentId) && (element.depthChartPlayers.pg - httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.pg) < httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.pg) === httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateRebounds(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(element.currentOpponentId) | number:
+                '1.1-2'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(element.currentOpponentId) | number: '2.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="pgDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: pgDisplayedColumns;"></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="PF ">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 nba-table" matSort (matSortChange)="sortColumn($event)">
+      <ng-container matColumnDef="teamName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header sticky> Team </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <span [ngClass]="element.currentAwayHome === 'home' ? 'bg-grey':''"
+            class="team">{{element.displayName}}</span> <i class="vs-padding">vs </i> <i class="opponent">
+            {{httpNbaService.returnOpponentName(element.currentOpponentId)}} | {{element.date}}</i></mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="averagePfPointsPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>PF</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openPfDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.pf.injuryStatus)">
+          <span class="left-wrapper-span">{{element.depthChartPlayers.pf.name}}</span>
+          <mat-icon>arrow_forward</mat-icon>
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculatePf(element.depthChartPlayers.pf)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePfPointsPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedPfDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculatePf(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfPointsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculatePf(element.depthChartPlayers.pf) > httpNbaService.returnOpponentAvgPfPointsGiven(element.currentOpponentId) && (element.depthChartPlayers.pf - httpNbaService.returnOpponentAvgPfPointsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculatePf(element.depthChartPlayers.pf) < httpNbaService.returnOpponentAvgPfPointsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculatePf(element.depthChartPlayers.pf) === httpNbaService.returnOpponentAvgPfPointsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculatePf(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfPointsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculatePf(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfPointsGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgPfPointsGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePfAssistsPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>PF Assists</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openPfAssistsDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.pf.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateAssists(element.depthChartPlayers.pf)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePfAssistsPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedPfAssistsDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfAssistsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateAssists(element.depthChartPlayers.pf) > httpNbaService.returnOpponentAvgPfAssistsGiven(element.currentOpponentId) && (element.depthChartPlayers.pf - httpNbaService.returnOpponentAvgPfAssistsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.pf) < httpNbaService.returnOpponentAvgPfAssistsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.pf) === httpNbaService.returnOpponentAvgPfAssistsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfAssistsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateAssists(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfAssistsGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgPfAssistsGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePfThreesPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>PF Threes</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openPfThreesDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.pf.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateThrees(element.depthChartPlayers.pf)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePfThreesPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedPfThreesDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfThreesGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateThrees(element.depthChartPlayers.pf) > httpNbaService.returnOpponentAvgPfThreesGiven(element.currentOpponentId) && (element.depthChartPlayers.pf - httpNbaService.returnOpponentAvgPfThreesGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.pf) < httpNbaService.returnOpponentAvgPfThreesGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.pf) === httpNbaService.returnOpponentAvgPfThreesGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfThreesGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateThrees(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfThreesGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgPfThreesGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+       <ng-container matColumnDef="averagePfBlocksPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>PF Blocks</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openBlocksDialog(element.depthChartPlayers.pf)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.pf.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateBlocks(element.depthChartPlayers.pf)| number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePfBlocksPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">PF Blocks ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedBlocksDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfBlocksGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateBlocks(element.depthChartPlayers.pf) > httpNbaService.returnOpponentAvgPfBlocksGiven(element.currentOpponentId) && (element.depthChartPlayers.pf - httpNbaService.returnOpponentAvgPfBlocksGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.pf) < httpNbaService.returnOpponentAvgPfBlocksGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.pf) === httpNbaService.returnOpponentAvgPfBlocksGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfBlocksGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateBlocks(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfBlocksGiven(element.currentOpponentId) | number:
+                '1.1-2'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgPfBlocksGiven(element.currentOpponentId) | number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePfRebPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>PF Rebound</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openDefensiveReboundDialog(element.depthChartPlayers.pf)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.pf.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateRebounds(element.depthChartPlayers.pf)| number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averagePfRebPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">PF Rebound ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateRebounds(element.depthChartPlayers.pf) > httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(element.currentOpponentId) && (element.depthChartPlayers.pf - httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.pf) < httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.pf) === httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateRebounds(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(element.currentOpponentId) | number:
+                '1.1-2'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(element.currentOpponentId) | number: '2.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="pfDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: pfDisplayedColumns;"></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="C">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 nba-table" matSort (matSortChange)="sortColumn($event)">
+      <ng-container matColumnDef="teamName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header sticky> Team </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <span [ngClass]="element.currentAwayHome === 'home' ? 'bg-grey':''"
+            class="team">{{element.displayName}}</span> <i class="vs-padding">vs </i> <i class="opponent">
+            {{httpNbaService.returnOpponentName(element.currentOpponentId)}} | {{element.date}}</i></mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="averageCPointsPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>C</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openCDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.c.injuryStatus)">
+          <span class="left-wrapper-span">{{element.depthChartPlayers.c.name}}</span>
+          <mat-icon>arrow_forward</mat-icon>
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateC(element.depthChartPlayers.c)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageCPointsPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedCDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateC(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCPointsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateC(element.depthChartPlayers.c) > httpNbaService.returnOpponentAvgCPointsGiven(element.currentOpponentId) && (element.depthChartPlayers.c - httpNbaService.returnOpponentAvgCPointsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateC(element.depthChartPlayers.c) < httpNbaService.returnOpponentAvgCPointsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateC(element.depthChartPlayers.c) === httpNbaService.returnOpponentAvgCPointsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculatePg(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCPointsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculatePg(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCPointsGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgCPointsGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageCAssistsPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>C Assists</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openCAssistsDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.c.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateAssists(element.depthChartPlayers.c)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageCAssistsPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedCAssistsDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCAssistsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateAssists(element.depthChartPlayers.c) > httpNbaService.returnOpponentAvgCAssistsGiven(element.currentOpponentId) && (element.depthChartPlayers.c - httpNbaService.returnOpponentAvgCAssistsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.c) < httpNbaService.returnOpponentAvgCAssistsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.c) === httpNbaService.returnOpponentAvgCAssistsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCAssistsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateAssists(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCAssistsGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgCAssistsGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageCThreesPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>C Threes</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openCThreesDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.c.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateThrees(element.depthChartPlayers.c)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageCThreesPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedCThreesDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCThreesGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateThrees(element.depthChartPlayers.c) > httpNbaService.returnOpponentAvgCThreesGiven(element.currentOpponentId) && (element.depthChartPlayers.c - httpNbaService.returnOpponentAvgCThreesGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.c) < httpNbaService.returnOpponentAvgCThreesGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.c) === httpNbaService.returnOpponentAvgCThreesGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCThreesGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateThrees(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCThreesGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgCThreesGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageCBlocksPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>C Blocks</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openBlocksDialog(element.depthChartPlayers.c)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.c.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateBlocks(element.depthChartPlayers.c)| number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageCBlocksPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedBlocksDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCBlocksGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateBlocks(element.depthChartPlayers.c) > httpNbaService.returnOpponentAvgCBlocksGiven(element.currentOpponentId) && (element.depthChartPlayers.c - httpNbaService.returnOpponentAvgCBlocksGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.c) < httpNbaService.returnOpponentAvgCBlocksGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.c) === httpNbaService.returnOpponentAvgCBlocksGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCBlocksGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateBlocks(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCBlocksGiven(element.currentOpponentId) | number:
+                '1.1-2'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgCBlocksGiven(element.currentOpponentId) | number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageCRebPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>C Rebound</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openDefensiveReboundDialog(element.depthChartPlayers.c)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.c.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateRebounds(element.depthChartPlayers.c)| number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageCRebPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateRebounds(element.depthChartPlayers.c) > httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(element.currentOpponentId) && (element.depthChartPlayers.c - httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.c) < httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.c) === httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateRebounds(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(element.currentOpponentId) | number:
+                '1.1-2'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(element.currentOpponentId) | number: '2.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="cDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: cDisplayedColumns;"></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="SF">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 nba-table" matSort (matSortChange)="sortColumn($event)">
+      <ng-container matColumnDef="teamName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header sticky> Team </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <span [ngClass]="element.currentAwayHome === 'home' ? 'bg-grey':''"
+            class="team">{{element.displayName}}</span> <i class="vs-padding">vs </i> <i class="opponent">
+            {{httpNbaService.returnOpponentName(element.currentOpponentId)}} | {{element.date}}</i></mat-cell>
+      </ng-container><ng-container matColumnDef="averageSfPointsPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SF</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openSfDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.sf.injuryStatus)">
+          <span class="left-wrapper-span">{{element.depthChartPlayers.sf.name}}</span>
+          <mat-icon>arrow_forward</mat-icon>
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateSf(element.depthChartPlayers.sf)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSfPointsPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedSfDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateSf(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfPointsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateSf(element.depthChartPlayers.sf) > httpNbaService.returnOpponentAvgSfPointsGiven(element.currentOpponentId) && (element.depthChartPlayers.sf - httpNbaService.returnOpponentAvgSfPointsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateSf(element.depthChartPlayers.sf) < httpNbaService.returnOpponentAvgSfPointsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateSf(element.depthChartPlayers.sf) === httpNbaService.returnOpponentAvgPgPointsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateSf(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfPointsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateSf(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfPointsGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgSfPointsGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSfAssistsPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SF Assists</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openSfAssistsDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.sf.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateAssists(element.depthChartPlayers.sf)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSfAssistsPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedSfAssistsDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfAssistsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateAssists(element.depthChartPlayers.sf) > httpNbaService.returnOpponentAvgSfAssistsGiven(element.currentOpponentId) && (element.depthChartPlayers.sf - httpNbaService.returnOpponentAvgSfAssistsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.sf) < httpNbaService.returnOpponentAvgSfAssistsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.sf) === httpNbaService.returnOpponentAvgSfAssistsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfAssistsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateAssists(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfAssistsGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgSfAssistsGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSfThreesPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SF Threes</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openSfThreesDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.sf.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateThrees(element.depthChartPlayers.sf)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSfThreesPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedSfThreesDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfThreesGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateThrees(element.depthChartPlayers.sf) > httpNbaService.returnOpponentAvgSfThreesGiven(element.currentOpponentId) && (element.depthChartPlayers.sf - httpNbaService.returnOpponentAvgSfThreesGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.sf) < httpNbaService.returnOpponentAvgSfThreesGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.sf) === httpNbaService.returnOpponentAvgSfThreesGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfThreesGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateThrees(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfThreesGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgSfThreesGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSfBlocksPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SF Blocks</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openBlocksDialog(element.depthChartPlayers.sf)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.sf.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateBlocks(element.depthChartPlayers.sf)| number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSfBlocksPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedBlocksDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfBlocksGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateBlocks(element.depthChartPlayers.sf) > httpNbaService.returnOpponentAvgSfBlocksGiven(element.currentOpponentId) && (element.depthChartPlayers.sf - httpNbaService.returnOpponentAvgSfBlocksGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.sf) < httpNbaService.returnOpponentAvgSfBlocksGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.sf) === httpNbaService.returnOpponentAvgSfBlocksGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfBlocksGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateBlocks(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfBlocksGiven(element.currentOpponentId) | number:
+                '1.1-2'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgSfBlocksGiven(element.currentOpponentId) | number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSfRebPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SF Rebound</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openDefensiveReboundDialog(element.depthChartPlayers.sf)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.sf.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateRebounds(element.depthChartPlayers.sf)| number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSfRebPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateRebounds(element.depthChartPlayers.sf) > httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(element.currentOpponentId) && (element.depthChartPlayers.sf - httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.sf) < httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.sf) === httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateRebounds(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(element.currentOpponentId) | number:
+                '1.1-2'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(element.currentOpponentId) | number: '2.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="sfDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: sfDisplayedColumns;"></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="SG">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 nba-table" matSort (matSortChange)="sortColumn($event)">
+      <ng-container matColumnDef="teamName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header sticky> Team </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <span [ngClass]="element.currentAwayHome === 'home' ? 'bg-grey':''"
+            class="team">{{element.displayName}}</span> <i class="vs-padding">vs </i> <i class="opponent">
+            {{httpNbaService.returnOpponentName(element.currentOpponentId)}} | {{element.date}}</i></mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="averageSgPointsPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SG</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openSgDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.sg.injuryStatus)">
+          <span class="left-wrapper-span">{{element.depthChartPlayers.sg.name}}</span>
+          <mat-icon>arrow_forward</mat-icon>
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateSg(element.depthChartPlayers.sg)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSgPointsPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedSgDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateSg(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgPointsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateSg(element.depthChartPlayers.sg) > httpNbaService.returnOpponentAvgSgPointsGiven(element.currentOpponentId) && (element.depthChartPlayers.sg - httpNbaService.returnOpponentAvgSgPointsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateSg(element.depthChartPlayers.sg) < httpNbaService.returnOpponentAvgSgPointsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateSg(element.depthChartPlayers.sg) === httpNbaService.returnOpponentAvgSgPointsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateSg(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgPointsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateSg(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgPointsGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgSgPointsGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSgAssistsPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SG Assists</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openSgAssistsDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.sg.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateAssists(element.depthChartPlayers.sg)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSgAssistsPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedSgAssistsDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgAssistsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateAssists(element.depthChartPlayers.sg) > httpNbaService.returnOpponentAvgSgAssistsGiven(element.currentOpponentId) && (element.depthChartPlayers.sg - httpNbaService.returnOpponentAvgSgAssistsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.sg) < httpNbaService.returnOpponentAvgSgAssistsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.sg) === httpNbaService.returnOpponentAvgSgAssistsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateAssists(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgAssistsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateAssists(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgAssistsGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgSgAssistsGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSgThreesPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SG Threes</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openSgThreesDialog(element)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.sg.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateThrees(element.depthChartPlayers.sg)| number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSgThreesPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedSgThreesDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgThreesGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateThrees(element.depthChartPlayers.sg) > httpNbaService.returnOpponentAvgSgThreesGiven(element.currentOpponentId) && (element.depthChartPlayers.sg - httpNbaService.returnOpponentAvgSgThreesGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.sg) < httpNbaService.returnOpponentAvgSgThreesGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.sg) === httpNbaService.returnOpponentAvgSgThreesGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateThrees(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgThreesGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateThrees(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgThreesGiven(element.currentOpponentId) | number:
+                '1.0-0'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgSgThreesGiven(element.currentOpponentId) | number: '1.0-0'}}</span>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="averageSgBlocksPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SG Blocks</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openBlocksDialog(element.depthChartPlayers.sg)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.sg.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateBlocks(element.depthChartPlayers.sg)| number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSgBlocksPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedBlocksDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgBlocksGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateBlocks(element.depthChartPlayers.sg) > httpNbaService.returnOpponentAvgSgBlocksGiven(element.currentOpponentId) && (element.depthChartPlayers.sg - httpNbaService.returnOpponentAvgSgBlocksGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.sg) < httpNbaService.returnOpponentAvgSgBlocksGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.sg) === httpNbaService.returnOpponentAvgSgBlocksGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateBlocks(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgBlocksGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateBlocks(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgBlocksGiven(element.currentOpponentId) | number:
+                '1.1-2'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgSgBlocksGiven(element.currentOpponentId) | number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSgRebPerGame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SG Rebound</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openDefensiveReboundDialog(element.depthChartPlayers.sg)"
+          [ngClass]="httpNbaService.checkInjury(element.depthChartPlayers.sg.injuryStatus)">
+          <span class="right-wrapper-span color-green">{{httpNbaService.calculateRebounds(element.depthChartPlayers.sg)| number: '1.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="averageSgRebPerGameGiven">
+        <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId)">
+          <span>
+            <ng-container
+              *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(element.currentOpponentId)) < -25">
+              <mat-icon class="color-crimson">flash_auto</mat-icon>
+            </ng-container>
+            <ng-container
+              *ngIf="httpNbaService.calculateRebounds(element.depthChartPlayers.sg) > httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(element.currentOpponentId) && (element.depthChartPlayers.sg - httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(element.currentOpponentId)) <= 40">
+              <mat-icon class="color-green">trending_up</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.sg) < httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(element.currentOpponentId))">
+              <mat-icon class="color-orangeRed">trending_down</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.sg) === httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(element.currentOpponentId))">
+              <mat-icon>trending_flat</mat-icon>
+            </ng-container>
+          </span>
+          <span class="difference-span">
+            <ng-container
+              *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(element.currentOpponentId)) > 0">
+              <span class="color-green">+</span>
+            </ng-container>
+            <span><i>{{httpNbaService.calculateRebounds(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(element.currentOpponentId) | number:
+                '1.1-2'}}</i></span>
+          </span>
+          <span class="given-span color-crimson">{{httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(element.currentOpponentId) | number: '2.1-2'}}</span>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="sgDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: sgDisplayedColumns;"></mat-row>
+    </mat-table>
+  </mat-tab>
+</mat-tab-group>

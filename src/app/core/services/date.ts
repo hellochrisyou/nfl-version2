@@ -11,9 +11,9 @@ export class DateService {
   week5 = new Date('2023-10-04');
   week6 = new Date('2023-10-10');
   week7 = new Date('2023-10-18');
-  week8 = new Date('2023-10-25');
+  week8 = new Date('2023-10-24');
   week9 = new Date('2023-11-01');
-  week10 = new Date('2023-11-08');
+  week10 = new Date('2023-11-07');
   week11 = new Date('2023-11-15');
   week12 = new Date('2023-11-22');
   week13 = new Date('2023-11-29');
@@ -48,67 +48,67 @@ export class DateService {
       } else {
         return false;
       }
-    }else if (this.currentWeek === 7) {
-      if (weekInput > this.week7 && weekInput < this.week8) {
+    }else if (this.currentWeek <= 7) {
+      if (weekInput >= this.week7 && weekInput < this.week8) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek === 8) {
-      if (weekInput > this.week8 && weekInput < this.week9) {
+    }else if (this.currentWeek <= 8) {
+      if (weekInput >= this.week8 && weekInput < this.week9) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek === 9) {
-      if (weekInput > this.week9 && weekInput < this.week10) {
+    }else if (this.currentWeek <= 9) {
+      if (weekInput >= this.week9 && weekInput < this.week10) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek === 10) {
+    }else if (this.currentWeek <= 10) {
       if (weekInput > this.week10 && weekInput < this.week11) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek === 11) {
+    }else if (this.currentWeek <= 11) {
       if (weekInput > this.week11 && weekInput < this.week12) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek === 12) {
+    }else if (this.currentWeek <= 12) {
       if (weekInput > this.week12 && weekInput < this.week13) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek === 13) {
+    }else if (this.currentWeek <= 13) {
       if (weekInput > this.week13 && weekInput < this.week14) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek === 14) {
+    }else if (this.currentWeek <= 14) {
       if (weekInput > this.week14 && weekInput < this.week15) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek === 15) {
+    }else if (this.currentWeek <= 15) {
       if (weekInput > this.week15 && weekInput < this.week16) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek === 16) {
+    }else if (this.currentWeek <= 16) {
       if (weekInput > this.week16 && weekInput < this.week17) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek === 17) {
+    }else if (this.currentWeek <= 17) {
       if (weekInput > this.week17 && weekInput < this.week18) {
         return true;
       } else {

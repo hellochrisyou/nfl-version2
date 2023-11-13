@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Game, KeyValueRef, Team } from 'src/app/shared/models/interface';
+import { Game, KeyValueRef, PassingPlayer, ReceivingPlayer, RushingPlayer, Team } from 'src/app/shared/models/interface';
 import { INITIALIZE_TEAMS } from 'src/app/shared/utility/initialize-teams';
 
 import { ApiService } from './api.service';
@@ -9,6 +9,8 @@ import { DateService } from './date';
   providedIn: 'root'
 })
 export class HttpService {
+
+  toggleStatus = 'No High or Low';
 
   allTeams: Team[] = [];
 
@@ -982,16 +984,15 @@ export class HttpService {
           for (let i = 0; i < data.items.length; i++) {
             this.apiService.httpGet(data.items[i].$ref).subscribe((data2: any) => {
               if (this.dateService.isCurrentWeek(new Date(data2.date))) {
-                if (team.id === '21') {
-                  console.log('h');
-                }
                 team.currentOpponentId = '';
                 if (data2.competitions[0].competitors[0].id === team.id) {
                   team.currentOpponentId = data2.competitions[0].competitors[1].id
                   team.currentAwayHome = 'home';
+                  console.log("🚀 ~ team.currentOpponentId:", team.currentOpponentId)
                 } else {
                   team.currentOpponentId = data2.competitions[0].competitors[0].id;
                   team.currentAwayHome = 'away';
+                  console.log("🚀 ~ team.currentOpponentId:", team.currentOpponentId)
                 }
               }
             });
@@ -1135,6 +1136,237 @@ export class HttpService {
     });
     return returnIndexValue;
   }
+  returnOpponentAvgPassYardsGiven(currentOpponentId: string) {
+    if (currentOpponentId !== '') {
+      let opponentIndex = this.findTeamIndex(currentOpponentId);
+      if (this.allTeams[opponentIndex] === undefined) {
+        console.log("🚀 ~ this.httpService.allTeams[opponentIndex]:", opponentIndex)
+      }
+      if (this.toggleStatus === 'No High or Low') {
+        return this.allTeams[opponentIndex].allYardsGivenQb / this.allTeams[opponentIndex].allYardsGivenQbCounter;
+      } else {
+        let tmpData = this.sliceHighLow(this.allTeams[opponentIndex].opponentGamesQb);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards / tmpData.length;
+      }
+    } else {
+      return 0;
+    }
+  }
+  returnOpponentAvgRb1RushYardsGiven(currentOpponentId: string) {
+    if (currentOpponentId !== '') {
+      let opponentIndex = this.findTeamIndex(currentOpponentId);
+      if (this.toggleStatus === 'No High or Low') {
+        return this.allTeams[opponentIndex].allYardsGivenRb1 / this.allTeams[opponentIndex].allYardsGivenRb1Counter;
+      } else {
+        let tmpData = this.sliceHighLow(this.allTeams[opponentIndex].opponentGamesRb1);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards / tmpData.length;
+      }
+    } else {
+      return 0;
+    }
+  }
+  returnOpponentAvgRb2RushYardsGiven(currentOpponentId: string) {
+    if (currentOpponentId !== '') {
+      let opponentIndex = this.findTeamIndex(currentOpponentId);
+      if (this.toggleStatus === 'No High or Low') {
+        return this.allTeams[opponentIndex].allYardsGivenRb2 / this.allTeams[opponentIndex].allYardsGivenRb2Counter;
+      } else {
+        let tmpData = this.sliceHighLow(this.allTeams[opponentIndex].opponentGamesRb2);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards / tmpData.length;
+      }
+    }
+    else {
+      return 0;
+    }
+  }
+  returnOpponentAvgWr1RecYardsGiven(currentOpponentId: string) {
+    if (currentOpponentId !== '') {
+      let opponentIndex = this.findTeamIndex(currentOpponentId);
+      if (this.toggleStatus === 'No High or Low') {
+        return this.allTeams[opponentIndex].allYardsGivenWr1 / this.allTeams[opponentIndex].allYardsGivenWr1Counter;
+      } else {
+        let tmpData = this.sliceHighLow(this.allTeams[opponentIndex].opponentGamesWr1);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards / tmpData.length;
+      }
+    }
+    else {
+      return 0;
+    }
+  }
+  returnOpponentAvgWr2RecYardsGiven(currentOpponentId: string) {
+    if (currentOpponentId !== '') {
+      let opponentIndex = this.findTeamIndex(currentOpponentId);
+      if (this.toggleStatus === 'No High or Low') {
+        return this.allTeams[opponentIndex].allYardsGivenWr2 / this.allTeams[opponentIndex].allYardsGivenWr2Counter;
+      } else {
+        let tmpData = this.sliceHighLow(this.allTeams[opponentIndex].opponentGamesWr2);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards / tmpData.length;
+      }
+    }
+    else {
+      return 0;
+    }
+  }
+  returnOpponentAvgWr3RecYardsGiven(currentOpponentId: string) {
+    if (currentOpponentId !== '') {
+      let opponentIndex = this.findTeamIndex(currentOpponentId);
+      if (this.toggleStatus === 'No High or Low') {
+        return this.allTeams[opponentIndex].allYardsGivenWr3 / this.allTeams[opponentIndex].allYardsGivenWr3Counter;
+      } else {
+        let tmpData = this.sliceHighLow(this.allTeams[opponentIndex].opponentGamesWr3);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards / tmpData.length;
+      }
+    }
+    else {
+      return 0;
+    }
+  }
+  returnOpponentAvgTeRecYardsGiven(currentOpponentId: string) {
+    if (currentOpponentId !== '') {
+      let opponentIndex = this.findTeamIndex(currentOpponentId);
+      if (this.toggleStatus === 'No High or Low') {
+        return this.allTeams[opponentIndex].allYardsGivenTe / this.allTeams[opponentIndex].allYardsGivenTeCounter;
+      } else {
+        let tmpData = this.sliceHighLow(this.allTeams[opponentIndex].opponentGamesTe);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.value;
+        });
+        return tmpYards / tmpData.length;
+      }
+    }
+    else {
+      return 0;
+    }
+  }
+  returnOpponentAvgRb1RecYardsGiven(currentOpponentId: string): number {
+    if (currentOpponentId !== '') {
+      let opponentIndex = this.findTeamIndex(currentOpponentId);
+      if (this.toggleStatus === 'No High or Low') {
+        return this.allTeams[opponentIndex].allYardsGivenRb1Rec / this.allTeams[opponentIndex].allYardsGivenRb1RecCounter;
+      } else {
+        let tmpData = this.sliceHighLow(this.allTeams[opponentIndex].opponentGamesRb1);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.rbReceivingValue;
+        });
+        return tmpYards / tmpData.length;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  returnOpponentAvgRb2RecYardsGiven(currentOpponentId: string): number {
+    if (currentOpponentId !== '') {
+      let opponentIndex = this.findTeamIndex(currentOpponentId);
+      if (this.toggleStatus === 'No High or Low') {
+        return this.allTeams[opponentIndex].allYardsGivenRb2Rec / this.allTeams[opponentIndex].allYardsGivenRb2RecCounter;
+      } else {
+        let tmpData = this.sliceHighLow(this.allTeams[opponentIndex].opponentGamesRb2);
+        let tmpYards = 0;
+        tmpData.forEach(item => {
+          tmpYards += item.rbReceivingValue;
+        });
+        return tmpYards / tmpData.length;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  returnOpponentName(opponentId: string) {
+    if (opponentId !== '') {
+      let tmpTeam = this.allTeams.find(team => {
+        return (team.id === opponentId);
+      })
+      return tmpTeam?.displayName;
+    } else {
+      return 'BYE'
+    }
+  }
+
+  sliceHighLow(value: any[]) {
+    value.sort((a, b) => a - b);
+    value = value.slice(1, value.length - 1);
+    return value;
+  }
+
+  calculateQb(value: PassingPlayer): number {
+    if (this.toggleStatus === 'No High or Low') {
+      return value.allPassingYards / value.games.length;
+    } else {
+      let tmpData = this.sliceHighLow(value.games);
+      let tmpYards = 0;
+      tmpData.forEach(item => {
+        tmpYards += item.value;
+      });
+      return tmpYards / tmpData.length;
+    }
+  }
+
+  calculateRb(value: RushingPlayer): number {
+    if (this.toggleStatus === 'No High or Low') {
+      return value.allRushingYards / value.games.length;
+    } else {
+      let tmpData = this.sliceHighLow(value.games);
+      let tmpYards = 0;
+      tmpData.forEach(item => {
+        tmpYards += item.value;
+      });
+      return tmpYards / tmpData.length;
+    }
+  }
+
+  calculateReceiving(value: ReceivingPlayer): number {
+    if (this.toggleStatus === 'No High or Low') {
+      return value.allReceivingYards / value.games.length;
+    } else {
+      let tmpData = this.sliceHighLow(value.games);
+      let tmpYards = 0;
+      tmpData.forEach(item => {
+        tmpYards += item.value;
+      });
+      return tmpYards / tmpData.length;
+    }
+  }
+  calculateRbRec(player: RushingPlayer): number {
+    if (this.toggleStatus === 'No High or Low') {
+      return player.allReceivingYards / player.games.length;
+    } else {
+      let tmpData = this.sliceHighLow(player.games);
+      let tmpYards = 0;
+      tmpData.forEach(item => {
+        tmpYards += item.rbReceivingValue;
+      });
+      return tmpYards / tmpData.length;
+    }
+  }
+
 
   initializeStaticDate(): void {
     const todayDate = new Date();

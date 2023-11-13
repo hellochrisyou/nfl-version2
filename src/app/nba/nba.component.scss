@@ -12,15 +12,21 @@ mat-table mat-row:hover {
 }
 
 .right-wrapper-span {
-  text-align: right;
-  width: 9rem;
+  text-align: center;
+  width: 2rem;
 }
 
 .mat-icon {
   overflow: visible;
 }
 
+.color-green {
+  color: green;
+}
 
+.color-orangeRed {
+  color: orangered;
+}
 
 .bg-grey {
   background-color: lightgray;
@@ -81,3 +87,5 @@ mat-table mat-row:hover {
   width: 8  rem;
   color: green;
 }
+
+

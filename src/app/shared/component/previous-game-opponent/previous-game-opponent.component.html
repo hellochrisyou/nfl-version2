@@ -1,20 +1,63 @@
-<h1>{{currentTeam}} vs {{currentRole}}</h1>
-<mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+<h1>{{currentTeam}} vs {{currentRole}} :Average Yards/Poihts Given - {{returnOpponentAvgValueGiven(currentTeamId)| number:
+  '1.0-0'}}</h1>
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortColumn($event)">
   <ng-container matColumnDef="week">
-    <mat-header-cell *matHeaderCellDef> Week </mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.weekNum}}</mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Week/Date </mat-header-cell>
+    <ng-container *ngIf="!isWeek">
+      <mat-cell *matCellDef="let element">{{element.gameDate| date: 'MM/dd/yyyy'}}</mat-cell>
+    </ng-container>
+    <ng-container *ngIf="isWeek">
+      <mat-cell *matCellDef="let element">{{element.weekNum}}</mat-cell>
+    </ng-container>
   </ng-container>
   <ng-container matColumnDef="opponent">
-    <mat-header-cell *matHeaderCellDef> Opponent </mat-header-cell>
-    <mat-cell *matCellDef="let element">{{returnOpponentTeamName(element.opponentId)}} - {{element.opponentPlayer}}</mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Opponent </mat-header-cell>
+    <mat-cell *matCellDef="let element">{{returnOpponentTeamName(element.opponentId)}} -
+      {{element.opponentPlayer}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="opponent-average">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Average </mat-header-cell>
+    <mat-cell *matCellDef="let element">{{returnPlayerAvg(element.opponentPlayer)| number: '1.0-0'}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="opponentGiven">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> {{currentTeam}} Difference of value given and average</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{returnDifference(returnPlayerAvg(element.opponentPlayer),
+      returnOpponentAvgValueGiven(currentTeamId))| number: '1.0-0'}}</mat-cell>
   </ng-container>
   <ng-container matColumnDef="value">
-    <mat-header-cell *matHeaderCellDef> ALLOWED Value </mat-header-cell>
-    <ng-container *ngIf="currentRole === 'RB1Receiving' || currentRole === 'RB2Receiving'">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Value </mat-header-cell>
+    <ng-container *ngIf="data.type">
       <mat-cell *matCellDef="let element">{{element.rbReceivingValue}}</mat-cell>
     </ng-container>
-    <ng-container *ngIf="currentRole !== 'RB1Receiving' && currentRole !== 'RB2Receiving'">
+    <ng-container *ngIf="!data.type">
       <mat-cell *matCellDef="let element">{{element.value}}</mat-cell>
+    </ng-container>
+  </ng-container>
+  <ng-container matColumnDef="result">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> vs Average </mat-header-cell>
+    <ng-container *ngIf="data.type">
+      <mat-cell *matCellDef="let element">
+        <ng-container *ngIf="returnPlayerAvg(element.opponentPlayer) <= element.rbReceivingValue">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="returnPlayerAvg(element.opponentPlayer) > element.rbReceivingValue">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <span class="padding-left-1rem">{{element.rbReceivingValue - returnPlayerAvg(element.opponentPlayer)| number:
+          '1.0-0'}}</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container *ngIf="!data.type">
+      <mat-cell *matCellDef="let element">
+        <ng-container *ngIf="returnPlayerAvg(element.opponentPlayer) <= element.value">
+          <mat-icon class="color-green">trending_up</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="returnPlayerAvg(element.opponentPlayer) > element.value">
+          <mat-icon class="color-orangeRed">trending_down</mat-icon>
+        </ng-container>
+        <span class="padding-left-1rem">{{element.value - returnPlayerAvg(element.opponentPlayer)| number:
+          '1.0-0'}}</span>
+      </mat-cell>
     </ng-container>
   </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
