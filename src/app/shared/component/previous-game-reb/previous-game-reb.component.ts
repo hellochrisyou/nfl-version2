@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpNbaService } from 'src/app/core/services/http-nba.service';
 import { HttpService } from 'src/app/core/services/http.service';
+import { Game } from '../../models/interface';
 
 @Component({
   selector: 'app-previous-game',
@@ -16,6 +17,8 @@ export class PlayerPreviousGameReboundComponent {
   dataSource: any;
   currentRole: string = '';
   currentTeamId: string = '';
+  tmpGames: Game[] = [];
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private httpNbaService: HttpNbaService
@@ -48,6 +51,7 @@ export class PlayerPreviousGameReboundComponent {
         break;
       }
     }
+    this.tmpGames = data.player.games;
     this.dataSource = new MatTableDataSource(data.player.games);
   }
   returnOpponentTeamName(opponentId: string) {
@@ -78,42 +82,42 @@ export class PlayerPreviousGameReboundComponent {
       }
     }
   }
-  returnPlayerAvg(playerName?: string): number {
-    let tmpName = '';
-    if (playerName) {
-      tmpName = playerName
+  returnPlayerAvg(playerId?: string): number {
+    let tmpId = '';
+    if (playerId) {
+      tmpId = playerId
     } else {
-      tmpName = this.data.player.name;
+      tmpId = this.data.player.id;
     }
     let tmpData = -1;
       this.httpNbaService.allTeams.forEach(team => {
         switch (this.currentRole) {
           case 'PG': {
-            if (team.depthChartPlayers.pg.name === tmpName) {
+            if (team.depthChartPlayers.pg.id === tmpId) {
               tmpData = this.httpNbaService.calculateRebounds(team.depthChartPlayers.pg);
             }
             break;
           }
           case 'PF': {
-            if (team.depthChartPlayers.pf.name === tmpName) {
+            if (team.depthChartPlayers.pf.id === tmpId) {
               tmpData = this.httpNbaService.calculateRebounds(team.depthChartPlayers.pf);
             }
             break;
           }
           case 'C': {
-            if (team.depthChartPlayers.c.name === tmpName) {
+            if (team.depthChartPlayers.c.id === tmpId) {
               tmpData = this.httpNbaService.calculateRebounds(team.depthChartPlayers.c);
             }
             break;
           }
           case 'SF': {
-            if (team.depthChartPlayers.sf.name === tmpName) {
+            if (team.depthChartPlayers.sf.id === tmpId) {
               tmpData = this.httpNbaService.calculateRebounds(team.depthChartPlayers.sf);
             }
             break;
           }
           case 'SG': {
-            if (team.depthChartPlayers.sg.name === tmpName) {
+            if (team.depthChartPlayers.sg.id === tmpId) {
               tmpData = this.httpNbaService.calculateRebounds(team.depthChartPlayers.sg);
             }
             break;
@@ -121,5 +125,52 @@ export class PlayerPreviousGameReboundComponent {
         }
       })
     return tmpData;
+  }
+  sortColumn(event: any) {
+    switch (event.active) {
+      case 'date': {
+        if (event.direction === "asc") {
+          this.tmpGames.sort((a: Game, b: Game) => (a.gameDate! < b.gameDate!) ? -1 : 1);
+          this.dataSource = new MatTableDataSource(this.tmpGames);
+        }
+        else if (event.direction === "desc") {
+          this.tmpGames.sort((a: Game, b: Game) => (a.gameDate! > b.gameDate!) ? -1 : 1);
+          this.dataSource = new MatTableDataSource(this.tmpGames);
+        }
+        break;
+      }
+      case 'opponent-avg': {
+        if (event.direction === "asc") {
+          this.tmpGames.sort((a: Game, b: Game) => (this.returnAvgGiven(a.opponentId!) < this.returnPlayerAvg(b.opponentId!)) ? -1 : 1);
+          this.dataSource = new MatTableDataSource(this.tmpGames);
+        }
+        else if (event.direction === "desc") {
+          this.tmpGames.sort((a: Game, b: Game) => (this.returnPlayerAvg(a.opponentId!) > this.returnPlayerAvg(b.opponentId!)) ? -1 : 1);
+          this.dataSource = new MatTableDataSource(this.tmpGames);
+        }
+        break;
+      }
+      case 'result': {
+        if (event.direction === "asc") {
+          this.tmpGames.sort((a: Game, b: Game) => ((a.reboundsValue! - this.returnPlayerAvg(a.opponentId!)) < (b.reboundsValue! - this.returnPlayerAvg(b.opponentId!)) ? -1 : 1));
+          this.dataSource = new MatTableDataSource(this.tmpGames);
+        }
+        else if (event.direction === "desc") {
+          this.tmpGames.sort((a: Game, b: Game) => ((a.reboundsValue! - this.returnPlayerAvg(a.opponentId!)) > (b.reboundsValue! - this.returnPlayerAvg(b.opponentId!)) ? -1 : 1));
+          this.dataSource = new MatTableDataSource(this.tmpGames);
+        }
+        break;
+      }
+      case 'value': {
+        if (event.direction === "asc") {
+          this.tmpGames.sort((a: Game, b: Game) => ((a.reboundsValue!) < (b.reboundsValue!) ? -1 : 1));
+          this.dataSource = new MatTableDataSource(this.tmpGames);
+        } else if (event.direction === "desc") {
+          this.tmpGames.sort((a: Game, b: Game) => ((a.reboundsValue!) > (b.reboundsValue!) ? -1 : 1));
+          this.dataSource = new MatTableDataSource(this.tmpGames);
+        }
+        break;
+      }
+    }
   }
 }

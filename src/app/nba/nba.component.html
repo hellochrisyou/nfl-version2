@@ -185,7 +185,7 @@
 
       <ng-container matColumnDef="averagePgRebPerGameGiven">
         <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId)">
+        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId, 'pg')">
           <span>
             <ng-container
               *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.pg) - httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(element.currentOpponentId)) < -25">
@@ -393,7 +393,7 @@
 
       <ng-container matColumnDef="averagePfRebPerGameGiven">
         <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">PF Rebound ALLOWED</b></mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId)">
+        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId, 'pf')">
           <span>
             <ng-container
               *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.pf) - httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(element.currentOpponentId)) < -25">
@@ -601,7 +601,7 @@
 
       <ng-container matColumnDef="averageCRebPerGameGiven">
         <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId)">
+        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId, 'c')">
           <span>
             <ng-container
               *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.c) - httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(element.currentOpponentId)) < -25">
@@ -808,7 +808,7 @@
 
       <ng-container matColumnDef="averageSfRebPerGameGiven">
         <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId)">
+        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId, 'sf')">
           <span>
             <ng-container
               *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.sf) - httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(element.currentOpponentId)) < -25">
@@ -1015,7 +1015,7 @@
 
       <ng-container matColumnDef="averageSgRebPerGameGiven">
         <mat-header-cell *matHeaderCellDef mat-sort-header><b class="color-crimson">ALLOWED</b></mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId)">
+        <mat-cell *matCellDef="let element" (click)="openAllowedDefensivereboundsDialog(element.currentOpponentId, 'sg')">
           <span>
             <ng-container
               *ngIf="(httpNbaService.calculateRebounds(element.depthChartPlayers.sg) - httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(element.currentOpponentId)) < -25">

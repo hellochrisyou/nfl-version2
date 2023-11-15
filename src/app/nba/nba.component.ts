@@ -469,14 +469,15 @@ export class NbaComponent implements OnInit {
     });
   }
 
-  openAllowedDefensivereboundsDialog(opponentId: string) {
+  openAllowedDefensivereboundsDialog(opponentId: string, position: string) {
     let tmpOpponent = this.httpNbaService.allTeams.find(team => {
       return team.id === opponentId
     });
+    console.log("🚀 ~ tmpOpponent:", tmpOpponent)
     this.dialog.open(PreviousGameOpponentReboundComponent, {
       data: {
         team: tmpOpponent,
-        position: 'sg'
+        position: position
       },
       height: '1200px',
       width: '1200px',
@@ -608,16 +609,34 @@ export class NbaComponent implements OnInit {
       }
       case 'averagePgBlocksPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allBlocks / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgBlocksGiven(a) < (b.depthChartPlayers.pg.allBlocks / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgBlocksGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allBlocks / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgBlocksGiven(a.currentOpponentId) < (b.depthChartPlayers.pg.allBlocks / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgBlocksGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allBlocks / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgBlocksGiven(a) > (b.depthChartPlayers.pg.allBlocks / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgBlocksGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allBlocks / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgBlocksGiven(a.currentOpponentId) > (b.depthChartPlayers.pg.allBlocks / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgBlocksGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
         break;
       }
+      case 'averagePgThreesPerGame': {
+        if (event.direction === "asc") {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allThreePts/ a.depthChartPlayers.pg.games.length) < (b.depthChartPlayers.pg.allThreePts / b.depthChartPlayers.pg.games.length) ? -1 : 1)));
+        } else if (event.direction === 'desc') {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allThreePts / a.depthChartPlayers.pg.games.length) > (b.depthChartPlayers.pg.allThreePts / b.depthChartPlayers.pg.games.length) ? -1 : 1)));
+        } else {
 
+        }
+        break;
+      }
+      case 'averagePgThreesPerGameGiven': {
+        if (event.direction === "asc") {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allThreePts / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgThreesGiven(a.currentOpponentId) < (b.depthChartPlayers.pg.allThreePts / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgThreesGiven(b.currentOpponentId) ? -1 : 1)));
+        } else if (event.direction === 'desc') {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allThreePts / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgThreesGiven(a.currentOpponentId) > (b.depthChartPlayers.pg.allThreePts / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgThreesGiven(b.currentOpponentId) ? -1 : 1)));
+        } else {
 
+        }
+        break;
+      }
       case 'averagePgRebPerGame': {
         if (event.direction === "asc") {
           this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allRebounds / a.depthChartPlayers.pg.games.length) < (b.depthChartPlayers.pg.allRebounds / b.depthChartPlayers.pg.games.length) ? -1 : 1)));
@@ -630,9 +649,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averagePgRebPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allRebounds / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(a) < (b.depthChartPlayers.pg.allRebounds / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allRebounds / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(a.currentOpponentId) < (b.depthChartPlayers.pg.allRebounds / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allRebounds / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(a) > (b.depthChartPlayers.pg.allRebounds / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allRebounds / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(a.currentOpponentId) > (b.depthChartPlayers.pg.allRebounds / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
@@ -651,15 +670,34 @@ export class NbaComponent implements OnInit {
       }
       case 'averagePfRebPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allRebounds / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(a) < (b.depthChartPlayers.pf.allRebounds / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allRebounds / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(a.currentOpponentId) < (b.depthChartPlayers.pf.allRebounds / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allRebounds / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(a) > (b.depthChartPlayers.pf.allRebounds / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allRebounds / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(a.currentOpponentId) > (b.depthChartPlayers.pf.allRebounds / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfDefensiveReboundsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
         break;
       }
+      case 'averagePfThreesPerGame': {
+        if (event.direction === "asc") {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allThreePts/ a.depthChartPlayers.pf.games.length) < (b.depthChartPlayers.pg.allThreePts / b.depthChartPlayers.pg.games.length) ? -1 : 1)));
+        } else if (event.direction === 'desc') {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allThreePts / a.depthChartPlayers.pf.games.length) > (b.depthChartPlayers.pg.allThreePts / b.depthChartPlayers.pg.games.length) ? -1 : 1)));
+        } else {
 
+        }
+        break;
+      }
+      case 'averagePfThreesPerGameGiven': {
+        if (event.direction === "asc") {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allThreePts / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfThreesGiven(a.currentOpponentId) < (b.depthChartPlayers.pf.allThreePts / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfThreesGiven(b.currentOpponentId) ? -1 : 1)));
+        } else if (event.direction === 'desc') {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allThreePts / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfThreesGiven(a.currentOpponentId) > (b.depthChartPlayers.pf.allThreePts / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfThreesGiven(b.currentOpponentId) ? -1 : 1)));
+        } else {
+
+        }
+        break;
+      }
 
       case 'averageCRebPerGame': {
         if (event.direction === "asc") {
@@ -673,15 +711,34 @@ export class NbaComponent implements OnInit {
       }
       case 'averageCRebPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allRebounds / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(a) < (b.depthChartPlayers.c.allRebounds / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allRebounds / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(a.currentOpponentId) < (b.depthChartPlayers.c.allRebounds / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allRebounds / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(a) > (b.depthChartPlayers.c.allRebounds / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allRebounds / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(a.currentOpponentId) > (b.depthChartPlayers.c.allRebounds / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCDefensiveReboundsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
         break;
       }
+      case 'averageCThreesPerGame': {
+        if (event.direction === "asc") {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allThreePts/ a.depthChartPlayers.c.games.length) < (b.depthChartPlayers.c.allThreePts / b.depthChartPlayers.c.games.length) ? -1 : 1)));
+        } else if (event.direction === 'desc') {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allThreePts / a.depthChartPlayers.c.games.length) > (b.depthChartPlayers.c.allThreePts / b.depthChartPlayers.c.games.length) ? -1 : 1)));
+        } else {
 
+        }
+        break;
+      }
+      case 'averageCThreesPerGameGiven': {
+        if (event.direction === "asc") {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allThreePts / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCThreesGiven(a.currentOpponentId) < (b.depthChartPlayers.c.allThreePts / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCThreesGiven(b.currentOpponentId) ? -1 : 1)));
+        } else if (event.direction === 'desc') {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allThreePts / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCThreesGiven(a.currentOpponentId) > (b.depthChartPlayers.c.allThreePts / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCThreesGiven(b.currentOpponentId) ? -1 : 1)));
+        } else {
+
+        }
+        break;
+      }
 
       case 'averageSfRebPerGame': {
         if (event.direction === "asc") {
@@ -695,15 +752,14 @@ export class NbaComponent implements OnInit {
       }
       case 'averageSfRebPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allRebounds / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(a) < (b.depthChartPlayers.sf.allRebounds / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allRebounds / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(a.currentOpponentId) < (b.depthChartPlayers.sf.allRebounds / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allRebounds / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(a) > (b.depthChartPlayers.sf.allRebounds / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allRebounds / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(a.currentOpponentId) > (b.depthChartPlayers.sf.allRebounds / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfDefensiveReboundsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
         break;
       }
-
 
       case 'averageSgRebPerGame': {
         if (event.direction === "asc") {
@@ -717,9 +773,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averageSgRebPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allRebounds / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(a) < (b.depthChartPlayers.sg.allRebounds / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allRebounds / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(a.currentOpponentId) < (b.depthChartPlayers.sg.allRebounds / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allRebounds / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(a) > (b.depthChartPlayers.sg.allRebounds / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allRebounds / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgPgDefensiveReboundsGiven(a.currentOpponentId) > (b.depthChartPlayers.sg.allRebounds / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgDefensiveReboundsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
@@ -737,9 +793,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averagePfBlocksPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allBlocks / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfBlocksGiven(a) < (b.depthChartPlayers.pf.allBlocks / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfBlocksGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allBlocks / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfBlocksGiven(a.currentOpponentId) < (b.depthChartPlayers.pf.allBlocks / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfBlocksGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allBlocks / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfBlocksGiven(a) > (b.depthChartPlayers.pf.allBlocks / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfBlocksGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allBlocks / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfBlocksGiven(a.currentOpponentId) > (b.depthChartPlayers.pf.allBlocks / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfBlocksGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
@@ -757,9 +813,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averageCBlocksPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allBlocks / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCBlocksGiven(a) < (b.depthChartPlayers.c.allBlocks / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCBlocksGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allBlocks / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCBlocksGiven(a.currentOpponentId) < (b.depthChartPlayers.c.allBlocks / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCBlocksGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allBlocks / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCBlocksGiven(a) > (b.depthChartPlayers.c.allBlocks / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCBlocksGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allBlocks / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCBlocksGiven(a.currentOpponentId) > (b.depthChartPlayers.c.allBlocks / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCBlocksGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
@@ -777,9 +833,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averageSfBlocksPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allBlocks / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfBlocksGiven(a) < (b.depthChartPlayers.sf.allBlocks / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfBlocksGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allBlocks / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfBlocksGiven(a.currentOpponentId) < (b.depthChartPlayers.sf.allBlocks / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfBlocksGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allBlocks / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfBlocksGiven(a) > (b.depthChartPlayers.sf.allBlocks / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfBlocksGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allBlocks / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfBlocksGiven(a.currentOpponentId) > (b.depthChartPlayers.sf.allBlocks / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfBlocksGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
@@ -795,11 +851,32 @@ export class NbaComponent implements OnInit {
         }
         break;
       }
+      case 'averageSfThreesPerGame': {
+        if (event.direction === "asc") {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allThreePts/ a.depthChartPlayers.sf.games.length) < (b.depthChartPlayers.sf.allThreePts / b.depthChartPlayers.sf.games.length) ? -1 : 1)));
+        } else if (event.direction === 'desc') {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allThreePts / a.depthChartPlayers.c.games.length) > (b.depthChartPlayers.sf.allThreePts / b.depthChartPlayers.sf.games.length) ? -1 : 1)));
+        } else {
+
+        }
+        break;
+      }
+      case 'averageSfThreesPerGameGiven': {
+        if (event.direction === "asc") {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allThreePts / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfThreesGiven(a.currentOpponentId) < (b.depthChartPlayers.sf.allThreePts / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfThreesGiven(b.currentOpponentId) ? -1 : 1)));
+        } else if (event.direction === 'desc') {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allThreePts / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfThreesGiven(a.currentOpponentId) > (b.depthChartPlayers.sf.allThreePts / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfThreesGiven(b.currentOpponentId) ? -1 : 1)));
+        } else {
+
+        }
+        break;
+      }
+
       case 'averageSgBlocksPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allBlocks / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgBlocksGiven(a) < (b.depthChartPlayers.sg.allBlocks / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgBlocksGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allBlocks / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgBlocksGiven(a.currentOpponentId) < (b.depthChartPlayers.sg.allBlocks / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgBlocksGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allBlocks / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgBlocksGiven(a) > (b.depthChartPlayers.sg.allBlocks / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgBlocksGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allBlocks / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgBlocksGiven(a.currentOpponentId) > (b.depthChartPlayers.sg.allBlocks / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgBlocksGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
@@ -807,13 +884,33 @@ export class NbaComponent implements OnInit {
       }
 
 
+      case 'averageSgThreesPerGame': {
+        if (event.direction === "asc") {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allThreePts/ a.depthChartPlayers.sg.games.length) < (b.depthChartPlayers.sg.allThreePts / b.depthChartPlayers.sg.games.length) ? -1 : 1)));
+        } else if (event.direction === 'desc') {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allThreePts / a.depthChartPlayers.sg.games.length) > (b.depthChartPlayers.sg.allThreePts / b.depthChartPlayers.sg.games.length) ? -1 : 1)));
+        } else {
+
+        }
+        break;
+      }
+      case 'averageSgThreesPerGameGiven': {
+        if (event.direction === "asc") {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allThreePts / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgThreesGiven(a.currentOpponentId) < (b.depthChartPlayers.sg.allThreePts / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgThreesGiven(b.currentOpponentId) ? -1 : 1)));
+        } else if (event.direction === 'desc') {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allThreePts / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgThreesGiven(a.currentOpponentId) > (b.depthChartPlayers.sg.allThreePts / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgThreesGiven(b.currentOpponentId) ? -1 : 1)));
+        } else {
+
+        }
+        break;
+      }
 
 
       case 'averagePgPointsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allPoints / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgPointsGiven(a) < (b.depthChartPlayers.pg.allPoints / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgPointsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allPoints / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgPointsGiven(a.currentOpponentId) < (b.depthChartPlayers.pg.allPoints / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgPointsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allPoints / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgPointsGiven(a) > (b.depthChartPlayers.pg.allPoints / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgPointsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allPoints / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgPointsGiven(a.currentOpponentId) > (b.depthChartPlayers.pg.allPoints / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgPointsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
@@ -831,9 +928,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averagePgAssistsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allAssists / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgAssistsGiven(a) < (b.depthChartPlayers.pg.allAssists / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgAssistsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allAssists / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgAssistsGiven(a.currentOpponentId) < (b.depthChartPlayers.pg.allAssists / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgAssistsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allAssists / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgAssistsGiven(a) > (b.depthChartPlayers.pg.allAssists / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgAssistsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pg.allAssists / a.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgAssistsGiven(a.currentOpponentId) > (b.depthChartPlayers.pg.allAssists / b.depthChartPlayers.pg.games.length) - this.httpNbaService.returnOpponentAvgPgAssistsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
         }
         break;
@@ -850,9 +947,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averagePfPointsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allPoints / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfPointsGiven(a) < (b.depthChartPlayers.pf.allPoints / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfPointsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allPoints / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfPointsGiven(a.currentOpponentId) < (b.depthChartPlayers.pf.allPoints / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfPointsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allPoints / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfPointsGiven(a) > (b.depthChartPlayers.pf.allPoints / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfPointsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allPoints / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfPointsGiven(a.currentOpponentId) > (b.depthChartPlayers.pf.allPoints / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfPointsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
@@ -869,9 +966,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averagePfAssistsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allAssists / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfAssistsGiven(a) < (b.depthChartPlayers.pf.allAssists / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfAssistsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allAssists / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfAssistsGiven(a.currentOpponentId) < (b.depthChartPlayers.pf.allAssists / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfAssistsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allAssists / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfAssistsGiven(a) > (b.depthChartPlayers.pf.allAssists / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfAssistsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.pf.allAssists / a.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfAssistsGiven(a.currentOpponentId) > (b.depthChartPlayers.pf.allAssists / b.depthChartPlayers.pf.games.length) - this.httpNbaService.returnOpponentAvgPfAssistsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
         }
         break;
@@ -889,9 +986,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averageCPointsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allPoints / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCPointsGiven(a) < (b.depthChartPlayers.c.allPoints / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCPointsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allPoints / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCPointsGiven(a.currentOpponentId) < (b.depthChartPlayers.c.allPoints / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCPointsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allPoints / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCPointsGiven(a) > (b.depthChartPlayers.c.allPoints / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCPointsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allPoints / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCPointsGiven(a.currentOpponentId) > (b.depthChartPlayers.c.allPoints / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCPointsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
@@ -909,9 +1006,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averageCAssistsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allAssists / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCAssistsGiven(a) < (b.depthChartPlayers.c.allAssists / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCAssistsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allAssists / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCAssistsGiven(a.currentOpponentId) < (b.depthChartPlayers.c.allAssists / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCAssistsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allAssists / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCAssistsGiven(a) > (b.depthChartPlayers.c.allAssists / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCAssistsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.c.allAssists / a.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCAssistsGiven(a.currentOpponentId) > (b.depthChartPlayers.c.allAssists / b.depthChartPlayers.c.games.length) - this.httpNbaService.returnOpponentAvgCAssistsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
         }
         break;
@@ -929,9 +1026,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averageSfPointsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allPoints / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfPointsGiven(a) < (b.depthChartPlayers.sf.allPoints / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfPointsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allPoints / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfPointsGiven(a.currentOpponentId) < (b.depthChartPlayers.sf.allPoints / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfPointsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allPoints / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfPointsGiven(a) > (b.depthChartPlayers.sf.allPoints / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfPointsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allPoints / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfPointsGiven(a.currentOpponentId) > (b.depthChartPlayers.sf.allPoints / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfPointsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
 
         }
@@ -949,9 +1046,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averageSfAssistsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allAssists / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfAssistsGiven(a) < (b.depthChartPlayers.sf.allAssists / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfAssistsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allAssists / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfAssistsGiven(a.currentOpponentId) < (b.depthChartPlayers.sf.allAssists / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfAssistsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allAssists / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfAssistsGiven(a) > (b.depthChartPlayers.sf.allAssists / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfAssistsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sf.allAssists / a.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfAssistsGiven(a.currentOpponentId) > (b.depthChartPlayers.sf.allAssists / b.depthChartPlayers.sf.games.length) - this.httpNbaService.returnOpponentAvgSfAssistsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
         }
         break;
@@ -969,9 +1066,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averageSgPointsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allPoints / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgPointsGiven(a) < (b.depthChartPlayers.sg.allPoints / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgPointsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allPoints / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgPointsGiven(a.currentOpponentId) < (b.depthChartPlayers.sg.allPoints / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgPointsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allPoints / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgPointsGiven(a) > (b.depthChartPlayers.sg.allPoints / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgPointsGiven(b) ? -1 : 1)));        } else {
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allPoints / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgPointsGiven(a.currentOpponentId) > (b.depthChartPlayers.sg.allPoints / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgPointsGiven(b.currentOpponentId) ? -1 : 1)));        } else {
 
         }
         break;
@@ -987,9 +1084,9 @@ export class NbaComponent implements OnInit {
       }
       case 'averageSgAssistsPerGameGiven': {
         if (event.direction === "asc") {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allAssists / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgAssistsGiven(a) < (b.depthChartPlayers.sg.allAssists / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgAssistsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allAssists / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgAssistsGiven(a.currentOpponentId) < (b.depthChartPlayers.sg.allAssists / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgAssistsGiven(b.currentOpponentId) ? -1 : 1)));
         } else if (event.direction === 'desc') {
-          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allAssists / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgAssistsGiven(a) > (b.depthChartPlayers.sg.allAssists / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgAssistsGiven(b) ? -1 : 1)));
+          this.dataSource = new MatTableDataSource(this.httpNbaService.allTeams.sort((a, b) => ((a.depthChartPlayers.sg.allAssists / a.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgAssistsGiven(a.currentOpponentId) > (b.depthChartPlayers.sg.allAssists / b.depthChartPlayers.sg.games.length) - this.httpNbaService.returnOpponentAvgSgAssistsGiven(b.currentOpponentId) ? -1 : 1)));
         } else {
         }
         break;
