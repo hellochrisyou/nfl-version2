@@ -79,43 +79,43 @@ export class DateService {
         return false;
       }
     }else if (this.currentWeek <= 12) {
-      if (weekInput > this.week12 && weekInput < this.week13) {
+      if (weekInput >= this.week12 && weekInput < this.week13) {
         return true;
       } else {
         return false;
       }
-    }else if (this.currentWeek <= 13) {
-      if (weekInput > this.week13 && weekInput < this.week14) {
+    }else if (this.currentWeek < 13) {
+      if (weekInput >= this.week13 && weekInput < this.week14) {
         return true;
       } else {
         return false;
       }
     }else if (this.currentWeek <= 14) {
-      if (weekInput > this.week14 && weekInput < this.week15) {
+      if (weekInput >= this.week14 && weekInput < this.week15) {
         return true;
       } else {
         return false;
       }
     }else if (this.currentWeek <= 15) {
-      if (weekInput > this.week15 && weekInput < this.week16) {
+      if (weekInput >= this.week15 && weekInput < this.week16) {
         return true;
       } else {
         return false;
       }
     }else if (this.currentWeek <= 16) {
-      if (weekInput > this.week16 && weekInput < this.week17) {
+      if (weekInput >= this.week16 && weekInput < this.week17) {
         return true;
       } else {
         return false;
       }
     }else if (this.currentWeek <= 17) {
-      if (weekInput > this.week17 && weekInput < this.week18) {
+      if (weekInput >= this.week17 && weekInput < this.week18) {
         return true;
       } else {
         return false;
       }
     }else if (this.currentWeek === 18) {
-      if (weekInput > this.week18) {
+      if (weekInput >= this.week18) {
         return true;
       } else {
         return false;

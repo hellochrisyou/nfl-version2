@@ -1393,7 +1393,7 @@ export class HttpService {
     } else if (todayDate >= this.dateService.week11 && todayDate < this.dateService.week12) {
       this.dateService.currentWeek = 11;
     } else if (todayDate >= this.dateService.week12 && todayDate < this.dateService.week13) {
-      this.dateService.currentWeek = 13;
+      this.dateService.currentWeek = 12;
     } else if (todayDate >= this.dateService.week13 && todayDate < this.dateService.week14) {
       this.dateService.currentWeek = 13;
     } else if (todayDate >= this.dateService.week14 && todayDate < this.dateService.week15) {
